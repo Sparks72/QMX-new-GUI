@@ -1,9 +1,9 @@
 # QMX Interface with new GUI and Spectrum Display
 
 
-![GitHub Pages](https://img.shields.io/github/deployments/sparks72/QMX-new-Interface/github-pages?label=GitHub%20Pages)
-![GitHub last commit](https://img.shields.io/github/last-commit/sparks72/QMX-new-Interface)
-![GitHub repo size](https://img.shields.io/github/repo-size/sparks72/QMX-new-Interface)
+![GitHub Pages](https://img.shields.io/github/deployments/Sparks72/QMX-new-GUI/github-pages?label=GitHub%20Pages)
+![GitHub last commit](https://img.shields.io/github/last-commit/Sparks72/QMX-new-GUI)
+![GitHub repo size](https://img.shields.io/github/repo-size/Sparks72/QMX-new-GUI)
 ![License](https://img.shields.io/badge/license-Amateur%20Radio-blue)
 ![Browser Support](https://img.shields.io/badge/browser-Chrome%20%7C%20Edge%20%7C%20Opera-green)
 
