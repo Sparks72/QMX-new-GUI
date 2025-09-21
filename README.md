@@ -185,10 +185,6 @@ For issues, questions, or feature requests:
 - Ensure proper hardware connections
 - Try refreshing the page to reset state
 
-## License
 
-This software is provided as-is for amateur radio use. Check local regulations regarding computer control of transmitters.
-
----
 
 **73! Enjoy your QMX+ experience!**
