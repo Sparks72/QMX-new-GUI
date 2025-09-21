@@ -6,9 +6,6 @@ A comprehensive web-based control interface for the QMX QRP transceiver, providi
 ## 🌐 Live Demo
 
 **[Try the Live Demo Here](https://sparks72.github.io/QMX-new-GUI/)**
-
-*Replace the URL above with your actual GitHub Pages URL*
-
 The live demo runs entirely in your browser - no installation required! You can explore the full interface even without a connected radio. For full functionality, connect your QMX transceiver via USB.
 
 ### Quick Demo Instructions
@@ -21,7 +18,7 @@ The live demo runs entirely in your browser - no installation required! You can 
 
 **Main Interface Overview**
 ![Main Interface](screenshot1.png)
-*The complete QMX+ interface showing the customizable panel layout with frequency display, tuning controls, and real-time meters*
+*The complete QMX+ interface showing the customizable panel layout with frequency display, tuning controls, and AutoTune Spectrum*
 
 **Advanced Features in Action**
 ![Advanced Features](screenshot2.png)
@@ -244,7 +241,7 @@ For issues, questions, or feature requests:
 
 ## License
 
-This software is provided as-is for amateur radio use. Check local regulations regarding computer control of transmitters.
+Apache 2.0
 
 ---
 
