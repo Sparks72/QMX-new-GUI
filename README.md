@@ -1,6 +1,31 @@
-# QMX Interface with new GUI
+# QMX Interface with new GUI and Spectrum Display
+
 
 A comprehensive web-based control interface for the QMX QRP transceiver, providing advanced features for amateur radio operators including CAT control, audio streaming, spectrum analysis, and automated tuning capabilities.
+
+## 🌐 Live Demo
+
+**[Try the Live Demo Here](https://sparks72.github.io/QMX-new-GUI/)**
+
+*Replace the URL above with your actual GitHub Pages URL*
+
+The live demo runs entirely in your browser - no installation required! You can explore the full interface even without a connected radio. For full functionality, connect your QMX transceiver via USB.
+
+### Quick Demo Instructions
+1. Click the live demo link above
+2. Grant microphone permission for audio features (optional)
+3. Explore the interface without hardware
+4. Connect your QMX for full CAT control functionality
+
+## Screenshots
+
+**Main Interface Overview**
+![Main Interface](screenshot1.png)
+*The complete QMX+ interface showing the customizable panel layout with frequency display, tuning controls, and real-time meters*
+
+**Advanced Features in Action**
+![Advanced Features](screenshot2.png)
+*Spectrum analyzer, memory channels, QSO logger, and audio streaming controls in operation*
 
 ## Features
 
@@ -38,7 +63,7 @@ A comprehensive web-based control interface for the QMX QRP transceiver, providi
 - **Opera 75+**
 - Must support WebSerial API (Firefox not currently supported)
 
-### Hardware Requirements
+### Hardware Requirements (for full functionality)
 - QMX transceiver with CAT interface
 - USB-to-serial adapter or built-in USB port
 - Computer with USB port
@@ -48,27 +73,23 @@ A comprehensive web-based control interface for the QMX QRP transceiver, providi
 - **Serial Port Access**: For radio communication
 - **Microphone Access**: For audio streaming and spectrum analysis (optional)
 
-## Setup Instructions
+## Getting Started
 
-### 1. Hardware Connection
-1. Connect your QMX transceiver to your computer via USB
-2. Note the serial port settings (typically 115200 baud)
-3. For audio streaming, connect radio audio output to computer microphone input
+### Option 1: Use Live Demo
+1. Visit the [Live Demo](https://yourusername.github.io/your-repo-name/)
+2. No download or installation required
+3. Runs directly in your browser
 
-### 2. Launch Interface
-1. Open the `QMX_New_GUI6.html` file in a supported browser
-2. The interface will load with the default panel layout
+### Option 2: Download and Run Locally
+1. Download `index.html` from this repository
+2. Double-click to open in Chrome or Edge
+3. Grant permissions when prompted
 
-### 3. Connect to Radio
-1. Click "Connect Serial" in the Serial panel
-2. Select your QMX's serial port when prompted
-3. Connection status will show "CONNECTED" when successful
-
-### 4. Basic Operation
-1. Use the main tuning knob to change frequency
-2. Select operating mode (USB/LSB/CW/DIGI)
-3. Choose band using band buttons
-4. Adjust controls as needed
+### Connecting Your Radio
+1. Connect your QMX transceiver via USB
+2. Click "Connect Serial" in the interface
+3. Select your QMX's serial port when prompted
+4. Connection status will show "CONNECTED"
 
 ## Usage Guide
 
@@ -104,23 +125,6 @@ A comprehensive web-based control interface for the QMX QRP transceiver, providi
 3. Click on signals to automatically tune to them
 4. Works with autotune for automatic signal centering
 
-## Troubleshooting
-
-### Connection Issues
-- **"WebSerial not supported"**: Use Chrome/Edge browser
-- **No serial ports found**: Check USB connection and drivers
-- **Connection fails**: Verify baud rate (115200) and try different port
-
-### Audio Problems
-- **No audio devices**: Click "Refresh" and grant microphone permission
-- **No audio streaming**: Check audio connections and levels
-- **Spectrum not working**: Ensure audio streaming is active first
-
-### Performance Issues
-- **Slow response**: Try lower polling rates or reduce panel updates
-- **Browser freezing**: Disable spectrum analyzer if not needed
-- **Memory usage**: Clear browser cache and restart if needed
-
 ## Panel Customization
 
 ### Rearranging Panels
@@ -154,6 +158,49 @@ A comprehensive web-based control interface for the QMX QRP transceiver, providi
 2. In BUG mode, adjust WPM with knob
 3. STRAIGHT mode disables speed control
 
+## Troubleshooting
+
+### Connection Issues
+- **"WebSerial not supported"**: Use Chrome/Edge browser
+- **No serial ports found**: Check USB connection and drivers
+- **Connection fails**: Verify baud rate (115200) and try different port
+
+### Audio Problems
+- **No audio devices**: Click "Refresh" and grant microphone permission
+- **No audio streaming**: Check audio connections and levels
+- **Spectrum not working**: Ensure audio streaming is active first
+
+### Performance Issues
+- **Slow response**: Try lower polling rates or reduce panel updates
+- **Browser freezing**: Disable spectrum analyzer if not needed
+- **Memory usage**: Clear browser cache and restart if needed
+
+## Development
+
+### Local Development
+1. Clone this repository
+2. Open `index.html` in a supported browser
+3. No build process required - pure HTML/CSS/JavaScript
+
+### Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+### File Structure
+```
+QMX+ Interface/
+├── index.html           # Main application
+├── screenshot1.png      # Interface overview
+├── screenshot2.png      # Advanced features
+├── README.md           # This documentation
+└── .github/
+    └── workflows/
+        └── pages.yml    # GitHub Pages deployment
+```
+
 ## Technical Details
 
 ### CAT Commands
@@ -177,14 +224,28 @@ The interface uses standard Kenwood CAT commands:
 - Adjustable gain control
 - Peak detection for click-to-tune
 
+## Browser Compatibility
+
+| Browser | Version | WebSerial | Audio API | Status |
+|---------|---------|-----------|-----------|--------|
+| Chrome | 89+ | ✅ | ✅ | Fully Supported |
+| Edge | 89+ | ✅ | ✅ | Fully Supported |
+| Opera | 75+ | ✅ | ✅ | Fully Supported |
+| Firefox | Any | ❌ | ✅ | Audio Only |
+| Safari | Any | ❌ | ✅ | Audio Only |
+
 ## Support
 
 For issues, questions, or feature requests:
+- Open an issue on this repository
 - Check browser console for error messages
 - Verify WebSerial API support
 - Ensure proper hardware connections
-- Try refreshing the page to reset state
 
+## License
 
+This software is provided as-is for amateur radio use. Check local regulations regarding computer control of transmitters.
+
+---
 
 **73! Enjoy your QMX+ experience!**
