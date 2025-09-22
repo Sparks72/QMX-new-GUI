@@ -81,7 +81,7 @@ The live demo runs entirely in your browser - no installation required! You can 
 ## Getting Started
 
 ### Option 1: Use Live Demo
-1. Visit the [Live Demo](https://yourusername.github.io/your-repo-name/)
+1. Visit the [Live Demo](https://Sparks72.github.io/QMX-newGUI/)
 2. No download or installation required
 3. Runs directly in your browser
 
