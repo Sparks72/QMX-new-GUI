@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="QMX Transceiver Interface">
+<meta property="og:description" content="Advanced web-based control interface for QMX QRP transceivers">
+<meta property="og:image" content="https://Sparks72.github.io/QMX-new-GUI/screenshot1.png">
+<meta property="og:url" content="https://Sparks72.github.io/QMX-new-GUI/">
+<meta name="twitter:card" content="summary_large_image">
     <title>QMX Transceiver Interface</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
@@ -95,14 +100,66 @@
 
         .tuning-knob-container { width: 220px; height: 220px; position: relative; margin: 10px auto; cursor: grab; }
         .tuning-knob {
-            width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, var(--knob-highlight), #a0a0a0);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.4), inset 0 4px 6px rgba(255,255,255,0.8), inset 0 -4px 6px rgba(0,0,0,0.3);
-            display: flex; justify-content: center; align-items: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0, #c0c0c0, #a0a0a0);
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), inset 0 4px 6px rgba(255, 255, 255, 0.8), inset 0 -4px 6px rgba(0, 0, 0, 0.3);
+            transform: rotate(0deg);
+            border: 2px solid #888;
+            background-image:
+                repeating-conic-gradient(rgba(255, 255, 255, 0.15) 0deg, rgba(0, 0, 0, 0.1) 5deg, rgba(255, 255, 255, 0.15) 10deg),
+                repeating-radial-gradient(circle at 50% 50%, #c0c0c0 0%, #d0d0d0 2%, #c0c0c0 4%),
+                linear-gradient(135deg, #f0f0f0, #c0c0c0, #a0a0a0);
+            background-size: 100% 100%, 30% 30%, 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .tuning-knob::before { content: ""; position: absolute; width: 90%; height: 90%; border-radius: 50%; background: linear-gradient(135deg, #e5e5e5, var(--knob-color)); }
-        .tuning-knob::after { content: ""; position: absolute; width: 8px; height: 90px; background-color: #333; border-radius: 8px; top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .tuning-knob-center { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #888, #666); box-shadow: inset 0 2px 6px rgba(0,0,0,0.5); z-index: 2; }
-        .tuning-knob:hover::after { background-color: var(--accent-color); }
+
+        .tuning-knob::before {
+            content: "";
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e5e5e5, #c0c0c0);
+            background-image:
+                repeating-radial-gradient(circle at 50% 50%, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.05) 15.5%, transparent 16%);
+            z-index: 1;
+        }
+
+        .tuning-knob::after {
+            content: "";
+            position: absolute;
+            width: 8px !important;
+            height: 100px;
+            background-color: #333 !important;
+            border-radius: 8px;
+            top: 10px;
+            z-index: 3;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tuning-knob-center {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #888, #666);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tuning-knob:hover::after {
+            background-color: #00ff88 !important;
+        }
         
         /* Styles for frequency markings, required by the script */
         .frequency-markings { position: absolute; width: 280px; height: 280px; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 0; }
@@ -149,9 +206,70 @@
         .knob-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .knob-group label { font-size: 0.8em; opacity: 0.8; text-transform: uppercase; }
         .volume-knob-container { width: 70px; height: 70px; cursor: grab; }
-        .volume-knob { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, var(--knob-highlight), #a0a0a0); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 3px rgba(255,255,255,0.8), inset 0 -2px 3px rgba(0,0,0,0.3); position: relative; }
-        .volume-knob::after { content: ""; position: absolute; width: 5px; height: 33px; background-color: #333; border-radius: 5px; top: 4px; left: 50%; transform: translateX(-50%); }
-        .volume-knob:hover::after { background-color: var(--accent-color); }
+        .volume-knob {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0, #c0c0c0, #a0a0a0);
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+            transform: rotate(0deg);
+            border: 1px solid #888;
+            background-image:
+                repeating-conic-gradient(rgba(255, 255, 255, 0.1) 0deg, rgba(0, 0, 0, 0.07) 5deg, rgba(255, 255, 255, 0.1) 10deg),
+                repeating-radial-gradient(circle at 50% 50%, #c0c0c0 0%, #d0d0d0 1%, #c0c0c0 2%),
+                linear-gradient(135deg, #f0f0f0, #c0c0c0, #a0a0a0);
+            background-size: 100% 100%, 20% 20%, 100% 100%;
+        }
+
+        .volume-knob::before {
+            content: "";
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e5e5e5, #c0c0c0);
+            background-image:
+                repeating-radial-gradient(circle at 50% 50%, transparent 0%, transparent 10%, rgba(0, 0, 0, 0.03) 10.5%, transparent 11%);
+            z-index: 1;
+        }
+
+      .volume-knob::after {
+    content: "";
+    position: absolute;
+    width: 5px !important;
+    height: 38px;
+    background-color: #333 !important;
+    border-radius: 5px;
+    top: 5px;
+    /* --- FIX: Add these two lines for horizontal centering --- */
+    left: 50%;
+    transform: translateX(-50%);
+    /* -------------------------------------------------------- */
+    z-index: 3;
+    transition: background-color 0.2s ease;
+}
+        .volume-knob-center {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #888, #666);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .volume-knob:hover::after {
+            background-color: #00ff88 !important;
+        }
+
+    /*    .volume-knob::before,
+        .volume-knob::after,
+        .volume-knob-center {
+            pointer-events: none;
+        }*/
+
         .knob-level { font-family: "Courier New", monospace; font-size: 0.9rem; }
         
         .memory-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 10px; }
@@ -569,22 +687,22 @@
 	/* --- START: CSS for PRONOUNCED Radial Knob Lines --- */
 
 /* For the main tuning knob's inner face */
-.tuning-knob::before {
+/*.tuning-knob::before {
     content: "";
     position: absolute;
     width: 90%;
     height: 90%;
-    border-radius: 50%;
+    border-radius: 50%; */
     /*
        FIX: The background is now ONLY the radial lines, making them visible.
        The lines are also darker and thicker.
     */
-    background: repeating-conic-gradient(
+/*    background: repeating-conic-gradient(
         from 0deg,
         rgba(0, 0, 0, 0.35) 0deg 0.6deg,  /* Darker, thicker line */
         transparent 0.6deg 10deg         /* Gap between lines */
     );
-}
+}*/
 
 /* Adds more pronounced radial lines to the smaller control knobs */
 .volume-knob::before {
@@ -914,10 +1032,12 @@
 			 
              <div class="panel" id="controlsPanel">
                 <h3>Controls</h3>
-              <div class="knobs-row">
+           <div class="knobs-row">
     <div class="knob-group">
         <label>AF Gain</label>
-        <div class="volume-knob-container"><div class="volume-knob" id="volumeKnob"></div></div>
+        <div class="volume-knob-container">
+            <div class="volume-knob" id="volumeKnob" tabindex="0"></div>
+        </div>
         <div class="knob-level" id="volumeLevel">75db</div>
     </div>
     <div class="knob-group">
@@ -929,10 +1049,12 @@
             </div>
         </div>
         <label>CW Speed</label>
-        <div class="volume-knob-container"><div class="volume-knob" id="rfGainKnob"></div></div>
+        <div class="volume-knob-container">
+            <div class="volume-knob" id="rfGainKnob" tabindex="0"></div>
+        </div>
         <div class="knob-level" id="rfGainLevel">22 WPM</div>
     </div>
-    </div>
+</div>
             </div>
           <div class="panel" id="sMeterPanel">
     <h3>S-Meter</h3>
@@ -3163,7 +3285,8 @@ updatePanelLockUI() {
             initVolumeControl() {
                 try {
                     const volumeKnob = document.getElementById('volumeKnob');
-                    this.updateVolumeUI();
+                    volumeKnob.setAttribute('tabindex', '0');                   
+				   this.updateVolumeUI();
                     volumeKnob.addEventListener('mousedown', this.startVolumeAdjust.bind(this));
                     volumeKnob.addEventListener('touchstart', this.startVolumeAdjust.bind(this), { passive: false });
                     volumeKnob.addEventListener('wheel', this.handleVolumeWheel.bind(this));
@@ -3355,16 +3478,18 @@ initRFGainControl() {
         rfGainKnob.addEventListener('keydown', this.handleRFGainKeyboard.bind(this));
         rfGainKnob.setAttribute('aria-valuenow', this.rfGainLevel);
         
-        // NEW: Initialize the keyer toggle
-        this.setKeyerMode('');      
-	   this.initKeyerToggle();
+        // NEW: Add hover keyboard control
+        rfGainKnob.addEventListener('mouseenter', () => this.enableKnobHoverKeys('rfgain'));
+        rfGainKnob.addEventListener('mouseleave', () => this.disableKnobHoverKeys());
+        
+        // Initialize the keyer toggle
+        this.initKeyerToggle();
         
         console.log('Keyer initialized with toggle (0=STRAIGHT, 1-50 WPM)');
     } catch (error) {
         console.error('Error initializing Keyer:', error);
     }
 }
-
             startRFGainAdjust(e) {
                
 // Don't allow manual adjustment in STRAIGHT mode
