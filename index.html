@@ -119,31 +119,38 @@
             align-items: center;
         }
 
-        .tuning-knob::before {
-            content: "";
-            position: absolute;
-            width: 90%;
-            height: 90%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #e5e5e5, #c0c0c0);
-            background-image:
-                repeating-radial-gradient(circle at 50% 50%, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.05) 15.5%, transparent 16%);
-            z-index: 1;
-        }
 
-        .tuning-knob::after {
-            content: "";
-            position: absolute;
-            width: 8px !important;
-            height: 100px;
-            background-color: #333 !important;
-            border-radius: 8px;
-            top: 10px;
-            z-index: 3;
-            transition: background-color 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
 
+/* Add a small triangle tip */
+.tuning-knob::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 8px solid #333;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+}
+
+
+     /* Option C: Very thin line with small triangle tip */
+.tuning-knob::after {
+    content: "";
+    position: absolute;
+    width: 5px !important;
+    height: 80px;
+    background: linear-gradient(to top, #333 0%, #333 85%, transparent 85%, transparent 100%) !important;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
         .tuning-knob-center {
             width: 60px;
             height: 60px;
@@ -235,21 +242,27 @@
             z-index: 1;
         }
 
-      .volume-knob::after {
+  /* Volume knob pointer - 5px clock style to match tuning knob */
+.volume-knob::after {
     content: "";
     position: absolute;
     width: 5px !important;
-    height: 38px;
+    height: 30px;  /* Shorter than tuning knob since volume knobs are smaller */
     background-color: #333 !important;
-    border-radius: 5px;
+    border-radius: 2px 2px 0 0;  /* Clock-hand style with rounded base */
     top: 5px;
-    /* --- FIX: Add these two lines for horizontal centering --- */
     left: 50%;
     transform: translateX(-50%);
-    /* -------------------------------------------------------- */
     z-index: 3;
     transition: background-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	
+	
 }
+
+
+
+
         .volume-knob-center {
             width: 25px;
             height: 25px;
@@ -763,6 +776,472 @@
     font-weight: bold;
 }
 /* --- END: Autotune Button Style --- */
+/* 1. ANIMATED LCD SCANLINES - Add to CSS */
+.frequency-display.lcd-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 136, 0.03) 2px,
+        rgba(0, 255, 136, 0.03) 4px
+    );
+    pointer-events: none;
+    animation: scanlines 2s linear infinite;
+}
+
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
+}
+
+/* 2. PULSING POWER INDICATOR */
+.status-dot.connected {
+    animation: pulse-power 2s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+@keyframes pulse-power {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+        box-shadow: 0 0 10px var(--accent-color);
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: scale(1.1);
+        box-shadow: 0 0 20px var(--accent-color);
+    }
+}
+
+/* 3. GLOWING TRANSMISSION INDICATOR */
+.btn-danger {
+    position: relative;
+    overflow: visible;
+}
+
+.btn-danger::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff4757, #ff3838, #ff4757);
+    border-radius: 8px;
+    z-index: -1;
+    animation: tx-glow 0.5s ease-in-out infinite alternate;
+    opacity: 0;
+}
+
+.btn-danger.active::before {
+    opacity: 1;
+}
+
+@keyframes tx-glow {
+    from { 
+        box-shadow: 0 0 5px #ff4757;
+        transform: scale(1);
+    }
+    to { 
+        box-shadow: 0 0 25px #ff4757, 0 0 35px #ff4757;
+        transform: scale(1.02);
+    }
+}
+
+/* 4. RAINBOW SPECTRUM BORDER FOR ACTIVE BAND */
+.band-btn.active {
+    position: relative;
+    overflow: hidden;
+}
+
+.band-btn.active::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        #ff0000, #ff8000, #ffff00, #80ff00, 
+        #00ff00, #00ff80, #00ffff, #0080ff,
+        #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000
+    );
+    background-size: 400% 400%;
+    border-radius: 8px;
+    z-index: -1;
+    animation: rainbow-border 3s ease infinite;
+}
+
+@keyframes rainbow-border {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* 5. PARTICLE EFFECTS FOR FREQUENCY CHANGES */
+.frequency-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: frequency-particle 1s ease-out forwards;
+}
+
+@keyframes frequency-particle {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translateY(-50px);
+    }
+}
+
+/* 6. ANIMATED METER BARS WITH BETTER GRADIENTS */
+.meter-indicator {
+    position: relative;
+    overflow: hidden;
+}
+
+.meter-indicator::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: meter-shine 2s infinite;
+}
+
+@keyframes meter-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 7. GLOWING KNOB INDICATORS WHEN ACTIVE */
+/*.volume-knob.adjusting,*/
+.tuning-knob.adjusting {
+    box-shadow: 
+        0 12px 24px rgba(0, 0, 0, 0.4),
+        inset 0 4px 6px rgba(255, 255, 255, 0.8),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.3),
+        0 0 30px var(--accent-color),
+        0 0 60px var(--accent-color);
+    animation: knob-active 0.3s ease-out;
+}
+
+@keyframes knob-active {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(0deg) scale(1.05); }
+    100% { transform: rotate(0deg) scale(1); }
+}
+
+/* 8. TYPING EFFECT FOR CAT LOG
+.cat-log-entry {
+    animation: typeIn 0.3s ease-out;
+}
+
+@keyframes typeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}*/
+
+/* 9. MATRIX-STYLE DIGITAL RAIN FOR BACKGROUND (SUBTLE) */
+.transceiver-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(0, 255, 136, 0.01) 0%, transparent 50%);
+    animation: matrix-bg 10s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes matrix-bg {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.1; transform: translateY(-5px); }
+}
+
+/* 10. ENHANCED BUTTON PRESS EFFECTS */
+.btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.1s ease;
+}
+
+/* SIMPLER HOLOGRAPHIC PANEL BORDERS */
+.panel {
+    position: relative;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 
+        0 0 10px rgba(0, 255, 136, 0.1),
+        inset 0 0 10px rgba(0, 255, 136, 0.05);
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, 
+        rgba(0, 255, 136, 0.4), 
+        transparent 30%,
+        rgba(0, 255, 136, 0.2) 50%,
+        transparent 70%,
+        rgba(0, 255, 136, 0.4)
+    );
+    background-size: 200% 200%;
+    border-radius: 10px;
+    z-index: -1;
+    animation: holo-border 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes holo-border {
+    0%, 100% { 
+        background-position: 0% 0%; 
+        opacity: 0.6;
+    }
+    50% { 
+        background-position: 100% 100%; 
+        opacity: 0.9;
+    }
+}
+
+
+
+/*Add these CSS animations to your stylesheet:*/
+
+@keyframes flyFrequency {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+        left: calc(50vw);
+        top: calc(50vh - 100px);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(0.9);
+        left: var(--end-x);
+        top: var(--end-y);
+    }
+}
+
+@keyframes vfoSwapPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
+    }
+}
+
+
+
+
+
+/* Additional CSS for these animations:*/
+
+@keyframes slideInFromRight {
+    from {
+        right: -300px;
+        opacity: 0;
+    }
+    to {
+        right: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes memoryTeleport {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    30% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(0.1);
+    }
+    70% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(0.1);
+        left: var(--target-x);
+        top: var(--target-y);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        left: var(--target-x);
+        top: var(--target-y);
+    }
+}
+
+
+
+/* ADD THESE CSS ANIMATIONS to your stylesheet:*/
+
+@keyframes copyFrequency {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        filter: brightness(1);
+    }
+    25% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+        filter: brightness(1.5);
+    }
+    75% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.1);
+        left: var(--target-x);
+        top: var(--target-y);
+        filter: brightness(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+        left: var(--target-x);
+        top: var(--target-y);
+        filter: brightness(0.8);
+    }
+}
+
+@keyframes vfoCopySource {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+    25% {
+        transform: scale(1.1);
+        box-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
+    }
+    50% {
+        transform: scale(0.95);
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    }
+}
+
+@keyframes vfoCopyTarget {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(0, 200, 255, 0.2);
+    }
+    60% {
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(0, 200, 255, 0.2);
+    }
+    80% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+    }
+}
+
+
+
+@keyframes tuningIndicator {
+    0% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-80%) scale(0.8);
+    }
+}
+
+.lcd-row {
+    transition: text-shadow 0.1s ease, transform 0.1s ease;
+}
+
+
+
+@keyframes stepIndicator {
+    0% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    70% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.9);
+    }
+}
+
+@keyframes freqChange {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px) scale(0.8);
+    }
+}
+
+
+
+
+#powerMeter {
+    background: linear-gradient(90deg, #00ff88 0%, #ffff00 70%, #ff4757 100%);
+}
+
+/* Optional: Different color scheme for power meter */
+#powerMeter.alt-colors {
+    background: linear-gradient(90deg, #00ccff 0%, #00ff88 50%, #ffff00 80%, #ff4757 100%);
+}
+
+
+
+//____________________________________________________________________
+
 	</style>
 </head>
 <body>
@@ -786,7 +1265,9 @@
             <option value="1" selected>1 Hz</option>
             <option value="10">10 Hz</option>
             <option value="100">100 Hz</option>
-            <option value="1000">1 kHz</option>
+            <option value="250">250 Hz</option>
+            <option value="500">500 Hz</option>
+			<option value="1000">1 kHz</option>
             <option value="10000">10 kHz</option>
         </select>
 	 </div>	
@@ -795,7 +1276,7 @@
             AUTOTUNE OFF
         </button>
         <button class="btn btn-secondary" id="manualScanBtn">
-            SCAN NOW
+            AUTOTUNE CW/SSB NOW
         </button>
     </div>
 
@@ -880,7 +1361,9 @@
                  <div class="tuning-knob-container" id="tuningKnobContainer">
                     <div class="frequency-markings" id="frequencyMarkings"></div>
                     <div class="tuning-knob" id="tuningKnob" tabindex="0"><div class="tuning-knob-center"></div></div>
-                </div>
+					
+                 
+				 </div>
             </div>
 			
 			<div class="panel" id="spectrumPanel">
@@ -888,14 +1371,48 @@
     <div class="spectrum-container">
         <canvas id="spectrumCanvas"></canvas>
     </div>
-    <div class="spectrum-controls">
-        <span>Target CW Pitch:</span>
-        <select id="targetPitch">
+<div class="spectrum-controls-new" style="margin-top: 10px;">
+    <!-- Target Pitch - centered -->
+    <div style="text-align: center; margin-bottom: 8px;">
+        <span style="font-size: 0.9em;">Target CW Pitch:</span>
+        <select id="targetPitch" style="margin-left: 8px;">
             <option value="600">600 Hz</option>
             <option value="700" selected>700 Hz</option>
             <option value="800">800 Hz</option>
         </select>
     </div>
+    
+    <!-- Threshold slider - full width -->
+    <div style="display: block; margin-bottom: 6px;">
+        <div style="display: flex; align-items: center;">
+            <span style="font-size: 0.8em; width: 60px;">Threshold:</span>
+            <input type="range" id="signalThreshold" min="5" max="50" value="15" style="flex: 1; margin: 0 8px;">
+            <span id="thresholdValue" style="font-size: 0.8em; width: 20px;">15</span>
+        </div>
+    </div>
+    
+    <!-- Method and checkbox - two columns -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <div>
+            <span style="font-size: 0.8em;">Method:</span>
+            <select id="noiseMethod" style="margin-left: 4px; width: 60px; font-size: 0.8em;">
+                <option value="percentile" selected>Auto</option>
+                <option value="statistical">Avg</option>
+                <option value="adaptive">Adapt</option>
+            </select>
+        </div>
+        <label style="font-size: 0.8em;">
+            <input type="checkbox" id="showNoiseFloor"> Floor
+        </label>
+    </div>
+    
+    <!-- Calibrate button - centered -->
+    <div style="text-align: center;">
+        <button class="btn btn-secondary" id="calibrateNoiseBtn" style="padding: 3px 8px; font-size: 0.8em;">
+            Calibrate Noisefloor
+        </button>
+    </div>
+</div>
 </div>
              <div class="panel" id="vfoPanel">
                 <h3>VFO & Transmit</h3>
@@ -945,6 +1462,12 @@
                         <input type="file" id="importAdifFile" accept=".adi,.adif" style="display: none;">
                         <button class="btn btn-danger" id="clearLogBtn" style="grid-column: 1 / -1;">Clear Log</button>
                     </div>
+					
+					
+					
+					
+					
+					
                 </div>
                  <div class="qso-log-table" style="margin-top:10px;">
                     <div class="log-header">
@@ -1040,6 +1563,9 @@
         </div>
         <div class="knob-level" id="volumeLevel">75db</div>
     </div>
+	
+	
+	
     <div class="knob-group">
         <div class="keyer-mode-toggle">
             <div class="toggle-switch" id="keyerModeToggle">
@@ -1054,6 +1580,19 @@
         </div>
         <div class="knob-level" id="rfGainLevel">22 WPM</div>
     </div>
+
+  <!-- NEW: Power meter inside controls panel -->
+        <div style="margin-top: 15px;">
+            <label style="font-size: 0.8em; opacity: 0.8; text-transform: uppercase;">Power Out</label>
+            <div class="meter" style="margin-top: 5px;">
+                <div class="meter-bar">
+                    <div class="meter-indicator" id="powerMeter"></div>
+                </div>
+            </div>
+            <div id="powerText" style="text-align: center; font-family: 'Courier New', monospace; color: var(--accent-color); margin-top: 5px;">0.0W</div>
+        </div>
+
+
 </div>
             </div>
           <div class="panel" id="sMeterPanel">
@@ -1106,6 +1645,7 @@
 	
  
    <script>
+
         class QMXInterface {
             constructor() {
                 this.frequency = 14205000;
@@ -1164,6 +1704,10 @@
 				//...
             this.autotuneDebounceTime = 750; 
             this.lastManualFreqSet = 0; // <-- ADD THIS LINE
+			   this.noiseFloorMethod = 'percentile'; // 'statistical', 'percentile', 'adaptive'
+    this.signalThreshold = 15; // How much above noise floor to consider a signal
+    this.showNoiseFloor = false; // Show yellow line indicating noise floor
+    this.adaptiveNoiseHistory = [];
             try {
             //...
 		// Add these after your existing properties
@@ -1227,7 +1771,7 @@ this.spectrumBandwidth = 2400;
 // Add these for the Autotune feature
 this.autotuneEnabled = false;
 this.autotuneScanTimeout = null;
-
+this.updatePowerMeter();
                     this.catLogElement = document.getElementById('catLog');
                     
                     this.loadLayout();
@@ -1248,9 +1792,12 @@ this.autotuneScanTimeout = null;
                     this.updateTXStatus();
                     this.updateConnectionStatus();
 					this.initAudioStreaming();
-					
+					  this.soundEnabled = true; 
                     this.initTimeSync();
+					  this.createEffectsSettings();
+					     this.initSoundEffects();
                     window.qmxInterface = this;  
+					setTimeout(() => this.fixVolumeKnobPointers(), 100); 
                     window.addEventListener('blur', () => {
                         if (this.isPowerAdjusting) this.stopPowerAdjust();
                         if (this.isVolumeAdjusting) this.stopVolumeAdjust();
@@ -1262,7 +1809,8 @@ this.autotuneScanTimeout = null;
 					// ...
     
     this.initSpectrumDisplay(); // Add this line
-this.initAutotune(); // Add this line
+this.initAutotune(); 
+this.updatePowerMeter('00');// Add this line
 // ...
                 } catch (error) {
                     console.error('Failed to initialize QMX Interface:', error);
@@ -2039,7 +2587,7 @@ document.getElementById('vfoB').addEventListener('click', async () => {
 });
               // This is inside the initEventListeners function
 			  
-			  
+	if (this.sounds) this.sounds.connect();		  
 			  
 			  
 			  
@@ -2065,79 +2613,8 @@ document.getElementById('vfoB').addEventListener('click', async () => {
 
 
 
-			document.getElementById('vfoSwap').addEventListener('click', async () => {
-    if (this.connected) {
-        try {
-            this.logCAT('Swapping VFO A ↔ VFO B...', 'info');
-            
-            // Get current frequencies from both VFOs
-            await this.sendCommand('FA');  // Request VFO A frequency
-            await new Promise(resolve => setTimeout(resolve, 100));
-            await this.sendCommand('FB');  // Request VFO B frequency
-            await new Promise(resolve => setTimeout(resolve, 100));
-            
-            // Store current frequencies (they should be updated from the responses)
-            let vfoAFreq = null;
-            let vfoBFreq = null;
-            
-            // Create a temporary response handler to capture VFO frequencies
-            const originalProcessResponse = this.processResponse.bind(this);
-            let responsesReceived = 0;
-            
-            this.processResponse = (response) => {
-                if (response.startsWith('FA')) {
-                    vfoAFreq = parseInt(response.substring(2));
-                    responsesReceived++;
-                } else if (response.startsWith('FB')) {
-                    vfoBFreq = parseInt(response.substring(2));
-                    responsesReceived++;
-                } else {
-                    originalProcessResponse(response);
-                }
-            };
-            
-            // Wait for responses or timeout
-            let attempts = 0;
-            while (responsesReceived < 2 && attempts < 50) {
-                await new Promise(resolve => setTimeout(resolve, 50));
-                attempts++;
-            }
-            
-            // Restore original response handler
-            this.processResponse = originalProcessResponse;
-            
-            if (vfoAFreq && vfoBFreq && vfoAFreq !== vfoBFreq) {
-                // Perform the swap
-                await this.sendCommand(`FA${vfoBFreq.toString().padStart(11, '0')}`);
-                await new Promise(resolve => setTimeout(resolve, 50));
-                await this.sendCommand(`FB${vfoAFreq.toString().padStart(11, '0')}`);
-                
-                this.logCAT(`VFO swap completed: A=${(vfoBFreq/1000000).toFixed(3)} MHz, B=${(vfoAFreq/1000000).toFixed(3)} MHz`, 'info');
-                
-                // Update display
-                setTimeout(async () => {
-                    await this.sendCommand('IF');
-                    await this.sendCommand('LC');
-                }, 200);
-            } else {
-                this.logCAT('VFO swap failed: Could not read frequencies', 'error');
-            }
-            
-        } catch (e) {
-            this.logCAT(`VFO swap error: ${e.message}`, 'error');
-        }
-    } else {
-        this.logCAT('Cannot swap - radio not connected', 'error');
-    }
-});		   
-						   
-						   
-						   
-						   
-						   
-						   
-						   
-						   
+
+// Modify your VFO copy button click handler to include animation:
 document.getElementById('vfoCopy').addEventListener('click', async () => {
     if (this.connected) {
         try {
@@ -2147,29 +2624,106 @@ document.getElementById('vfoCopy').addEventListener('click', async () => {
             await new Promise(resolve => setTimeout(resolve, 100));
             
             // Use the frequency from the interface (should be current)
-            const currentFreq = this.frequency.toString().padStart(11, '0');
+            const currentFreq = this.frequency;
             
             if (this.currentVFO === 'A') {
-                // Copy A to B
-                await this.sendCommand(`FB${currentFreq}`);
-                this.logCAT(`A→B: ${(this.frequency/1000000).toFixed(3)} MHz copied`, 'info');
+                // Copy A to B - START ANIMATION FIRST
+                this.animateVFOCopy('A', 'B', currentFreq);
+                
+                // Small delay, then send copy command
+                setTimeout(() => {
+                    const currentFreqStr = currentFreq.toString().padStart(11, '0');
+                    this.sendCommand(`FB${currentFreqStr}`);
+                    this.logCAT(`A→B: ${(currentFreq/1000000).toFixed(3)} MHz copied`, 'info');
+                }, 100);
             } else {
-                // Copy B to A  
-                await this.sendCommand(`FA${currentFreq}`);
-                this.logCAT(`B→A: ${(this.frequency/1000000).toFixed(3)} MHz copied`, 'info');
+                // Copy B to A - START ANIMATION FIRST
+                this.animateVFOCopy('B', 'A', currentFreq);
+                
+                // Small delay, then send copy command
+                setTimeout(() => {
+                    const currentFreqStr = currentFreq.toString().padStart(11, '0');
+                    this.sendCommand(`FA${currentFreqStr}`);
+                    this.logCAT(`B→A: ${(currentFreq/1000000).toFixed(3)} MHz copied`, 'info');
+                }, 100);
             }
             
             // Update display
             setTimeout(async () => {
                 await this.sendCommand('IF');
                 await this.sendCommand('LC');
-            }, 200);
+            }, 300);
             
         } catch (e) {
             this.logCAT(`VFO copy error: ${e.message}`, 'error');
         }
     } else {
         this.logCAT('Cannot copy - radio not connected', 'error');
+    }
+});	
+
+
+
+
+
+
+	
+// VFO SWAP with animation - replace your existing vfoSwap event listener with this:
+document.getElementById('vfoSwap').addEventListener('click', async () => {
+    if (this.connected) {
+        try {
+            this.logCAT('Swapping VFO A ↔ VFO B...', 'info');
+            
+            let vfoFreqA;
+            let vfoFreqB;
+            
+            // Capture frequencies using temporary response handler
+            const originalProcessResponse = this.processResponse.bind(this);
+            let responseCount = 0;
+            
+            this.processResponse = (response) => {
+                if (response.startsWith('FA')) {
+                    vfoFreqA = parseInt(response.substring(2));
+                    responseCount++;
+                } else if (response.startsWith('FB')) {
+                    vfoFreqB = parseInt(response.substring(2)); 
+                    responseCount++;
+                } else {
+                    originalProcessResponse(response);
+                }
+            };
+            
+            // Get both VFO frequencies
+            await this.sendCommand('FA');
+            await this.sendCommand('FB');
+            
+            // Wait for both responses
+            while (responseCount < 2) {
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+            
+            // Restore original response handler
+            this.processResponse = originalProcessResponse;
+            
+            console.log('Captured VFO A:', vfoFreqA);
+            console.log('Captured VFO B:', vfoFreqB);
+            
+            // START THE ANIMATION BEFORE SENDING SWAP COMMANDS
+            if (this.animateVFOSwap) {
+                this.animateVFOSwap(vfoFreqA, vfoFreqB);
+            }
+            
+            // Small delay to let animation start, then send swap commands
+            setTimeout(() => {
+                this.sendCommand(`FB${vfoFreqA.toString().padStart(11, '0')}`);
+                this.sendCommand(`FA${vfoFreqB.toString().padStart(11, '0')}`);
+            }, 100);
+            
+        } catch (e) {
+            this.logCAT(`VFO swap error: ${e.message}`, 'error');
+        }
+    } else {
+        this.logCAT('Cannot swap - radio not connected', 'error');
     }
 });
                
@@ -2348,7 +2902,7 @@ updateSWRMeter(percentage) {
     }
 }
 
-         updateDisplay() {
+        updateDisplay() {
     this.updateBandFromFrequency();
     this.updateLoggerInfoBar();
 }
@@ -3469,7 +4023,7 @@ initRFGainControl() {
         const rfGainLevel = document.getElementById('rfGainLevel');
         this.rfGainKnobRotation = this.minRotation + (this.rfGainLevel / 100) * this.totalRotationRange;
         rfGainKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
-        
+        console.log('RFGaincontrol');
         this.updateRFGainLevel();
         
         rfGainKnob.addEventListener('mousedown', this.startRFGainAdjust.bind(this));
@@ -4019,6 +4573,10 @@ continueTuningAdjust(e) {
     document.getElementById('tuningKnob').style.transform = `rotate(${this.tuningKnobRotation}deg)`;
     this.sendFrequencyDynamically();
 	this.triggerAutotuneScan(); // Add this line
+	
+	
+ 
+	
 }
 
             handleTuningKeyboard(e) {
@@ -4068,6 +4626,7 @@ continueTuningAdjust(e) {
                         await this.sendCommand('SW');
                         await this.sendCommand('KS');
 						await this.sendCommand('AG0');
+						await this.sendCommand('PC');
 						await this.sendCommand('RT');  // Poll RIT status
                     }
 					
@@ -4137,13 +4696,39 @@ continueTuningAdjust(e) {
     }
 }
 
-            async updateFrequency(delta) {
-                this.frequency += delta;
-                this.frequency = Math.max(100000, Math.min(999999999, this.frequency));
-                this.frequency = Math.round(this.frequency);
-                this.updateDisplay();
-                this.saveLastFrequency();
-            }
+          async updateFrequency(delta) {
+    const oldFreq = this.frequency;
+    this.frequency += delta;
+    this.frequency = Math.max(100000, Math.min(999999999, this.frequency));
+    this.frequency = Math.round(this.frequency);
+    
+    // NEW: Add visual effects
+   // this.createFrequencyParticles();
+   if (Math.abs(delta) > 1000) {
+    this.animateFrequencyChange(oldFreq, this.frequency);
+}
+     //this.animateFrequencyText(freqDelta);     // <-- ADD
+   this.animateLCDDigits()
+    this.updateDisplay();
+    this.saveLastFrequency();
+}
+
+// Modify setBandFrequency to add animation:
+setBandFrequency(band) {
+    if (this.lastFrequencies[band]) {
+        this.frequency = this.lastFrequencies[band];
+        
+        // NEW: Add band change animation
+        this.showBandChangeAnimation(band);
+        if (this.sounds) this.sounds.click();
+        
+        this.updateDisplay();
+        if (this.connected) {
+            this.setFrequencyAndRestoreGain(this.frequency);
+        }
+    }
+}
+
 
             async connectSerial() {
                 try {
@@ -4167,6 +4752,7 @@ continueTuningAdjust(e) {
                     this.writer = this.port.writable.getWriter();
                     
                     this.connected = true;
+					if (this.sounds) this.sounds.connect();
                     this.lastCommandTime = Date.now();
                     this.updateConnectionStatus();
                     this.logCAT(`Serial connected at ${selectedBaud} baud`, 'rx');
@@ -4395,14 +4981,15 @@ continueTuningAdjust(e) {
                 } else {
                     this.updateSWRMeter(0); // RX mode
                 }
-            } else if (response.startsWith('PC')) {
-                const powerTenths = parseInt(response.substring(2));
-                if (!isNaN(powerTenths) && !this.isPowerAdjusting) {
-                    this.powerLevel = powerTenths;
-                    this.updatePowerLevel();
-                    this.powerKnobRotation = this.minRotation + (this.powerLevel / 50) * this.totalRotationRange;
-                    document.getElementById('powerKnob').style.transform = `rotate(${this.powerKnobRotation}deg)`;
-                }
+        } else if (response.startsWith('PC')) {
+    const powerTenths = parseInt(response.substring(2));
+
+	if (!isNaN(powerTenths)) {
+        // Update the power meter display
+        this.updatePowerMeter(powerTenths);
+		console.log('Powermeter working');
+    }
+
             } else if (response.startsWith('MD')) {
                 this.updateModeFromCAT(response.substring(2));
             } else if (response.startsWith('KS')) {
@@ -5511,7 +6098,6 @@ async setFrequencyAndRestoreGain(freqHz) {
                 }
             } 
 
-           
 initSpectrumDisplay() {
     this.spectrumCanvas = document.getElementById('spectrumCanvas');
     this.spectrumCtx = this.spectrumCanvas.getContext('2d');
@@ -5530,28 +6116,50 @@ initSpectrumDisplay() {
         this.logCAT(`Target CW pitch set to ${this.targetPitch} Hz`, 'info');
     });
 
+    // --- MOVED EVENT LISTENERS START HERE ---
+    const thresholdSlider = document.getElementById('signalThreshold');
+    const thresholdValue = document.getElementById('thresholdValue');
+    const noiseFloorCheck = document.getElementById('showNoiseFloor');
+    const noiseMethodSelect = document.getElementById('noiseMethod');
+    
+    if (thresholdSlider) {
+        thresholdSlider.addEventListener('input', (e) => {
+            this.signalThreshold = parseInt(e.target.value);
+            if (thresholdValue) thresholdValue.textContent = this.signalThreshold;
+        });
+    }
+    
+    if (noiseFloorCheck) {
+        noiseFloorCheck.addEventListener('change', (e) => {
+            this.showNoiseFloor = e.target.checked;
+        });
+    }
+    
+    if (noiseMethodSelect) {
+        noiseMethodSelect.addEventListener('change', (e) => {
+            this.noiseFloorMethod = e.target.value;
+            this.adaptiveNoiseHistory = []; // Reset adaptive history
+        });
+    }
+    // --- MOVED EVENT LISTENERS END HERE ---
+
     this.spectrumCanvas.addEventListener('click', (e) => {
         if (!this.spectrumEnabled || !this.connected) return;
 
         const rect = this.spectrumCanvas.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
 
-        // --- NEW PEAK-DETECTION LOGIC ---
-        
-        // Define a search window (e.g., +/- 15 pixels) around the click
         const searchRadiusPx = 15;
-       const displayBandwidth = this.spectrumBandwidth;
+        const displayBandwidth = this.spectrumBandwidth;
         const audioSampleRate = this.audioContext.sampleRate || 48000;
         const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (displayBandwidth / (audioSampleRate / 2)));
         
-        // Convert pixel coordinates to frequency bin indices
         const startBin = Math.floor(((clickX - searchRadiusPx) / this.spectrumCanvas.width) * relevantBins);
         const endBin = Math.floor(((clickX + searchRadiusPx) / this.spectrumCanvas.width) * relevantBins);
 
         let peakSignal = -1;
         let peakBin = -1;
 
-        // Find the strongest signal peak within the search window
         for (let i = Math.max(0, startBin); i < Math.min(relevantBins, endBin); i++) {
             if (this.frequencyData[i] > peakSignal) {
                 peakSignal = this.frequencyData[i];
@@ -5559,16 +6167,12 @@ initSpectrumDisplay() {
             }
         }
         
-        // If no signal is found in the area, do nothing
         if (peakBin === -1) {
             this.logCAT('No signal peak found near click.', 'error');
             return;
         }
 
-        // Use the frequency of the actual peak for the calculation
         const peakFreq = (peakBin / relevantBins) * displayBandwidth;
-        // --- END OF NEW LOGIC ---
-
         const targetFreq = this.mode === 'CW' ? this.targetPitch : 1500;
         const offset = peakFreq - targetFreq;
 
@@ -5579,8 +6183,28 @@ initSpectrumDisplay() {
         this.frequency = Math.round(newFrequency);
         this.updateDisplay();
         this.setFrequencyAndRestoreGain(this.frequency);
+		
+		// Add this to initSpectrumDisplay():
+const calibrateBtn = document.getElementById('calibrateNoiseBtn');
+if (calibrateBtn) {
+    calibrateBtn.addEventListener('click', () => {
+        this.calibrateNoiseFloor();
     });
 }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    });
+} // <<< ADD THIS MISSING BRACE
+  
+
 
          startSpectrum() {
     if (!this.audioContext || !this.inputAnalyser) return;
@@ -5600,40 +6224,67 @@ initSpectrumDisplay() {
 
     this.logCAT('Spectrum analyzer started', 'info');
 }
-            drawSpectrum() {
-                if (!this.spectrumEnabled) {
-                    cancelAnimationFrame(this.spectrumAnimationFrame);
-                    return;
-                }
 
-                this.spectrumAnimationFrame = requestAnimationFrame(() => this.drawSpectrum());
 
-                this.inputAnalyser.getByteFrequencyData(this.frequencyData);
 
-                this.spectrumCtx.fillStyle = '#10151a'; // Background color
-                this.spectrumCtx.fillRect(0, 0, this.spectrumCanvas.width, this.spectrumCanvas.height);
+           drawSpectrum() {
+    if (!this.spectrumEnabled) {
+        cancelAnimationFrame(this.spectrumAnimationFrame);
+        return;
+    }
 
-                const barWidth = (this.spectrumCanvas.width / this.inputAnalyser.frequencyBinCount) * 2.5;
-                let barHeight;
-                let x = 0;
+    this.spectrumAnimationFrame = requestAnimationFrame(() => this.drawSpectrum());
 
-                // Only draw the first part of the spectrum (up to ~3.5 kHz) for relevance
-               const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (this.spectrumBandwidth / (this.audioContext.sampleRate / 2)));
+    this.inputAnalyser.getByteFrequencyData(this.frequencyData);
 
-               //...
-//...
-for (let i = 0; i < relevantBins; i++) {
-    barHeight = this.frequencyData[i] / 2;
+    this.spectrumCtx.fillStyle = '#10151a'; // Background color
+    this.spectrumCtx.fillRect(0, 0, this.spectrumCanvas.width, this.spectrumCanvas.height);
+
+    const barWidth = (this.spectrumCanvas.width / this.inputAnalyser.frequencyBinCount) * 2.5;
+    const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (this.spectrumBandwidth / (this.audioContext.sampleRate / 2)));
     
-    // This new color logic makes weak signals more visible (brighter green).
-    const green = Math.min(255, 100 + barHeight * 2);
-    this.spectrumCtx.fillStyle = `rgb(0, ${green}, 80)`;
-    this.spectrumCtx.fillRect(x, this.spectrumCanvas.height - barHeight, barWidth, barHeight);
-    x += barWidth + 1;
+    // CALCULATE NOISE FLOOR - this is the key addition
+    const noiseThreshold = this.calculateNoiseFloor(this.frequencyData, relevantBins);
+   // In drawSpectrum, modify the signal detection:
+
+    let x = 0;
+    for (let i = 0; i < relevantBins; i++) {
+        const barHeight = this.frequencyData[i] / 2;
+        const signalLevel = this.frequencyData[i];
+        
+        // DETERMINE IF THIS IS SIGNAL OR NOISE
+       const isSignal = signalLevel > noiseThreshold && signalLevel > 50;
+        
+        if (isSignal) {
+            // SIGNAL - Use bright orange/red gradient
+            const intensity = Math.min(255, (signalLevel - noiseThreshold) * 3);
+            const red = Math.min(255, 200 + intensity * 0.2);
+            const green = Math.min(255, 100 + intensity * 0.6);
+            this.spectrumCtx.fillStyle = `rgb(${red}, ${green}, 0)`;
+        } else {
+            // NOISE - Use dim green
+            const green = Math.min(255, 80 + barHeight * 1.5);
+            this.spectrumCtx.fillStyle = `rgb(0, ${green}, 40)`;
+        }
+        
+        this.spectrumCtx.fillRect(x, this.spectrumCanvas.height - barHeight, barWidth, barHeight);
+        x += barWidth + 1;
+    
+    
+    // OPTIONAL: Draw noise floor line
+    if (this.showNoiseFloor) {
+        const noiseLineY = this.spectrumCanvas.height - (noiseThreshold / 2);
+        this.spectrumCtx.strokeStyle = 'rgba(255, 255, 0, 0.5)';
+        this.spectrumCtx.lineWidth = 1;
+        this.spectrumCtx.beginPath();
+        this.spectrumCtx.moveTo(0, noiseLineY);
+        this.spectrumCtx.lineTo(this.spectrumCanvas.width, noiseLineY);
+        this.spectrumCtx.stroke();
+    }
+}
 }
 //...
-//...
-            }
+            
 		   
 		   
 		 initAutotune() {
@@ -5701,116 +6352,871 @@ manualScanBtn.addEventListener('click', async (event) => { // Add 'event' to the
                 }, this.autotuneDebounceTime);
             }
 
-   performAutotuneScan() {
-            if (!this.autotuneEnabled && !this.spectrumEnabled && !this.connected) return;
+  performAutotuneScan() {
+               if (!this.autotuneEnabled && !this.spectrumEnabled && !this.connected) return;
 
-            const isSSB = (this.mode === 'USB' || this.mode === 'LSB');
-            const isCW = (this.mode === 'CW');
+               const isSSB = (this.mode === 'USB' || this.mode === 'LSB');
+               const isCW = (this.mode === 'CW');
 
-            if (!isSSB && !isCW) {
-                this.logCAT('Autotune: Only available for CW and SSB modes.', 'info');
-                return;
+               if (!isSSB && !isCW) {
+                   this.logCAT('Autotune: Only available for CW and SSB modes.', 'info');
+                   return;
+               }
+
+               this.logCAT(`Autotune: Scanning for ${this.mode} signal...`, 'info');
+
+               const scanDuration = 1000;
+               const sampleInterval = 50;
+               const samplesToTake = scanDuration / sampleInterval;
+               
+               let samplesTaken = 0;
+               const averageSpectrum = new Float32Array(this.inputAnalyser.frequencyBinCount).fill(0);
+
+               const scanner = setInterval(() => {
+                   if (!this.autotuneEnabled && samplesTaken > 0) {
+                       clearInterval(scanner);
+                       return;
+                   }
+
+                   this.inputAnalyser.getByteFrequencyData(this.frequencyData);
+                   for (let i = 0; i < this.frequencyData.length; i++) {
+                       averageSpectrum[i] += this.frequencyData[i];
+                   }
+                   
+                   samplesTaken++;
+
+                   if (samplesTaken >= samplesToTake) {
+                       clearInterval(scanner);
+
+                       for (let i = 0; i < averageSpectrum.length; i++) {
+                           averageSpectrum[i] /= samplesToTake;
+                       }
+
+                       const audioSampleRate = this.audioContext.sampleRate || 48000;
+                       const analysisBandwidth = 3500;
+                       const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (analysisBandwidth / (audioSampleRate / 2)));
+                       let peakFreq = 0;
+
+                       if (isCW) {
+                           const cwSignalToNoiseRatio = 15;
+                           let noiseSum = 0;
+                           for (let i = 0; i < relevantBins; i++) noiseSum += averageSpectrum[i];
+                           const dynamicThreshold = (noiseSum / relevantBins) + cwSignalToNoiseRatio;
+                           
+                           let peakBin = -1, peakSignal = 0;
+                           for (let i = 0; i < relevantBins; i++) {
+                               if (averageSpectrum[i] > peakSignal) {
+                                   peakSignal = averageSpectrum[i];
+                                   peakBin = i;
+                               }
+                           }
+                           if (peakBin !== -1 && peakSignal > dynamicThreshold) {
+                               peakFreq = (peakBin / relevantBins) * analysisBandwidth;
+                           }
+                       } else if (isSSB) {
+                           let totalPower = 0;
+                           for (let i = 0; i < relevantBins; i++) totalPower += averageSpectrum[i];
+                           const averagePower = totalPower / relevantBins;
+                           const signalThreshold = (averagePower * 1.5) + 5;
+
+                           let lowEdgeBin = -1, highEdgeBin = -1;
+                           for (let i = 0; i < relevantBins; i++) {
+                               if (averageSpectrum[i] > signalThreshold) {
+                                   if (lowEdgeBin === -1) lowEdgeBin = i;
+                                   highEdgeBin = i;
+                               }
+                           }
+
+                           if (lowEdgeBin !== -1 && (highEdgeBin - lowEdgeBin) > 10) {
+                               const lowEdgeFreq = (lowEdgeBin / relevantBins) * analysisBandwidth;
+                               const highEdgeFreq = (highEdgeBin / relevantBins) * analysisBandwidth;
+                               peakFreq = (lowEdgeFreq + highEdgeFreq) / 2;
+                           }
+                       }
+                       
+                       if (peakFreq > 0) {
+                           const targetCenterFreq = isCW ? this.targetPitch : 1500;
+                           const floatingOffset = peakFreq - targetCenterFreq;
+                           const offset = Math.round(floatingOffset);
+
+                           if (Math.abs(offset) > 25) {
+                               this.logCAT(`Autotune (${this.mode}): Found signal at ${peakFreq.toFixed(0)} Hz. Tuning by ${offset} Hz.`, 'info');
+                               const currentFreq = Number(this.frequency);
+                               
+                               let newFrequency;
+                               if (this.mode === 'LSB') {
+                                   newFrequency = currentFreq - offset;
+                               } else { 
+                                   newFrequency = currentFreq + offset;
+                               }
+                               
+                               this.frequency = newFrequency;
+                               this.updateDisplay();
+                               this.setFrequencyAndRestoreGain(this.frequency);
+                           } else {
+                               this.logCAT(`Autotune (${this.mode}): Signal already tuned.`, 'info');
+                           }
+                       } else {
+                           this.logCAT(`Autotune (${this.mode}): No stable signal found.`, 'info');
+                       }
+                   } // This brace closes the "if (samplesTaken >= samplesToTake)" block
+               }, sampleInterval);
+           } // This brace closes the "performAutotuneScan" function
+        
+		
+		
+		// 1. PARTICLE EFFECTS FOR FREQUENCY CHANGES
+createFrequencyParticles() {
+    const lcdPanel = document.getElementById('lcdPanel');
+    const rect = lcdPanel.getBoundingClientRect();
+    
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'frequency-particle';
+        particle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+        particle.style.top = (rect.top + rect.height/2) + 'px';
+        document.body.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 1000);
+    }
+}
+
+// 2. SOUND EFFECTS (Optional - can be muted)
+initSoundEffects() {
+    this.soundEnabled = true;
+    this.sounds = {
+        click: this.createBeep(800, 50),
+        tune: this.createBeep(1200, 30),
+        connect: this.createBeep(600, 100),
+        error: this.createBeep(300, 200)
+    };
+}
+
+createBeep(frequency, duration) {
+    return () => {
+        if (!this.soundEnabled) return;
+        
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration/1000);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration/1000);
+    };
+}
+
+// 3. DYNAMIC KNOB GLOW BASED ON VALUES
+updateKnobGlow() {
+    // Volume knob - red glow when high
+    const volumeKnob = document.getElementById('volumeKnob');
+    if (this.volumeLevel > 80) {
+        volumeKnob.style.boxShadow += ', 0 0 20px rgba(255, 71, 87, 0.6)';
+    }
+    
+    // Power knob - orange glow when high power
+    const powerKnob = document.getElementById('powerKnob');
+    if (this.powerLevel > 40) {
+        powerKnob.style.boxShadow += ', 0 0 20px rgba(255, 149, 0, 0.6)';
+    }
+}
+
+// 4. ANIMATED BAND CHANGE INDICATOR
+showBandChangeAnimation(bandName) {
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 255, 136, 0.9);
+        color: black;
+        padding: 20px 40px;
+        border-radius: 15px;
+        font-size: 2em;
+        font-weight: bold;
+        z-index: 10000;
+        animation: bandChange 1.5s ease-out forwards;
+        pointer-events: none;
+    `;
+    indicator.textContent = `${bandName}m BAND`;
+    
+    // Add keyframes if not already added
+    if (!document.getElementById('bandChangeAnimation')) {
+        const style = document.createElement('style');
+        style.id = 'bandChangeAnimation';
+        style.textContent = `
+            @keyframes bandChange {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+                80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
             }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(indicator);
+    setTimeout(() => indicator.remove(), 1500);
+}
 
-            this.logCAT(`Autotune: Scanning for ${this.mode} signal...`, 'info');
-
-            const scanDuration = 1000;
-            const sampleInterval = 50;
-            const samplesToTake = scanDuration / sampleInterval;
-            
-            let samplesTaken = 0;
-            const averageSpectrum = new Float32Array(this.inputAnalyser.frequencyBinCount).fill(0);
-
-            const scanner = setInterval(() => {
-                if (!this.autotuneEnabled && samplesTaken > 0) {
-                    clearInterval(scanner);
-                    return;
-                }
-
-                this.inputAnalyser.getByteFrequencyData(this.frequencyData);
-                for (let i = 0; i < this.frequencyData.length; i++) {
-                    averageSpectrum[i] += this.frequencyData[i];
-                }
-                
-                samplesTaken++;
-
-                if (samplesTaken >= samplesToTake) {
-                    clearInterval(scanner);
-
-                    for (let i = 0; i < averageSpectrum.length; i++) {
-                        averageSpectrum[i] /= samplesToTake;
-                    }
-
-                    const audioSampleRate = this.audioContext.sampleRate || 48000;
-                    const analysisBandwidth = 3500;
-                    const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (analysisBandwidth / (audioSampleRate / 2)));
-                    let peakFreq = 0;
-
-                    if (isCW) {
-                        const cwSignalToNoiseRatio = 15;
-                        let noiseSum = 0;
-                        for (let i = 0; i < relevantBins; i++) noiseSum += averageSpectrum[i];
-                        const dynamicThreshold = (noiseSum / relevantBins) + cwSignalToNoiseRatio;
-                        
-                        let peakBin = -1, peakSignal = 0;
-                        for (let i = 0; i < relevantBins; i++) {
-                            if (averageSpectrum[i] > peakSignal) {
-                                peakSignal = averageSpectrum[i];
-                                peakBin = i;
-                            }
-                        }
-                        if (peakBin !== -1 && peakSignal > dynamicThreshold) {
-                            peakFreq = (peakBin / relevantBins) * analysisBandwidth;
-                        }
-                    } else if (isSSB) {
-                        let totalPower = 0;
-                        for (let i = 0; i < relevantBins; i++) totalPower += averageSpectrum[i];
-                        const averagePower = totalPower / relevantBins;
-                        const signalThreshold = (averagePower * 1.5) + 5;
-
-                        let lowEdgeBin = -1, highEdgeBin = -1;
-                        for (let i = 0; i < relevantBins; i++) {
-                            if (averageSpectrum[i] > signalThreshold) {
-                                if (lowEdgeBin === -1) lowEdgeBin = i;
-                                highEdgeBin = i;
-                            }
-                        }
-
-                        if (lowEdgeBin !== -1 && (highEdgeBin - lowEdgeBin) > 10) {
-                            const lowEdgeFreq = (lowEdgeBin / relevantBins) * analysisBandwidth;
-                            const highEdgeFreq = (highEdgeBin / relevantBins) * analysisBandwidth;
-                            peakFreq = (lowEdgeFreq + highEdgeFreq) / 2;
-                        }
-                    }
-
-                    if (peakFreq > 0) {
-                        const targetCenterFreq = isCW ? this.targetPitch : 1500;
-                        const floatingOffset = peakFreq - targetCenterFreq;
-                        const offset = Math.round(floatingOffset);
-
-                        if (Math.abs(offset) > 25) {
-                            this.logCAT(`Autotune (${this.mode}): Found signal at ${peakFreq.toFixed(0)} Hz. Tuning by ${offset} Hz.`, 'info');
-                            const currentFreq = Number(this.frequency);
-                            
-                            let newFrequency;
-                            if (this.mode === 'LSB') {
-                                newFrequency = currentFreq - offset;
-                            } else { 
-                                newFrequency = currentFreq + offset;
-                            }
-                            
-                            this.frequency = newFrequency;
-                            this.updateDisplay();
-                            this.setFrequencyAndRestoreGain(this.frequency);
-                        } else {
-                            this.logCAT(`Autotune (${this.mode}): Signal already tuned.`, 'info');
-                        }
-                    } else {
-                        this.logCAT(`Autotune (${this.mode}): No stable signal found.`, 'info');
-                    }
-                }
-            }, sampleInterval);
+// 5. MORSE CODE BLINK FOR CW MODE
+startMorseCodeBlink() {
+    if (this.mode !== 'CW') return;
+    
+    const statusDot = document.getElementById('statusDot');
+    const originalClass = statusDot.className;
+    
+    // Simple morse pattern for "CW" (-.-, .-- )
+    const pattern = [200, 100, 600, 100, 200, 500, 200, 100, 600, 100, 600];
+    let index = 0;
+    
+    const blink = () => {
+        if (this.mode !== 'CW' || index >= pattern.length) {
+            statusDot.className = originalClass;
+            return;
         }
+        
+        const isOn = index % 2 === 0;
+        statusDot.style.opacity = isOn ? '1' : '0.2';
+        
+        setTimeout(() => {
+            index++;
+            blink();
+        }, pattern[index]);
+    };
+    
+    blink();
+}
+
+// 6. RIPPLE EFFECT ON BUTTON CLICKS
+addRippleEffect(button, event) {
+    const ripple = document.createElement('span');
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        left: ${x}px;
+        top: ${y}px;
+        width: ${size}px;
+        height: ${size}px;
+        pointer-events: none;
+    `;
+    
+    if (!document.getElementById('rippleAnimation')) {
+        const style = document.createElement('style');
+        style.id = 'rippleAnimation';
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    button.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// 7. ENHANCED FREQUENCY DISPLAY WITH DIGIT FLIP ANIMATION
+animateFrequencyChange(oldFreq, newFreq) {
+    return;
+	const lcdRow1 = document.getElementById('lcdRow1');
+    if (!lcdRow1) return;
+    
+    lcdRow1.style.animation = 'none';
+    lcdRow1.offsetHeight; // Trigger reflow
+    lcdRow1.style.animation = 'digitFlip 0.3s ease-out';
+    
+    if (!document.getElementById('digitFlipAnimation')) {
+        const style = document.createElement('style');
+        style.id = 'digitFlipAnimation';
+        style.textContent = `
+            @keyframes digitFlip {
+                0% { transform: rotateX(0deg); }
+                50% { transform: rotateX(90deg); opacity: 0.5; }
+                100% { transform: rotateX(0deg); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+createEffectsSettings() {
+    const settingsHTML = `
+        <div class="panel" id="effectsPanel" style="order: 999;">
+            <h3>Visual Effects</h3>
+            <div class="control-group">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="soundToggle" ${this.soundEnabled ? 'checked' : ''}>
+                    Sound Effects
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="particlesToggle" checked>
+                    Particle Effects
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="animationsToggle" checked>
+                    Animations
+                </label>
+            </div>
+        </div>
+    `;
+    
+    // Add to right panel
+    document.querySelector('.right-panel').insertAdjacentHTML('beforeend', settingsHTML);
+    
+    document.getElementById('soundToggle').addEventListener('change', (e) => {
+        this.soundEnabled = e.target.checked;
+    });
+	
+	}
+	
+	// Add this method to your QMXInterface class
+
+animateVFOSwap(vfoFreqA, vfoFreqB) {
+    const vfoAButton = document.getElementById('vfoA');
+    const vfoBButton = document.getElementById('vfoB');
+    
+    if (!vfoAButton || !vfoBButton) return;
+    
+    // Get button positions
+    const rectA = vfoAButton.getBoundingClientRect();
+    const rectB = vfoBButton.getBoundingClientRect();
+    
+    // Create flying frequency elements
+    const flyingFreqA = this.createFlyingFrequency(
+        (vfoFreqA / 1000000).toFixed(3) + ' MHz',
+        rectA,
+        rectB,
+        '#00ff88'
+    );
+    
+    const flyingFreqB = this.createFlyingFrequency(
+        (vfoFreqB / 1000000).toFixed(3) + ' MHz', 
+        rectB,
+        rectA,
+        '#00ccff'
+    );
+    
+    // Add visual feedback to buttons
+    vfoAButton.style.animation = 'vfoSwapPulse 1.2s ease-out';
+    vfoBButton.style.animation = 'vfoSwapPulse 1.2s ease-out';
+    
+    // Clean up after animation
+    setTimeout(() => {
+        flyingFreqA.remove();
+        flyingFreqB.remove();
+        vfoAButton.style.animation = '';
+        vfoBButton.style.animation = '';
+    }, 1200);
+}
+
+
+createFlyingFrequency(freqText, startRect, endRect, color) {
+    const flyingElement = document.createElement('div');
+    flyingElement.textContent = freqText;
+    flyingElement.style.cssText = `
+        position: fixed;
+        left: ${startRect.left + startRect.width/2}px;
+        top: ${startRect.top + startRect.height/2}px;
+        transform: translate(-50%, -50%);
+        background: ${color};
+        color: black;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9em;
+        box-shadow: 0 0 20px ${color};
+        z-index: 10000;
+        pointer-events: none;
+        opacity: 0;
+        animation: flyFrequency 1.2s ease-in-out forwards;
+    `;
+    
+    // Calculate end position
+    const endX = endRect.left + endRect.width/2;
+    const endY = endRect.top + endRect.height/2;
+    
+    // Set CSS custom properties for the end position
+    flyingElement.style.setProperty('--end-x', endX + 'px');
+    flyingElement.style.setProperty('--end-y', endY + 'px');
+    
+    document.body.appendChild(flyingElement);
+    return flyingElement;
+}
+
+
+// 1. BAND CHANGE ANIMATION - frequencies sliding in from the side
+animateBandChange(newBand, newFreq) {
+    const bandBtn = document.querySelector(`[data-band="${newBand}"].active`);
+    const lcdPanel = document.getElementById('lcdPanel');
+    
+    if (bandBtn && lcdPanel) {
+        const freqElement = document.createElement('div');
+        freqElement.textContent = `${newBand}m - ${(newFreq/1000000).toFixed(3)} MHz`;
+        freqElement.style.cssText = `
+            position: fixed;
+            right: -300px;
+            top: ${lcdPanel.getBoundingClientRect().top}px;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: black;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 10000;
+            animation: slideInFromRight 1s ease-out forwards;
+        `;
+        document.body.appendChild(freqElement);
+        setTimeout(() => freqElement.remove(), 1000);
+    }
+}
+
+// 2. MEMORY RECALL ANIMATION - frequency "teleporting" from memory button
+animateMemoryRecall(memoryChannel, frequency) {
+    const memBtn = document.querySelector(`[data-channel="${memoryChannel}"]`);
+    const lcdPanel = document.getElementById('lcdPanel');
+    
+    if (memBtn && lcdPanel) {
+        const memRect = memBtn.getBoundingClientRect();
+        const lcdRect = lcdPanel.getBoundingClientRect();
+        
+        const recallElement = document.createElement('div');
+        recallElement.textContent = `M${memoryChannel}: ${(frequency/1000000).toFixed(3)} MHz`;
+        recallElement.style.cssText = `
+            position: fixed;
+            left: ${memRect.left + memRect.width/2}px;
+            top: ${memRect.top + memRect.height/2}px;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 255, 136, 0.9);
+            color: black;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            z-index: 10000;
+            animation: memoryTeleport 0.8s ease-out forwards;
+        `;
+        
+        recallElement.style.setProperty('--target-x', lcdRect.left + lcdRect.width/2 + 'px');
+        recallElement.style.setProperty('--target-y', lcdRect.top + lcdRect.height/2 + 'px');
+        
+        document.body.appendChild(recallElement);
+        setTimeout(() => recallElement.remove(), 800);
+    }
+}
+
+	animateVFOCopy(sourceVFO, targetVFO, frequency) {
+    const sourceButton = document.getElementById(`vfo${sourceVFO}`);
+    const targetButton = document.getElementById(`vfo${targetVFO}`);
+    
+    if (!sourceButton || !targetButton) return;
+    
+    // Get button positions
+    const sourceRect = sourceButton.getBoundingClientRect();
+    const targetRect = targetButton.getBoundingClientRect();
+    
+    // Create flying frequency element
+    const flyingFreq = this.createCopyingFrequency(
+        (frequency / 1000000).toFixed(3) + ' MHz',
+        sourceRect,
+        targetRect,
+        sourceVFO === 'A' ? '#00ff88' : '#00ccff'
+    );
+    
+    // Visual feedback - source button pulses, target button "receives"
+    sourceButton.style.animation = 'vfoCopySource 1s ease-out';
+    targetButton.style.animation = 'vfoCopyTarget 1s ease-out';
+    
+    // Clean up after animation
+    setTimeout(() => {
+        flyingFreq.remove();
+        sourceButton.style.animation = '';
+        targetButton.style.animation = '';
+    }, 1000);
+}
+
+
+
+
+createCopyingFrequency(freqText, sourceRect, targetRect, color) {
+    const flyingElement = document.createElement('div');
+    flyingElement.textContent = freqText;
+    flyingElement.style.cssText = `
+        position: fixed;
+        left: ${sourceRect.left + sourceRect.width/2}px;
+        top: ${sourceRect.top + sourceRect.height/2}px;
+        transform: translate(-50%, -50%);
+        background: ${color};
+        color: black;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9em;
+        box-shadow: 0 0 20px ${color};
+        z-index: 10000;
+        pointer-events: none;
+        opacity: 0;
+        animation: copyFrequency 1s ease-in-out forwards;
+    `;
+    
+    // Calculate target position
+    const targetX = targetRect.left + targetRect.width/2;
+    const targetY = targetRect.top + targetRect.height/2;
+    
+    // Set CSS custom properties for the target position
+    flyingElement.style.setProperty('--target-x', targetX + 'px');
+    flyingElement.style.setProperty('--target-y', targetY + 'px');
+    
+    document.body.appendChild(flyingElement);
+    return flyingElement;
+}
+
+
+
+
+
+
+
+// ADD this new method to calculate the noise floor:
+calculateNoiseFloor(frequencyData, relevantBins) {
+    // Method 1: Simple statistical approach
+	//console.log('Method 1:',this.noiseFloorMethod);
+   if (this.noiseFloorMethod === 'statistical') {
+        // Calculate average and add threshold margin
+        let sum = 0;
+        for (let i = 0; i < relevantBins; i++) {
+            sum += frequencyData[i];
+        }
+        const average = sum / relevantBins;
+        return average + this.signalThreshold;
+    } 
+	
+    
+	 
+    // Method 2: Moving average with percentile threshold (recommended)
+  if (this.noiseFloorMethod === 'percentile' || !this.noiseFloorMethod) {
+        // Sort the data to find the 75th percentile as noise floor
+        const sortedData = Array.from(frequencyData.slice(0, relevantBins)).sort((a, b) => a - b);
+        const percentileIndex = Math.floor(sortedData.length * 0.85);
+        const noiseFloor = sortedData[percentileIndex];
+		console.log('Method 2:',this.noiseFloorMethod);
+        return noiseFloor + this.signalThreshold;
+    }
+    
+  
+  
+  // Method 3: Adaptive threshold
+  if (this.noiseFloorMethod === 'adaptive') {
+  console.log('Method 3');
+        // Track noise floor over time
+        if (!this.adaptiveNoiseHistory) {
+            this.adaptiveNoiseHistory = [];
+        }
+        
+        let sum = 0;
+        for (let i = 0; i < relevantBins; i++) {
+            sum += frequencyData[i];
+        }
+        const currentAverage = sum / relevantBins;
+        
+        this.adaptiveNoiseHistory.push(currentAverage);
+        if (this.adaptiveNoiseHistory.length > 20) {
+            this.adaptiveNoiseHistory.shift(); // Keep only last 20 samples
+        }
+        
+        const adaptiveAverage = this.adaptiveNoiseHistory.reduce((a, b) => a + b, 0) / this.adaptiveNoiseHistory.length;
+        return adaptiveAverage + this.signalThreshold;
+    }
+}  
+
+	
+	
+calibrateNoiseFloor() {
+    if (!this.frequencyData) return;
+    console.log('Calibrating noise floor');
+    // Take several samples during quiet period
+    this.logCAT('Calibrating noise floor - ensure no signals present...', 'info');
+    
+    let samples = [];
+    const sampleCount = 10;
+    let sampleIndex = 0;
+    
+    const takeSample = () => {
+        if (sampleIndex < sampleCount) {
+            this.inputAnalyser.getByteFrequencyData(this.frequencyData);
+            const relevantBins = Math.floor(this.inputAnalyser.frequencyBinCount * (this.spectrumBandwidth / (this.audioContext.sampleRate / 2)));
+            
+            let sum = 0;
+            for (let i = 0; i < relevantBins; i++) {
+                sum += this.frequencyData[i];
+            }
+            samples.push(sum / relevantBins);
+            sampleIndex++;
+            
+            setTimeout(takeSample, 200);
+        } else {
+            // Calculate calibrated threshold
+            const avgNoise = samples.reduce((a, b) => a + b, 0) / samples.length;
+            this.signalThreshold = Math.round(avgNoise * 0.3); // 30% above average noise
+            
+            this.logCAT(`Noise floor calibrated: threshold set to ${this.signalThreshold}`, 'info');
+            
+            // Update UI if slider exists
+            const thresholdSlider = document.getElementById('signalThreshold');
+            const thresholdValue = document.getElementById('thresholdValue');
+            if (thresholdSlider) thresholdSlider.value = this.signalThreshold;
+            if (thresholdValue) thresholdValue.textContent = this.signalThreshold;
+        }
+    };
+    
+    takeSample();
+}
+
+
+animateFrequencyText(delta) {
+    // Create floating direction indicator
+    const lcdPanel = document.getElementById('lcdPanel');
+    if (!lcdPanel) return;
+    
+    const rect = lcdPanel.getBoundingClientRect();
+    const indicator = document.createElement('div');
+    
+    // Determine direction and symbol
+    const isUp = delta > 0;
+    const symbol = isUp ? '▲' : '▼';
+    const stepSize = Math.abs(delta);
+    
+    indicator.textContent = symbol;
+    indicator.style.cssText = `
+        position: fixed;
+        left: ${rect.right - 30}px;
+        top: ${rect.top + rect.height/2}px;
+        transform: translateY(-50%);
+        color: ${isUp ? '#00ff88' : '#ff9500'};
+        font-size: 1.5em;
+        font-weight: bold;
+        z-index: 1000;
+        pointer-events: none;
+        animation: tuningIndicator 0.6s ease-out forwards;
+        text-shadow: 0 0 8px currentColor;
+    `;
+    
+    document.body.appendChild(indicator);
+    
+    // Also animate the LCD display digits
+    this.animateLCDDigits();
+    
+    // Clean up
+    setTimeout(() => indicator.remove(), 600);
+}
+
+
+
+animateLCDDigits() {
+return;   
+   const lcdRow1 = document.getElementById('lcdRow1');
+    if (!lcdRow1) return;
+    
+    // Brief glow effect on the frequency display
+    lcdRow1.style.textShadow = '0 0 15px var(--accent-color), 0 0 25px var(--accent-color)';
+    lcdRow1.style.transform = 'scale(1.02)';
+    lcdRow1.style.transition = 'all 0.1s ease';
+    
+    setTimeout(() => {
+        lcdRow1.style.textShadow = '0 0 8px var(--accent-color)';
+        lcdRow1.style.transform = 'scale(1)';
+    }, 150);
+}
+
+
+animateStepSizeIndicator(delta) {
+    const stepDisplay = document.getElementById('stepSize');
+    if (!stepDisplay) return;
+    
+    const currentStep = Math.abs(delta);
+    let stepText = '';
+    
+    if (currentStep >= 10000) stepText = '10k';
+    else if (currentStep >= 1000) stepText = '1k';
+    else if (currentStep >= 100) stepText = '100';
+    else if (currentStep >= 10) stepText = '10';
+    else stepText = '1';
+    
+    // Create floating step indicator
+    const rect = stepDisplay.getBoundingClientRect();
+    const stepIndicator = document.createElement('div');
+    
+    stepIndicator.textContent = `±${stepText}`;
+    stepIndicator.style.cssText = `
+        position: fixed;
+        left: ${rect.right + 10}px;
+        top: ${rect.top + rect.height/2}px;
+        transform: translateY(-50%);
+        background: var(--accent-color);
+        color: black;
+        padding: 2px 6px;
+        border-radius: 8px;
+        font-size: 0.8em;
+        font-weight: bold;
+        z-index: 1000;
+        pointer-events: none;
+        animation: stepIndicator 0.8s ease-out forwards;
+    `;
+    
+    document.body.appendChild(stepIndicator);
+    setTimeout(() => stepIndicator.remove(), 800);
+}
+
+
+animateFrequencyDirection(delta) {
+    const lcdPanel = document.getElementById('lcdPanel');
+    if (!lcdPanel) return;
+    
+    const rect = lcdPanel.getBoundingClientRect();
+    const freqText = document.createElement('div');
+    
+    const sign = delta > 0 ? '+' : '-';
+    const absValue = Math.abs(delta);
+    let displayValue = '';
+    
+    if (absValue >= 1000000) {
+        displayValue = `${sign}${(absValue/1000000).toFixed(3)}M`;
+    } else if (absValue >= 1000) {
+        displayValue = `${sign}${(absValue/1000).toFixed(1)}k`;
+    } else {
+        displayValue = `${sign}${absValue}`;
+    }
+    
+    freqText.textContent = displayValue;
+    freqText.style.cssText = `
+        position: fixed;
+        left: ${rect.left + rect.width/2}px;
+        top: ${rect.bottom + 5}px;
+        transform: translateX(-50%);
+        color: ${delta > 0 ? '#00ff88' : '#ff9500'};
+        font-family: 'Courier New', monospace;
+        font-size: 1.1em;
+        font-weight: bold;
+        z-index: 1000;
+        pointer-events: none;
+        animation: freqChange 1s ease-out forwards;
+        text-shadow: 0 0 8px currentColor;
+    `;
+    
+    document.body.appendChild(freqText);
+    setTimeout(() => freqText.remove(), 1000);
+}
+
+
+// Replace your existing fixVolumeKnobPointers() function with this:
+// Replace your fixVolumeKnobPointers() function with this updated version:
+fixVolumeKnobPointers() {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Main line - thinner and shorter for volume knobs */
+        .volume-knob::after {
+            content: "" !important;
+            position: absolute !important;
+            width: 3px !important;
+            height: 30px !important;
+            background: linear-gradient(to top, #333 0%, #333 85%, transparent 85%, transparent 100%) !important;
+            top: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 3 !important;
+            transition: background-color 0.2s ease !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Triangle tip - this creates the pointed end */
+        .volume-knob::before {
+            content: "" !important;
+            position: absolute !important;
+            width: 0 !important;
+            height: 0 !important;
+            border-left: 3px solid transparent !important;
+            border-right: 3px solid transparent !important;
+            border-bottom: 8px solid #333 !important;
+            top: 5px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 4 !important;
+        }
+        
+        /* Hover effects */
+        .volume-knob:hover::after {
+            background: linear-gradient(to top, #00ff88 0%, #00ff88 85%, transparent 85%, transparent 100%) !important;
+        }
+        
+        .volume-knob:hover::before {
+            border-bottom-color: #00ff88 !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Force a redraw
+    const volumeKnobs = document.querySelectorAll('.volume-knob');
+    volumeKnobs.forEach(knob => {
+        knob.style.display = 'none';
+        knob.offsetHeight; // Trigger reflow
+        knob.style.display = '';
+    });
+    
+    console.log('Volume knob pointer styles updated with triangle tip');
+}
+
+
+
+updatePowerMeter(powerTenths) {
+    const meter = document.getElementById('powerMeter');
+    const powerText = document.getElementById('powerText');
+     
+    if (!meter || !powerText) return;
+    
+    // Convert tenths to actual watts (PC45 = 4.5W)
+    const watts = powerTenths / 10.0;
+    
+    // Calculate percentage (assuming max 5W for QRP)
+    const maxWatts = 5.0;
+    const percentage = Math.max(0, Math.min(100, (watts / maxWatts) * 100));
+    
+    // Update meter bar
+    meter.style.width = percentage + '%';
+    
+    // Update text display
+    powerText.textContent = `${watts.toFixed(1)}W`;
+    
+    // Color coding based on power level
+    if (watts >= 4.0) {
+        powerText.style.color = '#ff4757'; // Red for high power
+    } else if (watts >= 2.0) {
+        powerText.style.color = '#ffff00'; // Yellow for medium power
+    } else {
+        powerText.style.color = '#00ff88'; // Green for low power
+    }
+}
+
+
+
+
 	//------------------------------------------------		
 			
             cleanup() {
@@ -5833,6 +7239,11 @@ manualScanBtn.addEventListener('click', async (event) => { // Add 'event' to the
                 console.error('Failed to initialize QMX Interface:', error);
             }
         });
+
+
+
+
+
 
 
    </script>
