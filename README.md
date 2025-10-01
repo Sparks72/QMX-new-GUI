@@ -32,153 +32,363 @@ The live demo runs entirely in your browser - no installation required! You can 
 ![Advanced Features](screenshot2.png)
 *Spectrum analyzer, memory channels, QSO logger, and audio streaming controls in operation*
 
-## Features
 
-### Core Radio Control
-- **CAT Control**: Full computer control via WebSerial API
-- **Frequency Management**: Precision tuning with multiple input methods
-- **Mode Selection**: USB, LSB, CW, and Digital modes
-- **Band Switching**: Quick access to all amateur bands (160m-6m including 60m)
-- **VFO Control**: Dual VFO operation with A/B switching and copy functions
-- **RIT (Receiver Incremental Tuning)**: Fine frequency offset control
 
-### Advanced Features
-- **Memory Channels**: 10 programmable memory channels with labels
-- **QSO Logger**: Built-in logging with ADIF import/export
-- **Audio Streaming**: Real-time audio from radio to PC speakers
-- **Spectrum Analyzer**: Visual spectrum display with click-to-tune
-- **Autotune**: Automatic signal centering for CW and SSB
-- **S-Meter & SWR**: Real-time signal strength and SWR monitoring
+## GETTING STARTED
 
-### User Interface
-- **Draggable Panels**: Customizable layout with lockable panels
-- **Multiple Tuning Methods**: 
-  - Rotary knob simulation with mouse/touch
-  - Keyboard control (arrow keys when hovering over knob)
-  - Direct frequency entry (popup or permanent panel)
-  - Mouse wheel tuning
-- **Variable Step Tuning**: Automatic fast/slow tuning based on speed
-- **Professional Styling**: Modern dark theme with realistic controls
+**Connection**
+- Select baud rate (default: 115200)
+- Click "Connect" to establish serial connection
+- Green status dot = connected
+- Audio streaming and radio control are independent
 
-## Requirements
+---
 
-### Browser Support
-- **Chrome/Chromium 89+** (recommended)
-- **Edge 89+**
-- **Opera 75+**
-- Must support WebSerial API (Firefox not currently supported)
+## FREQUENCY CONTROL
 
-### Hardware Requirements (for full functionality)
-- QMX transceiver with CAT interface
-- USB-to-serial adapter or built-in USB port
-- Computer with USB port
-- Optional: Audio interface for streaming features
+**Main Tuning Knob**
+- **Click & drag**: Rotate to tune
+- **Mouse wheel**: Fine tuning
+- **Arrow keys** (when focused): Adjust frequency
+- **Hover + arrow keys**: Quick adjustment without clicking
+- Variable speed tuning: Tune fast for automatic 10x step increase
 
-### Permissions Required
-- **Serial Port Access**: For radio communication
-- **Microphone Access**: For audio streaming and spectrum analysis (optional)
+**Direct Entry**
+- Click LCD display to open frequency input modal
+- Choose format: MHz / kHz / Hz
+- Use keypad or type directly
+- Press Enter or click "Set"
 
-## Getting Started
+**Tuning Step**
+- Select step size: 1 Hz to 10 kHz
+- Saved automatically between sessions
 
-### Option 1: Use Live Demo
-1. Visit the [Live Demo](https://Sparks72.github.io/QMX-new-GUI/)
-2. No download or installation required
-3. Runs directly in your browser
+---
 
-### Option 2: Download and Run Locally
-1. Download `index.html` from this repository
-2. Double-click to open in Chrome or Edge
-3. Grant permissions when prompted
+## MODE & BAND SELECTION
 
-### Connecting Your Radio
-1. Connect your QMX transceiver via USB
-2. Click "Connect Serial" in the interface
-3. Select your QMX's serial port when prompted
-4. Connection status will show "CONNECTED"
+**Modes**: USB, LSB, CW, DIGI
+- Click mode button to change
+- Mode affects spectrum bandwidth and DSP filtering
 
-## Usage Guide
+**Bands**: 160m to 6m (11 bands including 60m)
+- Click band button to change
+- Last-used frequency per band remembered
+- Auto band selection based on frequency
 
-### Frequency Control
-- **Main Tuning Knob**: Click and drag to tune
-- **Step Size**: Select tuning step (1 Hz to 10 kHz)
-- **Direct Entry**: Click the LCD display for frequency input
-- **Keyboard**: Hover over tuning knob and use arrow keys
-- **Variable Speed**: Fast tuning automatically increases step size
+---
 
-### Memory Operations
-1. **Store**: Select "Store" mode, click memory button
-2. **Recall**: Select "Recall" mode, click memory button  
-3. **Edit**: Right-click memory button or use Edit mode
-4. **Quick Store**: Double-click memory in Recall mode
+## VFO CONTROL
 
-### QSO Logging
-1. Enter callsign and other QSO details
-2. Click "Log QSO" to save
-3. Export logs in ADIF format
-4. Search logged contacts
+**VFO A / VFO B**
+- Click to select active VFO
+- Each VFO has independent frequency
 
-### Audio Streaming
+**VFO Operations**
+- **A↔B**: Swap VFO A and B frequencies
+- **A→B**: Copy VFO A to VFO B (or B→A depending on active VFO)
+
+---
+
+## AUDIO STREAMING
+
+**Setup**
 1. Click "Refresh" to enumerate audio devices
-2. Select input device (radio audio)
-3. Select output device (speakers/headphones)
-4. Click "Start" to begin streaming
-5. Adjust gain as needed
+2. Select Input device (from QMX)
+3. Select Output device (PC speakers)
+4. Click "Start"
 
-### Spectrum Analyzer
-1. Start audio streaming first
-2. Spectrum display shows real-time audio
-3. Click on signals to automatically tune to them
-4. Works with autotune for automatic signal centering
+**Audio Gain Control**
+- Slider: 0.1x to 5.0x (default: 2.0x)
+- Displayed in multiplier and dB
+- Adjusts real-time during streaming
 
-## Panel Customization
+**CW DSP Filter** (CW mode only)
+- Bandwidth: 50 Hz to 300 Hz
+- Target pitch: 600/700/800 Hz
+- Check "ON" to enable
+- Multiple noise floor detection methods
+- "Calibrate Noisefloor" for optimal settings
 
-### Rearranging Panels
-1. Panels are unlocked by default (🔓 Panels Unlocked)
-2. Drag panels by their title bars to reorganize
-3. Move between left, center, and right columns
-4. Layout is automatically saved
+---
 
-### Locking Layout
-1. Click "🔓 Panels Unlocked" to lock (🔒 Panels Locked)
-2. Locked panels cannot be moved
-3. Click again to unlock for rearrangement
+## SPECTRUM DISPLAY
 
-## Advanced Features
+**Features**
+- Real-time FFT spectrum analyzer
+- Signal/noise discrimination
+- Click spectrum to auto-tune to signal
+- Bandwidth adjusts with mode and DSP settings
 
-### Autotune Operation
-1. Enable "AUTOTUNE ON" in the Step panel
-2. Tune near a signal
-3. Stop tuning - autotune will center the signal automatically
-4. Works for both CW and SSB modes
-5. Manual scan available with "SCAN NOW" button
+**Signal Detection**
+- Threshold slider: Sensitivity adjustment
+- Noise floor methods: Auto / Avg / Adapt
+- Show noise floor line (yellow)
 
-### RIT Control
-1. Click "RIT ON/OFF" to enable RIT
-2. Use +/- buttons for coarse adjustment  
-3. Use RIT knob for fine adjustment
-4. "CLEAR" resets offset to zero
+---
 
-### Keyer Control
-1. Toggle between STRAIGHT and BUG modes
-2. In BUG mode, adjust WPM with knob
-3. STRAIGHT mode disables speed control
+## AUTOTUNE
 
-## Troubleshooting
+**Manual Scan**
+- Click "AUTOTUNE CW/SSB NOW" to scan once
+- Works in CW and SSB modes
+- Starts audio stream if not already running
 
-### Connection Issues
-- **"WebSerial not supported"**: Use Chrome/Edge browser
-- **No serial ports found**: Check USB connection and drivers
-- **Connection fails**: Verify baud rate (115200) and try different port
+**Auto Mode**
+- Toggle "AUTOTUNE ON/OFF"
+- Scans automatically after tuning stops (750ms delay)
+- Centers signal on target pitch (CW) or 1500 Hz (SSB)
 
-### Audio Problems
-- **No audio devices**: Click "Refresh" and grant microphone permission
-- **No audio streaming**: Check audio connections and levels
-- **Spectrum not working**: Ensure audio streaming is active first
+---
 
-### Performance Issues
-- **Slow response**: Try lower polling rates or reduce panel updates
-- **Browser freezing**: Disable spectrum analyzer if not needed
-- **Memory usage**: Clear browser cache and restart if needed
+## MEMORY CHANNELS (M1-M10)
+
+**Modes**: Recall / Store / Edit / Clear
+- Click mode button, then click memory slot
+
+**Quick Operations**
+- **Single click** (Recall mode): Load frequency/mode/band
+- **Double click** (Recall mode): Quick-store current settings
+- **Right-click**: Open edit modal
+
+**Edit Modal**
+- Set frequency, mode, band manually
+- Add optional label
+- Press Enter in frequency field to save quickly
+
+**Management**
+- Export: Save to JSON file
+- Import: Load from JSON file
+- Clear All: Delete all memories
+
+---
+
+## CW KEYER MEMORY (8 Slots)
+
+**Message Storage**
+1. Type message (max 80 characters, auto-uppercase)
+2. Select slot (CW1-CW8)
+3. Click "STORE"
+
+**Sending**
+- Click "SEND" or select slot to transmit
+- **F1-F8**: Quick send from keyboard
+- Status shows buffer state during transmission
+
+**Editing**
+1. Click "EDIT" button (activates edit mode)
+2. Select slot to edit
+3. Modal opens with message text and label fields
+4. Save changes
+
+**Management**
+- Export/Import: Save/load messages to JSON
+- Clear All: Delete all stored messages
+
+---
+
+## CW SPEED CONTROL
+
+**Two Synchronized Knobs**
+- Controls Panel: Main RF Gain knob
+- CW Keyer Panel: Clone knob
+- Both knobs mirror each other
+
+**Keyer Mode Toggle**
+- **STRAIGHT**: 0 WPM (straight key mode)
+- **BUG**: 1-50 WPM (electronic keyer)
+
+**Adjustment**
+- Click & drag, mouse wheel, arrow keys
+- Hover + arrow keys for quick adjustment
+- Knobs dim/disable in STRAIGHT mode
+
+---
+
+## CW SPEED CONTROL
+
+**Two Synchronized Knobs**
+- Controls Panel: Main RF Gain knob
+- CW Keyer Panel: Dedicated CW Speed knob (clone)
+- Both knobs mirror each other in real-time
+- Adjust either knob, both update simultaneously
+
+**Keyer Mode Toggle**
+- **STRAIGHT**: 0 WPM (straight key mode)
+- **BUG**: 1-50 WPM (electronic keyer)
+- Toggle switch appears on both panels
+
+**Adjustment**
+- Click & drag to rotate
+- Mouse wheel for fine adjustment
+- Arrow keys when focused
+- **Hover + arrow keys**: Quick adjustment without clicking (works on both knobs)
+- Visual feedback: Green glow on hover, bright flash on keypress
+- Knobs automatically dim and disable in STRAIGHT mode
+
+**Speed Range**
+- 0 WPM (Straight key)
+- 1-50 WPM (Bug/Electronic keyer)
+- Display shows current speed or "STRAIGHT"
+- Color coded: Red (0 WPM), Green (1-50 WPM)
+
+---
+
+## VOICE KEYER (8 Slots)
+
+**Recording**
+1. Select message slot (MSG 1-8)
+2. Click "RECORD"
+3. Speak message
+4. Click "STOP"
+- Volume auto-mutes during recording
+- Audio streaming auto-pauses if active
+
+**Playback**
+- Click "PLAY" to transmit message
+- **Shift + F1-F8**: Quick playback from keyboard
+- Auto TX/RX: Automatically keys transmitter
+
+**Management**
+- Stored in browser localStorage (persistent)
+- Export/Import: Save/load metadata only
+- Clear: Delete individual or all messages
+- Volume auto-restores after playback
+
+---
+
+## RIT (RECEIVER INCREMENTAL TUNING)
+
+**Controls**
+- **RIT ON/OFF**: Enable/disable RIT
+- **CLEAR**: Reset offset to 0 Hz
+- Fine tune knob: ±1000 Hz range
+
+**Adjustment Buttons**
+- ±1 Hz, ±10 Hz, ±100 Hz
+- Display shows offset with +/- color coding
+
+**Features**
+- Green glow when active
+- Knob responds to mouse, wheel, keyboard
+- Range: ±9999 Hz
+
+---
+
+## QSO LOGGER
+
+**Logging**
+1. Enter callsign (auto-uppercase)
+2. Optional: Name, QTH, RST, comments
+3. Click "Log QSO"
+- Frequency, mode, band, UTC time auto-filled
+
+**Features**
+- Search by callsign
+- Export to ADIF format
+- Import ADIF files
+- Shows total QSO count
+
+---
+
+## CONTROLS PANEL
+
+**AF Gain (Volume)**
+- 0-100 dB
+- Click & drag, wheel, arrow keys
+- Hover + arrow keys for quick control
+- Auto-mutes during voice recording
+
+**Power Out**
+- 0-5.0W (QRP)
+- Displays in watts
+- Color coded: green → yellow → red
+
+---
+
+## PANEL MANAGEMENT
+
+**Lock/Unlock Panels**
+- Click "🔓 Panels Unlocked" to lock
+- When locked: 🔒 icon shows, no dragging
+- When unlocked: Drag panels by title bar
+
+**Layout**
+- Drag panels between left/center/right columns
+- Layout saved automatically
+- Survives page reload
+
+---
+
+## ZOOM & FULLSCREEN
+
+**Zoom Controls** (top right)
+- **+/-**: Zoom in/out (50%-200%)
+- **Reset**: Return to 100%
+- **Fit**: Auto-fit to window
+- **⛶**: Toggle fullscreen
+
+**Keyboard Shortcuts**
+- Ctrl + Plus: Zoom in
+- Ctrl + Minus: Zoom out
+- Ctrl + 0: Reset zoom
+- F11: Toggle fullscreen
+
+---
+
+## KEYBOARD SHORTCUTS
+
+**CW Keyer**
+- **F1-F8**: Send CW message from slot 1-8
+
+**Voice Keyer**
+- **Shift + F1-F8**: Play voice message from slot 1-8
+
+**Memory Channels**
+- **Right-click** memory button: Edit
+
+**Frequency Control**
+- **Arrow keys** (when knob focused): Tune
+- **Arrow keys** (when hovering): Quick tune
+- **Enter** (in frequency input): Confirm
+
+---
+
+## TIPS & TROUBLESHOOTING
+
+**Audio Issues**
+- Click "Refresh" if devices not showing
+- Browser needs microphone permission
+- Use specific device, not "default"
+- Disable echo cancellation in device settings
+
+**Connection Problems**
+- Try different baud rates
+- Reconnect USB cable
+- Check serial port permissions
+- Green status dot confirms connection
+
+**Performance**
+- Disable unused features
+- Lower spectrum FFT size if laggy
+- Close other browser tabs
+
+**Data Persistence**
+- Memory channels: Saved in browser
+- Voice messages: Saved in browser (limited by storage quota)
+- CW messages: Saved in browser
+- Panel layout: Saved in browser
+- Step size: Saved in browser
+- Last frequencies per band: Saved
+
+**Best Practices**
+- Export memories/messages regularly
+- Test voice messages before operating
+- Calibrate noise floor in quiet conditions
+- Use autotune for weak signals
+- Lock panels during operation
+
+---
 
 ## Development
 
@@ -250,7 +460,3 @@ For issues, questions, or feature requests:
 ## License
 
 Apache 2.0
-
----
-
-**73! Enjoy your QMX+ experience!**
