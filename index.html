@@ -119,8 +119,6 @@
             align-items: center;
         }
 
-
-
 /* Add a small triangle tip */
 .tuning-knob::before {
     content: "";
@@ -135,7 +133,6 @@
     transform: translateX(-50%);
     z-index: 4;
 }
-
 
      /* Option C: Very thin line with small triangle tip */
 .tuning-knob::after {
@@ -260,9 +257,6 @@
 	
 }
 
-
-
-
         .volume-knob-center {
             width: 25px;
             height: 25px;
@@ -276,12 +270,6 @@
         .volume-knob:hover::after {
             background-color: #00ff88 !important;
         }
-
-    /*    .volume-knob::before,
-        .volume-knob::after,
-        .volume-knob-center {
-            pointer-events: none;
-        }*/
 
         .knob-level { font-family: "Courier New", monospace; font-size: 0.9rem; }
         
@@ -357,7 +345,11 @@
     padding: 20px;
     z-index: 1001;
     min-width: 300px;
+    max-width: 90vw; /* Prevent overflow on small screens */
+    max-height: 90vh; /* Prevent overflow vertically */
+    overflow-y: auto; /* Add scroll if needed */
 }
+
 
 .freq-input-modal.active {
     display: block;
@@ -697,25 +689,6 @@
         height: 50px;
     }
 }	
-	/* --- START: CSS for PRONOUNCED Radial Knob Lines --- */
-
-/* For the main tuning knob's inner face */
-/*.tuning-knob::before {
-    content: "";
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    border-radius: 50%; */
-    /*
-       FIX: The background is now ONLY the radial lines, making them visible.
-       The lines are also darker and thicker.
-    */
-/*    background: repeating-conic-gradient(
-        from 0deg,
-        rgba(0, 0, 0, 0.35) 0deg 0.6deg,  /* Darker, thicker line */
-        transparent 0.6deg 10deg         /* Gap between lines */
-    );
-}*/
 
 /* Adds more pronounced radial lines to the smaller control knobs */
 .volume-knob::before {
@@ -734,7 +707,6 @@
     z-index: -1;
 }
 
-/* --- END: CSS for Pronounced Radial Knob Lines --- */
 /* --- START: Spectrum Display Styles --- */
 #spectrumPanel {
     background: #000; /* Dark background for better contrast */
@@ -767,6 +739,41 @@
 .spectrum-controls select {
     width: 100px;
 }
+
+/* CW DSP Filter Styles */
+.cw-dsp-panel {
+    background: rgba(0,255,136,0.1);
+    border: 1px solid rgba(0,255,136,0.3);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.cw-dsp-header {
+    text-align: center;
+    margin-bottom: 6px;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.cw-dsp-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.cw-dsp-status {
+    text-align: center;
+    font-size: 0.8em;
+    color: #888;
+}
+
+.cw-dsp-status.active {
+    color: var(--accent-color);
+}
+
 /* --- END: Spectrum Display Styles --- */
 /* --- START: Autotune Button Style --- */
 .btn.autotune-active {
@@ -933,7 +940,6 @@
 }
 
 /* 7. GLOWING KNOB INDICATORS WHEN ACTIVE */
-/*.volume-knob.adjusting,*/
 .tuning-knob.adjusting {
     box-shadow: 
         0 12px 24px rgba(0, 0, 0, 0.4),
@@ -949,22 +955,6 @@
     50% { transform: rotate(0deg) scale(1.05); }
     100% { transform: rotate(0deg) scale(1); }
 }
-
-/* 8. TYPING EFFECT FOR CAT LOG
-.cat-log-entry {
-    animation: typeIn 0.3s ease-out;
-}
-
-@keyframes typeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}*/
 
 /* 9. MATRIX-STYLE DIGITAL RAIN FOR BACKGROUND (SUBTLE) */
 .transceiver-container::after {
@@ -1038,10 +1028,6 @@
     }
 }
 
-
-
-/*Add these CSS animations to your stylesheet:*/
-
 @keyframes flyFrequency {
     0% {
         opacity: 1;
@@ -1071,12 +1057,6 @@
         box-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
     }
 }
-
-
-
-
-
-/* Additional CSS for these animations:*/
 
 @keyframes slideInFromRight {
     from {
@@ -1111,10 +1091,6 @@
         top: var(--target-y);
     }
 }
-
-
-
-/* ADD THESE CSS ANIMATIONS to your stylesheet:*/
 
 @keyframes copyFrequency {
     0% {
@@ -1177,8 +1153,6 @@
     }
 }
 
-
-
 @keyframes tuningIndicator {
     0% {
         opacity: 1;
@@ -1197,8 +1171,6 @@
 .lcd-row {
     transition: text-shadow 0.1s ease, transform 0.1s ease;
 }
-
-
 
 @keyframes stepIndicator {
     0% {
@@ -1226,9 +1198,6 @@
     }
 }
 
-
-
-
 #powerMeter {
     background: linear-gradient(90deg, #00ff88 0%, #ffff00 70%, #ff4757 100%);
 }
@@ -1238,9 +1207,162 @@
     background: linear-gradient(90deg, #00ccff 0%, #00ff88 50%, #ffff00 80%, #ff4757 100%);
 }
 
+/* Voice Keyer specific styles */
+.voice-msg-btn {
+    padding: 8px 4px;
+    font-size: 0.75em;
+    min-height: 40px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: var(--button-bg);
+    color: #fff;
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.voice-msg-btn.voice-msg-occupied {
+    background: rgba(0,255,136,0.2);
+    border-color: rgba(0,255,136,0.5);
+    color: #00ff88;
+}
+
+.voice-msg-btn.voice-msg-active {
+    background: var(--button-active);
+    color: #000;
+    border-color: #00ff88;
+    box-shadow: 0 0 10px rgba(0,255,136,0.5);
+}
+
+.voice-msg-btn:hover {
+    background: var(--button-hover);
+    transform: translateY(-1px);
+}
+
+/* Recording state animation */
+.voice-keyer-recording #voiceKeyerRecord {
+    animation: recordPulse 1s ease-in-out infinite;
+}
+
+@keyframes recordPulse {
+    0%, 100% { 
+        background: #ff4757; 
+        box-shadow: 0 0 5px #ff4757;
+    }
+    50% { 
+        background: #ff6b7a; 
+        box-shadow: 0 0 20px #ff4757;
+    }
+}
+
+/* Playing state */
+.voice-keyer-playing #voiceKeyerPlay {
+    background: var(--accent-color);
+    color: #000;
+    animation: playPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes playPulse {
+    from { opacity: 1; }
+    to { opacity: 0.7; }
+}
 
 
-//____________________________________________________________________
+/* Add this to your CSS */
+.transceiver-container {
+    transform-origin: top left;
+    transition: transform 0.3s ease;
+}
+
+.zoom-controls {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 10000;
+    background: rgba(0,0,0,0.8);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.zoom-btn {
+    background: var(--button-bg);
+    color: var(--font-color);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.zoom-btn:hover {
+    background: var(--button-hover);
+}
+
+.zoom-level {
+    color: var(--accent-color);
+    font-size: 0.9em;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* CW Keyer Memory styles */
+.cw-msg-btn {
+    padding: 8px 4px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: var(--button-bg);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.8em;
+    min-height: 45px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cw-msg-btn.cw-msg-occupied {
+    background: rgba(0,255,136,0.2);
+    border-color: rgba(0,255,136,0.5);
+    color: #00ff88;
+}
+
+.cw-msg-btn.cw-msg-active {
+    background: var(--button-active);
+    color: #000;
+    border-color: #00ff88;
+    box-shadow: 0 0 10px rgba(0,255,136,0.5);
+}
+
+.cw-msg-btn:hover {
+    background: var(--button-hover);
+    transform: translateY(-1px);
+}
+
+/* CW sending animation */
+.cw-sending #cwSend {
+    animation: cwSendPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes cwSendPulse {
+    from { 
+        background: var(--accent-color); 
+        box-shadow: 0 0 5px var(--accent-color);
+    }
+    to { 
+        background: #00ccff; 
+        box-shadow: 0 0 20px var(--accent-color);
+    }
+}
+
+.cw-msg-label {
+    font-size: 0.7em;
+    display: block;
+    margin-top: 2px;
+    color: var(--accent-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 	</style>
 </head>
@@ -1255,8 +1377,21 @@
                     <select id="baudRate"><option value="115200" selected>115200</option></select>
                 </div>
                 <button id="connectBtn" class="btn btn-primary" style="margin-top:10px;">Connect</button>
-            </div>
             
+						
+			
+			</div>
+     <div class="zoom-controls">
+    <button class="zoom-btn" id="zoomOut">-</button>
+    <span class="zoom-level" id="zoomLevel">100%</span>
+    <button class="zoom-btn" id="zoomIn">+</button>
+    <button class="zoom-btn" id="zoomReset">Reset</button>
+    <button class="zoom-btn" id="zoomFit">Fit</button>
+    <button class="zoom-btn" id="fullscreenToggle">⛶</button>
+</div>
+			
+
+			
 			<div class="panel step-panel" id="stepPanel">
     <h3>Tuning Step</h3>
     <div class="control-group">
@@ -1326,9 +1461,6 @@
         <div id="audioGainLevel" class="knob-level" style="text-align: center;">2.0x (+6.0 dB)</div>
     </div>
 
-
-
-
 			   <div class="audio-device-grid">
                      <div class="control-group"><label>Input</label><select id="audioInputDevice"><option value="">Select...</option></select></div>
                      <div class="control-group"><label>Output</label><select id="audioOutputDevice"><option value="">Select...</option></select></div>
@@ -1343,9 +1475,6 @@
                 <h3>CAT Log</h3>
                 <div class="cat-log" id="catLog"></div>
             </div>
-      
-
-
 	  </div>
 
         <div class="center-panel">
@@ -1361,17 +1490,40 @@
                  <div class="tuning-knob-container" id="tuningKnobContainer">
                     <div class="frequency-markings" id="frequencyMarkings"></div>
                     <div class="tuning-knob" id="tuningKnob" tabindex="0"><div class="tuning-knob-center"></div></div>
-					
-                 
 				 </div>
             </div>
 			
 			<div class="panel" id="spectrumPanel">
-    <h3>Spectrum</h3>
+    <h3>Spectrum & DSP</h3>
     <div class="spectrum-container">
         <canvas id="spectrumCanvas"></canvas>
     </div>
 <div class="spectrum-controls-new" style="margin-top: 10px;">
+    <!-- CW DSP Bandwidth Control -->
+    <div style="background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); border-radius: 8px; padding: 8px; margin-bottom: 10px;">
+        <div style="text-align: center; margin-bottom: 6px;">
+            <span style="font-size: 0.9em; color: var(--accent-color); font-weight: bold;">CW DSP Filter</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.8em; width: 60px;">Bandwidth:</span>
+            <select id="cwBandwidth" style="flex: 1; margin: 0 8px; font-size: 0.8em;">
+                <option value="300" selected>300 Hz (Native)</option>
+                <option value="250">250 Hz</option>
+                <option value="200">200 Hz</option>
+                <option value="150">150 Hz</option>
+                <option value="100">100 Hz</option>
+                <option value="75">75 Hz</option>
+                <option value="50">50 Hz</option>
+            </select>
+            <label style="font-size: 0.8em;">
+                <input type="checkbox" id="enableCwDsp"> ON
+            </label>
+        </div>
+        <div style="text-align: center;">
+            <span id="cwDspStatus" style="font-size: 0.8em; color: #888;">DSP Filter: OFF</span>
+        </div>
+    </div>
+
     <!-- Target Pitch - centered -->
     <div style="text-align: center; margin-bottom: 8px;">
         <span style="font-size: 0.9em;">Target CW Pitch:</span>
@@ -1437,6 +1589,154 @@
         </div>
 
         <div class="right-panel">
+		<div class="panel" id="voiceKeyerPanel">
+    <h3>Voice Keyer</h3>
+    
+    <!-- Current slot indicator -->
+    <div id="voiceCurrentSlot" style="text-align: center; margin-bottom: 10px; font-weight: bold; color: var(--accent-color);">
+        MSG 1 (EMPTY)
+    </div>
+    
+    <!-- Control buttons -->
+    <div class="controls-grid" style="margin-bottom: 15px;">
+        <button class="btn btn-secondary" id="voiceKeyerRecord">RECORD</button>
+        <button class="btn btn-secondary" id="voiceKeyerPlay" disabled>PLAY</button>
+        <button class="btn btn-secondary" id="voiceKeyerStop">STOP</button>
+        <button class="btn btn-danger" id="voiceKeyerClear">CLEAR</button>
+    </div>
+    
+    <!-- Auto-transmit option -->
+    <div style="text-align: center; margin-bottom: 15px;">
+        <label style="font-size: 0.9em;">
+            <input type="checkbox" id="voiceAutoTx" checked>
+            Auto TX/RX
+        </label>
+		
+		<div class="controls-grid" style="margin-bottom: 15px;">
+    <button class="btn btn-secondary" id="voiceExportBtn">EXPORT</button>
+    <button class="btn btn-secondary" id="voiceImportBtn">IMPORT</button>
+    <button class="btn btn-danger" id="voiceClearAllBtn">CLEAR ALL</button>
+    <input type="file" id="voiceImportFile" accept=".json" style="display: none;">
+</div>
+		
+    </div>
+    
+    <!-- Message slots -->
+    <div class="voice-message-slots" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+        <button class="btn voice-msg-btn voice-msg-active" data-slot="1">MSG 1</button>
+        <button class="btn voice-msg-btn" data-slot="2">MSG 2</button>
+        <button class="btn voice-msg-btn" data-slot="3">MSG 3</button>
+        <button class="btn voice-msg-btn" data-slot="4">MSG 4</button>
+        <button class="btn voice-msg-btn" data-slot="5">MSG 5</button>
+        <button class="btn voice-msg-btn" data-slot="6">MSG 6</button>
+        <button class="btn voice-msg-btn" data-slot="7">MSG 7</button>
+        <button class="btn voice-msg-btn" data-slot="8">MSG 8</button>
+    </div>
+    
+    <!-- Instructions -->
+    <div style="margin-top: 15px; font-size: 0.8em; color: #ccc; text-align: center;">
+        <p>1. Select message slot<br>
+        2. Click RECORD and speak<br>
+        3. Click STOP when done<br>
+        4. Click PLAY to transmit</p>
+    </div>
+
+
+
+<div class="panel" id="cwKeyerPanel">
+    <h3>CW Keyer Memory</h3>
+	 <!-- ADD THIS NEW SECTION -->
+    <div style="text-align: center; margin-bottom: 15px; padding: 10px; background: rgba(0,255,136,0.1); border-radius: 8px;">
+        <div class="keyer-mode-toggle">
+            <div class="toggle-switch" id="keyerModeToggle2">
+                <div class="toggle-slider"></div>
+                <span class="toggle-label left">STRAIGHT</span>
+                <span class="toggle-label right">BUG</span>
+            </div>
+        </div>
+        <label style="font-size: 0.8em; margin-top: 8px; display: block;">CW Speed</label>
+        <div class="volume-knob-container" style="margin: 10px auto;">
+            <div class="volume-knob" id="cwSpeedKnob" tabindex="0"></div>
+        </div>
+        <div class="knob-level" id="cwSpeedLevel">22 WPM</div>
+    </div>
+    <!-- END NEW SECTION -->
+    
+    <!-- Current message indicator -->
+    <div id="cwCurrentMessage" style="text-align: center; margin-bottom: 10px; font-weight: bold; color: var(--accent-color);">
+        CW MSG 1 (EMPTY)
+    </div>
+    
+    <!-- Message input -->
+    <div class="control-group" style="margin-bottom: 10px;">
+        <label>Message Text:</label>
+        <input type="text" id="cwMessageInput" placeholder="Enter CW message..." maxlength="80" style="width: 100%; text-transform: uppercase;">
+        <div style="font-size: 0.8em; color: #888; text-align: right;">
+            <span id="cwCharCount">0</span>/80 chars
+        </div>
+    </div>
+    
+    <!-- Control buttons -->
+    <div class="controls-grid" style="margin-bottom: 15px;">
+        <button class="btn btn-secondary" id="cwStore">STORE</button>
+        <button class="btn btn-primary" id="cwSend">SEND</button>
+        <button class="btn btn-secondary" id="cwEdit">EDIT</button>
+        <button class="btn btn-danger" id="cwClear">CLEAR</button>
+    </div>
+    
+    <!-- Keyer status -->
+    <div id="cwKeyerStatus" style="text-align: center; margin-bottom: 10px; font-size: 0.9em; color: #888;">
+        Ready
+    </div>
+    
+    <!-- Message memory slots -->
+    <div class="cw-memory-buttons" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
+        <button class="btn cw-msg-btn cw-msg-active" data-slot="1">CW1</button>
+        <button class="btn cw-msg-btn" data-slot="2">CW2</button>
+        <button class="btn cw-msg-btn" data-slot="3">CW3</button>
+        <button class="btn cw-msg-btn" data-slot="4">CW4</button>
+        <button class="btn cw-msg-btn" data-slot="5">CW5</button>
+        <button class="btn cw-msg-btn" data-slot="6">CW6</button>
+        <button class="btn cw-msg-btn" data-slot="7">CW7</button>
+        <button class="btn cw-msg-btn" data-slot="8">CW8</button>
+    </div>
+    
+    <!-- Management buttons -->
+    <div class="controls-grid" style="margin-top: 10px;">
+        <button class="btn btn-secondary" id="cwExportBtn">EXPORT</button>
+        <button class="btn btn-secondary" id="cwImportBtn">IMPORT</button>
+        <button class="btn btn-danger" id="cwClearAllBtn">CLEAR ALL</button>
+        <input type="file" id="cwImportFile" accept=".json" style="display: none;">
+    </div>
+    
+    <!-- Instructions -->
+    <div style="margin-top: 10px; font-size: 0.8em; color: #ccc; text-align: center;">
+        <p>Enter message, select slot, STORE.<br>
+        Select slot and SEND to transmit.<br>
+		or F1 to F8 or Mouse click to transmit.<br>
+        Max 80 characters per message.</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+		
             <div class="panel" id="qsoLoggerPanel">
                 <h3>QSO Logger (<span id="qsoCount">0</span>)</h3>
                  <div class="qso-inputs-grid">
@@ -1462,12 +1762,6 @@
                         <input type="file" id="importAdifFile" accept=".adi,.adif" style="display: none;">
                         <button class="btn btn-danger" id="clearLogBtn" style="grid-column: 1 / -1;">Clear Log</button>
                     </div>
-					
-					
-					
-					
-					
-					
                 </div>
                  <div class="qso-log-table" style="margin-top:10px;">
                     <div class="log-header">
@@ -1492,7 +1786,6 @@
         <button class="btn btn-danger" id="clearAllBtn" style="grid-column: 1 / -1;">Clear All</button>
     </div>
 				
-				
 				<div class="memory-buttons">
                     <div class="memory-btn" data-channel="1">M1</div> <div class="memory-btn" data-channel="2">M2</div>
                     <div class="memory-btn" data-channel="3">M3</div> <div class="memory-btn" data-channel="4">M4</div>
@@ -1503,7 +1796,7 @@
              </div>
 			 
 			 <!-- Add the memory edit modal -->
-<div class="memory-edit-modal" id="memoryEditModal" style="display: none;">
+<div class="memory-edit-modal" id="memoryEditModal">
     <div class="modal-content">
         <h3>Edit Memory Channel M<span id="editChannelNumber">1</span></h3>
         
@@ -1550,8 +1843,30 @@
         </div>
     </div>
 </div>
-			 
-			 
+
+<div class="memory-edit-modal" id="cwEditModal">
+    <div class="modal-content">
+        <h3>Edit CW Memory Message CW<span id="editCwChannelNumber">1</span></h3>
+        
+        <div class="control-group">
+            <label>Label (Optional)</label>
+            <input type="text" id="cwLabelModalInput" placeholder="e.g., CQ DX, My RST" maxlength="10">
+        </div>
+
+        <div class="control-group">
+            <label>Message Text (Max 80 chars)</label>
+            <textarea id="cwMessageModalInput" rows="3" style="width: 100%; background: #1a252f; color: #ecf0f1; border: 1px solid #4a627a; border-radius: 5px; font-family: 'Courier New', monospace; text-transform: uppercase;" maxlength="80"></textarea>
+            <div style="font-size: 0.8em; color: #888; text-align: right;">
+                <span id="cwModalCharCount">0</span>/80 chars
+            </div>
+        </div>
+        
+        <div class="modal-buttons">
+            <button class="btn btn-primary" id="saveCwEdit">Save</button>
+            <button class="btn btn-secondary" id="cancelCwEdit">Cancel</button>
+        </div>
+    </div>
+</div>
 			 
              <div class="panel" id="controlsPanel">
                 <h3>Controls</h3>
@@ -1563,8 +1878,6 @@
         </div>
         <div class="knob-level" id="volumeLevel">75db</div>
     </div>
-	
-	
 	
     <div class="knob-group">
         <div class="keyer-mode-toggle">
@@ -1591,7 +1904,6 @@
             </div>
             <div id="powerText" style="text-align: center; font-family: 'Courier New', monospace; color: var(--accent-color); margin-top: 5px;">0.0W</div>
         </div>
-
 
 </div>
             </div>
@@ -1637,13 +1949,51 @@
         </div>
     </div>
     
-   
-
-
    <div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Frequency Input Modal -->
+<div class="freq-input-modal" id="freqInputModal">
+    <div class="freq-modal-content">
+        <h3>Direct Frequency Entry</h3>
+        
+        <!-- Format buttons -->
+        <div class="freq-format-buttons">
+            <button class="freq-format-btn active" data-format="mhz">MHz</button>
+            <button class="freq-format-btn" data-format="khz">kHz</button>
+            <button class="freq-format-btn" data-format="hz">Hz</button>
+        </div>
+        
+        <!-- Input field -->
+        <input type="text" id="freqDisplayInput" class="freq-display-input" placeholder="Enter frequency...">
+        <div id="freqError" class="freq-error"></div>
+        
+        <!-- Keypad -->
+        <div class="freq-keypad">
+            <button class="freq-key" data-key="1">1</button>
+            <button class="freq-key" data-key="2">2</button>
+            <button class="freq-key" data-key="3">3</button>
+            <button class="freq-key" data-key="4">4</button>
+            <button class="freq-key" data-key="5">5</button>
+            <button class="freq-key" data-key="6">6</button>
+            <button class="freq-key" data-key="7">7</button>
+            <button class="freq-key" data-key="8">8</button>
+            <button class="freq-key" data-key="9">9</button>
+            <button class="freq-key" data-key="0">0</button>
+            <button class="freq-key" data-key=".">.</button>
+            <button class="freq-key" data-key="backspace">⌫</button>
+        </div>
+        
+        <!-- Action buttons -->
+        <div class="freq-modal-buttons">
+            <button class="btn btn-primary" id="freqSetBtn">Set</button>
+            <button class="btn btn-secondary" id="freqClearBtn">Clear</button>
+            <button class="btn btn-secondary" id="freqCancelBtn">Cancel</button>
+        </div>
+    </div>
 	
 	
- 
+</div>
+
    <script>
 
         class QMXInterface {
@@ -1686,7 +2036,8 @@
                 this.isVolumeAdjusting = false;
                 this.volumeAnimationFrame = null;
                 this.volumeTimeout = null;
-                
+                this.volumeCommandPending = false;
+                this.volumeFeedbackBlock = false;
                 this.rfGainKnobRotation = 0;
                 this.rfGainLevel = 22;
                 this.rfGainLastAngle = 0;
@@ -1705,13 +2056,19 @@
             this.autotuneDebounceTime = 750; 
             this.lastManualFreqSet = 0; // <-- ADD THIS LINE
 			   this.noiseFloorMethod = 'percentile'; // 'statistical', 'percentile', 'adaptive'
-    this.signalThreshold = 15; // How much above noise floor to consider a signal
+    this.signalThreshold = 10; // How much above noise floor to consider a signal
     this.showNoiseFloor = false; // Show yellow line indicating noise floor
     this.adaptiveNoiseHistory = [];
             try {
             //...
 		// Add these after your existing properties
 
+// Add these CW DSP properties:
+this.cwDspEnabled = false;
+this.cwBandwidth = 300; // Current CW bandwidth in Hz
+this.cwDspFilters = []; // Array to hold filter nodes
+this.cwFilterChain = null; // The complete filter chain
+this.cwDspGainNode = null; // Gain compensation node
 
 // Add these audio properties:
 this.audioContext = null;
@@ -1768,6 +2125,11 @@ this.spectrumEnabled = false;
 this.spectrumAnimationFrame = null;
 this.targetPitch = 700;
 this.spectrumBandwidth = 2400;
+this.stepSize = 1;
+this.originalStepSize = 1;  // Store the user-selected step
+
+// Load saved step size
+this.loadStepSize();
 // Add these for the Autotune feature
 this.autotuneEnabled = false;
 this.autotuneScanTimeout = null;
@@ -1775,12 +2137,14 @@ this.updatePowerMeter();
                     this.catLogElement = document.getElementById('catLog');
                     
                     this.loadLayout();
-                    this.loadLastFrequencies(); // NEW: Call new method to load frequencies
+                    this.loadLastFrequencies();
+                    this.loadStepSize();					// NEW: Call new method to load frequencies
                     this.frequency = this.lastFrequencies[this.band]; // NEW: Set initial frequency from saved state
 
                     this.initDraggablePanels();
                     this.initTuningKnob();
                     this.initEventListeners();
+					this.initZoomControls();
                     this.initVolumeControl();
                     this.initRFGainControl();
                     this.initPowerControl();
@@ -1796,6 +2160,11 @@ this.updatePowerMeter();
                     this.initTimeSync();
 					  this.createEffectsSettings();
 					     this.initSoundEffects();
+						 this.initCWKeyer();
+						 this.currentZoom = 1.0;
+this.minZoom = 0.5;
+this.maxZoom = 2.0;
+this.zoomStep = 0.1;
                     window.qmxInterface = this;  
 					setTimeout(() => this.fixVolumeKnobPointers(), 100); 
                     window.addEventListener('blur', () => {
@@ -1810,14 +2179,39 @@ this.updatePowerMeter();
     
     this.initSpectrumDisplay(); // Add this line
 this.initAutotune(); 
+this.initCwDsp(); // Add this line
 this.updatePowerMeter('00');// Add this line
+this.voiceKeyer = {
+    isRecording: false,
+    isPlaying: false,
+    messages: new Array(8).fill(null),
+    currentSlot: 1,
+    mediaRecorder: null,
+    recordedChunks: [],
+    playbackNode: null,
+    recordingStream: null,
+    autoTransmit: true,
+    volumeBeforeRecord: null,
+    volumeBeforePlayback: null  // **ADD THIS LINE**
+};
+this.cwKeyer = {
+    messages: new Array(8).fill(null), // 8 CW message slots
+    currentSlot: 1,
+    isSending: false,
+    sendingMessage: '',
+    bufferStatus: 'KY2', // KY0=<75%, KY1=>75%, KY2=empty
+    isEditing: false // Flag to control editing mode
+};
+// Load saved CW messages
+this.loadCWMessages();
 // ...
+this.loadVoiceMessages();
                 } catch (error) {
                     console.error('Failed to initialize QMX Interface:', error);
                 }
             }
 
-
+ 
 // --- Frequency Input Keyboard ---
 initFrequencyKeyboard() {
     try {
@@ -1858,17 +2252,6 @@ initFrequencyKeyboard() {
             }
         });
         
-        // --- Initialize the PERMANENT panel and its controls (ONCE) ---
-        this.initPermanentFreqInput();
-        
-        // Add listener for the mode toggle dropdown
-        document.getElementById('freqInputMode').addEventListener('change', (e) => {
-            this.setFreqInputMode(e.target.value);
-        });
-        
-        // Set the initial input mode to 'popup'
-        this.setFreqInputMode('popup');
-		
         console.log('Frequency input keyboard initialized');
     } catch (error) {
         console.error('Error initializing frequency keyboard:', error);
@@ -2517,9 +2900,8 @@ parseFrequencyInput(input, format) {
 
             initEventListeners() {
  this.initPanelLockToggle();
-    
+ this.initVoiceKeyer();   
    // document.getElementById('connectBtn').addEventListener('click', async () => {               
-
 
 			   document.getElementById('connectBtn').addEventListener('click', async () => {
                     if (this.connected) {
@@ -2532,7 +2914,32 @@ parseFrequencyInput(input, format) {
                     btn.addEventListener('click', async () => {
                         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
+                        const previousMode = this.mode;
                         this.mode = btn.dataset.mode;
+                        
+                        // Handle CW DSP mode changes
+                        if (this.isAudioStreaming) {
+                            if (this.mode === 'CW' && previousMode !== 'CW') {
+                                // Switched TO CW mode - update DSP status and spectrum
+                                this.updateCwDspStatus();
+                                this.updateSpectrumBandwidth();
+                                if (this.cwDspEnabled) {
+                                    this.enableCwDspProcessing();
+                                }
+                            } else if (this.mode !== 'CW' && previousMode === 'CW') {
+                                // Switched FROM CW mode - disable DSP and restore direct routing
+                                if (this.cwDspEnabled) {
+                                    this.disableCwDspProcessing();
+                                }
+                                this.updateCwDspStatus();
+                                this.updateSpectrumBandwidth();
+                            }
+                        } else {
+                            // Just update status when not streaming
+                            this.updateCwDspStatus();
+                            this.updateSpectrumBandwidth();
+                        }
+                        
                         if (this.connected) {
                             const catMode = btn.dataset.catmode;
                             await this.sendCommand(`MD${catMode}`);
@@ -2558,6 +2965,10 @@ document.getElementById('stepSize').addEventListener('change', (e) => {
     if (!this.isVariableStepActive) {
         this.stepSize = this.originalStepSize;
     }
+    
+    // Save to localStorage
+    this.saveStepSize();
+    
     this.logCAT(`Tuning step set to ${this.originalStepSize} Hz`, 'info');
 });
                 document.getElementById('vfoA').addEventListener('click', async () => {
@@ -2606,14 +3017,6 @@ document.getElementById('vfoB').addEventListener('click', async () => {
 
                 });
                
-
-
-
-
-
-
-
-
 // Modify your VFO copy button click handler to include animation:
 document.getElementById('vfoCopy').addEventListener('click', async () => {
     if (this.connected) {
@@ -2662,12 +3065,6 @@ document.getElementById('vfoCopy').addEventListener('click', async () => {
     }
 });	
 
-
-
-
-
-
-	
 // VFO SWAP with animation - replace your existing vfoSwap event listener with this:
 document.getElementById('vfoSwap').addEventListener('click', async () => {
     if (this.connected) {
@@ -2726,13 +3123,6 @@ document.getElementById('vfoSwap').addEventListener('click', async () => {
         this.logCAT('Cannot swap - radio not connected', 'error');
     }
 });
-               
-
-
-
-
-
-
 
 			   document.getElementById('txBtn').addEventListener('click', async () => {
                     if (this.connected) {
@@ -2754,7 +3144,55 @@ document.getElementById('vfoSwap').addEventListener('click', async () => {
                         this.logCAT('Cannot switch to RX - radio not connected', 'error');
                     }
                 });
-		  }
+		
+
+// This block replaces the previous keydown listener to handle both CW and Voice keyer shortcuts
+
+         // This is the corrected keydown listener for both CW and Voice keyers.
+
+            document.addEventListener('keydown', (e) => {
+                // Check if the key pressed is one of F1 to F8
+                const match = e.key.match(/^F([1-8])$/);
+
+                if (match) {
+                    // Prevent the default browser action for F-keys
+                    e.preventDefault();
+
+                    const slotNumber = parseInt(match[1], 10);
+
+                    // First, check if the Shift key is pressed for the Voice Keyer
+                    if (e.shiftKey) {
+                        // --- VOICE KEYER LOGIC (Shift + F-key) ---
+                        this.logCAT(`Shift+F${slotNumber} detected, attempting to play voice message...`, 'info');
+                        
+                        // Select the appropriate voice message slot
+                        this.selectVoiceMessage(slotNumber);
+                        
+                        // Immediately play the message from the now-selected slot
+                        this.playVoiceMessage();
+                        
+                    } else {
+                        // --- CW KEYER LOGIC (F-key alone) ---
+                        this.logCAT(`F${slotNumber} detected, attempting to send CW message...`, 'info');
+
+                        if (this.connected) {
+                            // Select the appropriate CW message slot
+                            this.selectCWSlot(slotNumber);
+                            
+                            // Immediately send the message from the now-selected slot
+                            this.sendCWMessage();
+                        } else {
+                            this.logCAT(`Cannot send CW message: Radio not connected.`, 'error');
+                        }
+                    }
+                }
+            });
+
+
+
+
+
+		}
 
            setBandFrequency(band) {
     if (this.lastFrequencies[band]) {
@@ -2782,9 +3220,6 @@ document.getElementById('vfoSwap').addEventListener('click', async () => {
     return null; 
 	// Out of amateur bands
 }
-
-
-       
 			
 			selectVFO(vfo) {
     this.currentVFO = vfo;
@@ -3033,8 +3468,6 @@ updateBandButtons() {
     });
 } 
 
-
-
 updateVFOButtons() {
     document.querySelectorAll('#vfoA, #vfoB').forEach(btn => {
         btn.classList.remove('btn-primary');
@@ -3052,22 +3485,6 @@ updateVFOButtons() {
 getVFOCommand() {
     return this.currentVFO === 'B' ? 'FB' : 'FA';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		   updateLocalClock() {
                 const now = new Date();
@@ -3106,8 +3523,6 @@ getVFOCommand() {
                 }, 100);
             }
 
-
-
 updateBandForOutOfBand() {
     const freqMHz = this.frequency / 1000000;
     const detectedBand = this.getBandFromFrequency(freqMHz);
@@ -3121,7 +3536,6 @@ updateBandForOutOfBand() {
         this.logCAT(`Frequency ${freqMHz.toFixed(3)} MHz is outside amateur bands`, 'info');
     }
 }
-
 
 // NEW: Enable keyboard control when hovering over tuning knob
 enableTuningHoverKeys() {
@@ -3203,9 +3617,6 @@ provideTuningKeyFeedback() {
         }
     }, 150);
 }
-
-
-
 
 // ADD these new methods to your QMXInterface class:
 
@@ -3305,7 +3716,6 @@ initKeyerToggle() {
     }
 }
 
-
 // ADD this method to toggle between modes:
 toggleKeyerMode() {
     if (this.keyerMode === 'straight') {
@@ -3315,56 +3725,53 @@ toggleKeyerMode() {
     }
 }
 
-
-// ADD this method to set the keyer mode:
 setKeyerMode(mode) {
     const keyerToggle = document.getElementById('keyerModeToggle');
+    const keyerToggle2 = document.getElementById('keyerModeToggle2');
     const keyerKnobContainer = document.querySelector('.knob-group:has(#rfGainKnob)');
     
     this.keyerMode = mode;
     
     if (mode === 'straight') {
-        // Set to STRAIGHT mode (0 WPM)
-        keyerToggle.classList.remove('bug');
+        keyerToggle?.classList.remove('bug');
+        keyerToggle2?.classList.remove('bug');
         if (keyerKnobContainer) {
             keyerKnobContainer.classList.add('keyer-straight');
         }
         
-        // Set keyer speed to 0 (STRAIGHT)
         this.rfGainLevel = 0;
         this.rfGainKnobRotation = this.minRotation;
-        document.getElementById('rfGainKnob').style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+       document.getElementById('cwSpeedKnob')?.setAttribute('style', `transform: rotate(${this.rfGainKnobRotation}deg)`);
+document.getElementById('rfGainKnob')?.setAttribute('style', `transform: rotate(${this.rfGainKnobRotation}deg)`);
         this.updateRFGainLevel();
         
         this.logCAT('Keyer mode: STRAIGHT KEY', 'info');
         
     } else if (mode === 'bug') {
-        // Set to BUG mode (22 WPM)
-        keyerToggle.classList.add('bug');
+        keyerToggle?.classList.add('bug');
+        keyerToggle2?.classList.add('bug');
         if (keyerKnobContainer) {
             keyerKnobContainer.classList.remove('keyer-straight');
         }
         
-        // Set keyer speed to 22 WPM
-        this.rfGainLevel = (this.bugWpmSetting / 50) * 100;  // Convert 22 WPM to percentage
+        this.rfGainLevel = (this.bugWpmSetting / 50) * 100;
         this.rfGainKnobRotation = this.minRotation + (this.rfGainLevel / 100) * this.totalRotationRange;
-        document.getElementById('rfGainKnob').style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+       const rfGainKnob = document.getElementById('rfGainKnob');
+if (rfGainKnob) {
+    rfGainKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+}
+
+const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+if (cwSpeedKnob) {
+    cwSpeedKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+}
         this.updateRFGainLevel();
         
         this.logCAT(`Keyer mode: BUG (${this.bugWpmSetting} WPM)`, 'info');
     }
     
-    // Send the command to the radio
     this.sendRFGainCommand();
- }
- 
- 
-
-
- 
-
-
-
+}
             // --- Frequency & Layout Management ---
             loadLastFrequencies() {
                 const savedFrequencies = localStorage.getItem('qmxLastFrequencies');
@@ -3389,12 +3796,6 @@ setKeyerMode(mode) {
                     localStorage.setItem('qmxLastFrequencies', JSON.stringify(this.lastFrequencies));
                 }, 1000); // Save 1 second after tuning stops
             }
-            
-           
-           
-
-
-//---------------------------------------------------------------------------
 
 // REPLACE the existing initDraggablePanels method with this:
 initDraggablePanels() {
@@ -3427,7 +3828,6 @@ initDraggablePanels() {
         this.sortableInstances = [];
     }
 }
-
 
 // ADD these new methods:
 initPanelLockToggle() {
@@ -3498,26 +3898,6 @@ updatePanelLockUI() {
         toggleBtn.title = 'Click to lock panels in place';
     }
 }
-//-------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		   saveLayout() {
                 const layout = {
@@ -3555,8 +3935,6 @@ updatePanelLockUI() {
                     }
                 }
             }
-            
-            // --- The rest of the methods ---
 
             // --- QSO Logger ---
             initQsoLogger() {
@@ -3836,6 +4214,378 @@ updatePanelLockUI() {
                 return qsos;
             }
 
+// ============ CW DSP FILTERING SYSTEM ============
+
+initCwDsp() {
+    try {
+        console.log('Initializing CW DSP filtering system...');
+        
+        // Set up event listeners for DSP controls
+        const cwBandwidthSelect = document.getElementById('cwBandwidth');
+        const enableCwDspCheckbox = document.getElementById('enableCwDsp');
+        const cwDspStatus = document.getElementById('cwDspStatus');
+        
+        if (!cwBandwidthSelect || !enableCwDspCheckbox || !cwDspStatus) {
+            console.error('CW DSP UI elements not found!');
+            return;
+        }
+        
+        // Bandwidth selector
+        cwBandwidthSelect.addEventListener('change', (e) => {
+            this.cwBandwidth = parseInt(e.target.value);
+            if (this.cwDspEnabled && this.isAudioStreaming) {
+                this.updateCwDspFilters();
+                this.updateSpectrumBandwidth();
+            }
+            this.updateCwDspStatus();
+            this.logCAT(`CW DSP bandwidth: ${this.cwBandwidth} Hz`, 'info');
+        });
+        
+        // Enable/disable checkbox
+        enableCwDspCheckbox.addEventListener('change', (e) => {
+            this.cwDspEnabled = e.target.checked;
+            if (this.isAudioStreaming) {
+                if (this.cwDspEnabled) {
+                    this.enableCwDspProcessing();
+                } else {
+                    this.disableCwDspProcessing();
+                }
+            }
+            this.updateCwDspStatus();
+            this.updateSpectrumBandwidth();
+        });
+        
+        // Initialize UI state
+        this.updateCwDspStatus();
+        
+        this.logCAT('CW DSP filtering system ready', 'info');
+        
+    } catch (error) {
+        console.error('Error initializing CW DSP:', error);
+        this.logCAT(`CW DSP init error: ${error.message}`, 'error');
+    }
+}
+
+createCwDspFilterChain() {
+    if (!this.audioContext) {
+        console.error('Audio context not available for DSP filters');
+        return null;
+    }
+    
+    try {
+        // Clear existing filters
+        this.cwDspFilters = [];
+        
+        // Calculate filter parameters
+        const centerFreq = this.targetPitch;
+        const bandwidth = this.cwBandwidth;
+        const lowCutoff = centerFreq - (bandwidth / 2);
+        const highCutoff = centerFreq + (bandwidth / 2);
+        
+        // Ensure reasonable frequency bounds
+        const finalLowCutoff = Math.max(50, lowCutoff);
+        const finalHighCutoff = Math.min(this.audioContext.sampleRate / 2 - 100, highCutoff);
+        
+        console.log(`Creating CW DSP filters: ${finalLowCutoff.toFixed(1)} - ${finalHighCutoff.toFixed(1)} Hz`);
+        
+        // Create multiple filter stages for steep rolloff without ringing
+        const filterStages = this.calculateFilterStages(bandwidth);
+        
+        // Stage 1: High-pass filter (removes low frequency noise)
+        const highpass1 = this.audioContext.createBiquadFilter();
+        highpass1.type = 'highpass';
+        highpass1.frequency.value = finalLowCutoff;
+        highpass1.Q.value = 0.7071; // Butterworth response (minimal ringing)
+        this.cwDspFilters.push(highpass1);
+        
+        // Stage 2: Low-pass filter (removes high frequency noise)
+        const lowpass1 = this.audioContext.createBiquadFilter();
+        lowpass1.type = 'lowpass';
+        lowpass1.frequency.value = finalHighCutoff;
+        lowpass1.Q.value = 0.7071; // Butterworth response
+        this.cwDspFilters.push(lowpass1);
+        
+        // For very narrow bandwidths, add additional filter stages
+        if (bandwidth <= 100) {
+            // Stage 3: Additional high-pass for steeper rolloff
+            const highpass2 = this.audioContext.createBiquadFilter();
+            highpass2.type = 'highpass';
+            highpass2.frequency.value = finalLowCutoff + 5;
+            highpass2.Q.value = 0.5; // Even gentler for narrow bandwidth
+            this.cwDspFilters.push(highpass2);
+            
+            // Stage 4: Additional low-pass for steeper rolloff
+            const lowpass2 = this.audioContext.createBiquadFilter();
+            lowpass2.type = 'lowpass';
+            lowpass2.frequency.value = finalHighCutoff - 5;
+            lowpass2.Q.value = 0.5;
+            this.cwDspFilters.push(lowpass2);
+        }
+        
+        if (bandwidth <= 75) {
+            // Stage 5: Bandpass filter for very narrow filtering
+            const bandpass = this.audioContext.createBiquadFilter();
+            bandpass.type = 'bandpass';
+            bandpass.frequency.value = centerFreq;
+            bandpass.Q.value = centerFreq / bandwidth * 0.8; // Conservative Q to avoid ringing
+            this.cwDspFilters.push(bandpass);
+        }
+        
+        // Gain compensation (narrow filters reduce signal level)
+        this.cwDspGainNode = this.audioContext.createGain();
+        const gainCompensation = this.calculateGainCompensation(bandwidth);
+        this.cwDspGainNode.gain.value = gainCompensation;
+        
+        console.log(`Created ${this.cwDspFilters.length} DSP filter stages with ${gainCompensation.toFixed(2)}x gain compensation`);
+        
+        return true;
+        
+    } catch (error) {
+        console.error('Error creating CW DSP filter chain:', error);
+        return false;
+    }
+}
+
+calculateFilterStages(bandwidth) {
+    // Determine number of filter stages based on bandwidth
+    if (bandwidth >= 200) return 2;      // Basic filtering
+    if (bandwidth >= 100) return 4;      // Moderate filtering  
+    if (bandwidth >= 75) return 5;       // Aggressive filtering
+    return 6;                            // Maximum filtering for 50Hz
+}
+
+calculateGainCompensation(bandwidth) {
+    // Compensate for signal loss due to narrow filtering
+    // More narrow = more gain needed
+    if (bandwidth >= 200) return 1.0;
+    if (bandwidth >= 150) return 1.1;
+    if (bandwidth >= 100) return 1.3;
+    if (bandwidth >= 75) return 1.5;
+    return 1.8; // 50Hz needs significant compensation
+}
+
+connectCwDspFilterChain(inputNode, outputNode) {
+    if (!this.cwDspFilters.length || !this.cwDspGainNode) {
+        console.error('DSP filter chain not created');
+        return false;
+    }
+    
+    try {
+        let currentNode = inputNode;
+        
+        // Connect all filter stages in series
+        for (let i = 0; i < this.cwDspFilters.length; i++) {
+            currentNode.connect(this.cwDspFilters[i]);
+            currentNode = this.cwDspFilters[i];
+        }
+        
+        // Connect gain compensation
+        currentNode.connect(this.cwDspGainNode);
+        
+        // Connect to final output (speakers)
+        this.cwDspGainNode.connect(outputNode);
+        
+        console.log('CW DSP filter chain connected successfully');
+        return true;
+        
+    } catch (error) {
+        console.error('Error connecting CW DSP filter chain:', error);
+        return false;
+    }
+}
+
+disconnectCwDspFilterChain() {
+    try {
+        // Disconnect all filter nodes
+        this.cwDspFilters.forEach(filter => {
+            filter.disconnect();
+        });
+        
+        if (this.cwDspGainNode) {
+            this.cwDspGainNode.disconnect();
+        }
+        
+        console.log('CW DSP filter chain disconnected');
+        
+    } catch (error) {
+        console.error('Error disconnecting CW DSP filters:', error);
+    }
+}
+
+enableCwDspProcessing() {
+    if (!this.isAudioStreaming || !this.audioContext) {
+        console.log('Cannot enable CW DSP - audio not streaming');
+        return;
+    }
+    
+    // Only enable for CW mode
+    if (this.mode !== 'CW') {
+        this.logCAT('CW DSP: Only available in CW mode', 'error');
+        document.getElementById('enableCwDsp').checked = false;
+        this.cwDspEnabled = false;
+        this.updateCwDspStatus();
+        return;
+    }
+    
+    try {
+        // Disconnect existing audio routing
+        this.disconnectAudioRouting();
+        
+        // Create new DSP filter chain
+        if (!this.createCwDspFilterChain()) {
+            throw new Error('Failed to create DSP filter chain');
+        }
+        
+        // Reconnect with DSP filters in the chain
+        this.connectAudioRoutingWithDsp();
+        
+        this.logCAT(`CW DSP enabled: ${this.cwBandwidth} Hz bandwidth`, 'info');
+        
+    } catch (error) {
+        console.error('Error enabling CW DSP:', error);
+        this.logCAT(`CW DSP enable error: ${error.message}`, 'error');
+        this.cwDspEnabled = false;
+        document.getElementById('enableCwDsp').checked = false;
+        this.updateCwDspStatus();
+    }
+}
+
+disableCwDspProcessing() {
+    try {
+        // Disconnect DSP filter chain
+        this.disconnectCwDspFilterChain();
+        
+        // Reconnect direct audio routing
+        this.connectDirectAudioRouting();
+        
+        this.logCAT('CW DSP disabled - direct audio routing restored', 'info');
+        
+    } catch (error) {
+        console.error('Error disabling CW DSP:', error);
+        this.logCAT(`CW DSP disable error: ${error.message}`, 'error');
+    }
+}
+
+updateCwDspFilters() {
+    if (!this.cwDspEnabled || !this.isAudioStreaming) return;
+    
+    try {
+        // Smoothly update filter parameters to avoid audio artifacts
+        const centerFreq = this.targetPitch;
+        const bandwidth = this.cwBandwidth;
+        const lowCutoff = Math.max(50, centerFreq - (bandwidth / 2));
+        const highCutoff = Math.min(this.audioContext.sampleRate / 2 - 100, centerFreq + (bandwidth / 2));
+        
+        // Update filter frequencies with smooth transitions (100ms ramp)
+        const rampTime = this.audioContext.currentTime + 0.1;
+        
+        this.cwDspFilters.forEach((filter, index) => {
+            if (filter.type === 'highpass') {
+                const freq = index === 0 ? lowCutoff : lowCutoff + 5;
+                filter.frequency.linearRampToValueAtTime(freq, rampTime);
+            } else if (filter.type === 'lowpass') {
+                const freq = index === 1 ? highCutoff : highCutoff - 5;
+                filter.frequency.linearRampToValueAtTime(freq, rampTime);
+            } else if (filter.type === 'bandpass') {
+                filter.frequency.linearRampToValueAtTime(centerFreq, rampTime);
+                filter.Q.value = centerFreq / bandwidth * 0.8;
+            }
+        });
+        
+        // Update gain compensation
+        if (this.cwDspGainNode) {
+            const newGain = this.calculateGainCompensation(bandwidth);
+            this.cwDspGainNode.gain.linearRampToValueAtTime(newGain, rampTime);
+        }
+        
+        console.log(`CW DSP filters updated: ${lowCutoff.toFixed(1)} - ${highCutoff.toFixed(1)} Hz`);
+        
+    } catch (error) {
+        console.error('Error updating CW DSP filters:', error);
+    }
+}
+
+disconnectAudioRouting() {
+    try {
+        if (this.inputSource) this.inputSource.disconnect();
+        if (this.gainNode) this.gainNode.disconnect();
+        if (this.inputAnalyser) this.inputAnalyser.disconnect();
+    } catch (error) {
+        console.error('Error disconnecting audio routing:', error);
+    }
+}
+
+connectAudioRoutingWithDsp() {
+    try {
+        // Disconnect any existing connections first
+        this.disconnectAudioRouting();
+        
+        // Route: Input -> Main Gain -> DSP Filters -> Speakers
+        //                          \-> Analyser (unfiltered for spectrum)
+        
+        // Connect input to main gain
+        this.inputSource.connect(this.gainNode);
+        
+        // Connect main gain to spectrum analyser (unfiltered view)
+        this.gainNode.connect(this.inputAnalyser);
+        
+        // Connect DSP chain: gainNode -> filters -> speakers
+        this.connectCwDspFilterChain(this.gainNode, this.audioContext.destination);
+        
+        console.log('Audio routing connected with CW DSP processing');
+        console.log('Spectrum shows unfiltered signal, speakers get filtered audio');
+        
+    } catch (error) {
+        console.error('Error connecting audio routing with DSP:', error);
+        throw error;
+    }
+}
+
+connectDirectAudioRouting() {
+    try {
+        // Route: Input -> Main Gain -> Analyser -> Output (no DSP)
+        this.inputSource.connect(this.gainNode);
+        this.gainNode.connect(this.inputAnalyser);
+        this.gainNode.connect(this.audioContext.destination);
+        
+        console.log('Direct audio routing connected (no DSP)');
+        
+    } catch (error) {
+        console.error('Error connecting direct audio routing:', error);
+        throw error;
+    }
+}
+
+updateCwDspStatus() {
+    const statusElement = document.getElementById('cwDspStatus');
+    if (!statusElement) return;
+    
+    if (this.cwDspEnabled && this.mode === 'CW') {
+        statusElement.textContent = `DSP Filter: ${this.cwBandwidth} Hz`;
+        statusElement.style.color = 'var(--accent-color)';
+    } else if (this.mode !== 'CW') {
+        statusElement.textContent = 'DSP Filter: CW Mode Only';
+        statusElement.style.color = '#ff9500';
+    } else {
+        statusElement.textContent = 'DSP Filter: OFF';
+        statusElement.style.color = '#888';
+    }
+}
+
+updateSpectrumBandwidth() {
+    // Update spectrum display bandwidth based on DSP state
+    if (this.cwDspEnabled && this.mode === 'CW') {
+        // Show narrower spectrum view when DSP is active
+        this.spectrumBandwidth = Math.max(this.cwBandwidth * 3, 500); // At least 3x filter bandwidth
+    } else if (this.mode === 'CW') {
+        this.spectrumBandwidth = 1200; // Standard CW spectrum view
+    } else {
+        this.spectrumBandwidth = 2400; // Standard SSB spectrum view
+    }
+    
+    console.log(`Spectrum bandwidth updated: ${this.spectrumBandwidth} Hz`);
+}
+
             initVolumeControl() {
                 try {
                     const volumeKnob = document.getElementById('volumeKnob');
@@ -3970,51 +4720,71 @@ updatePanelLockUI() {
                 document.getElementById('volumeKnob').setAttribute('aria-valuenow', this.volumeLevel);
             }
 
-            sendVolumeDynamically() {
-                if (this.volumeTimeout) {
-                    clearTimeout(this.volumeTimeout);
-                }
-                this.volumeTimeout = setTimeout(() => {
-                    if (this.connected && this.port && this.writer) {
-                        const scaledVolume = this.volumeToCAT(this.volumeLevel);
-                        
-                        this.sendCommand(`AG${scaledVolume.toString().padStart(3, '0')}`).catch(e => {
-                            console.error("Volume update error:", e);
-                        });
-                    }
-                    this.volumeTimeout = null;
-                }, 50);
-            }
+        // Replace the existing sendVolumeDynamically method
+sendVolumeDynamically() {
+    if (this.volumeTimeout) {
+        clearTimeout(this.volumeTimeout);
+    }
+    // Increased timeout to prevent rapid fire commands
+    this.volumeTimeout = setTimeout(() => {
+        if (this.connected && this.port && this.writer && !this.volumeCommandPending) {
+            this.volumeCommandPending = true; // Prevent multiple simultaneous commands
+            const scaledVolume = this.volumeToCAT(this.volumeLevel);
+            
+            this.sendCommand(`AG${scaledVolume.toString().padStart(3, '0')}`).then(() => {
+                // Add delay before allowing next command
+                setTimeout(() => {
+                    this.volumeCommandPending = false;
+                }, 100);
+            }).catch(e => {
+                console.error("Volume update error:", e);
+                this.volumeCommandPending = false;
+            });
+        }
+        this.volumeTimeout = null;
+    }, 150); // Increased from 50ms to 150ms
+}
 
-            async sendVolumeCommand() {
-                if (!this.connected || !this.port || !this.writer) return;
-                try {
-                    const scaledVolume = this.volumeToCAT(this.volumeLevel);
-                    await this.sendCommand(`AG${scaledVolume.toString().padStart(3, '0')}`);
-                    this.logCAT(`Volume set to ${this.volumeLevel}%`, 'info');
-                } catch (e) {
-                    this.logCAT(`Volume command error: ${e.message}`, 'error');
-                }
-            }
+        async sendVolumeCommand() {
+    if (!this.connected || !this.port || !this.writer || this.volumeCommandPending) return;
+    try {
+        this.volumeCommandPending = true;
+        const scaledVolume = this.volumeToCAT(this.volumeLevel);
+        await this.sendCommand(`AG${scaledVolume.toString().padStart(3, '0')}`);
+        this.logCAT(`Volume set to ${this.volumeLevel}%`, 'info');
+        
+        // Prevent feedback for a short time
+        this.volumeFeedbackBlock = true;
+        setTimeout(() => {
+            this.volumeFeedbackBlock = false;
+            this.volumeCommandPending = false;
+        }, 200);
+    } catch (e) {
+        this.logCAT(`Volume command error: ${e.message}`, 'error');
+        this.volumeCommandPending = false;
+    }
+}
 
-            volumeToCAT(volumePercent) {
-                if (volumePercent <= 0) return 0;
-                if (volumePercent >= 100) return 255;
-                
-                const normalizedInput = volumePercent / 100;
-                const logScaled = (Math.pow(10, normalizedInput * 2) - 1) / 99;
-                return Math.round(logScaled * 255);
-            }
+          // Improved volume conversion with better accuracy
+volumeToCAT(volumePercent) {
+    if (volumePercent <= 0) return 0;
+    if (volumePercent >= 100) return 255;
+    
+    // Use a more accurate logarithmic scaling
+    const normalizedInput = volumePercent / 100;
+    const logScaled = Math.pow(normalizedInput, 1.5) * 255;
+    return Math.round(Math.max(0, Math.min(255, logScaled)));
+}
 
-            catToVolume(catValue) {
-                if (catValue <= 0) return 0;
-                if (catValue >= 255) return 100;
-                
-                const normalized = catValue / 255;
-                const linearValue = (normalized * 99 + 1);
-                const volumePercent = (Math.log10(linearValue) / 2) * 100;
-                return Math.round(Math.max(0, Math.min(100, volumePercent)));
-            }
+// Improved reverse conversion
+catToVolume(catValue) {
+    if (catValue <= 0) return 0;
+    if (catValue >= 255) return 100;
+    
+    const normalized = catValue / 255;
+    const volumePercent = Math.pow(normalized, 1/1.5) * 100;
+    return Math.round(Math.max(0, Math.min(100, volumePercent)));
+}
 
     // Add this line at the end of initRFGainControl():
 initRFGainControl() {
@@ -4033,8 +4803,13 @@ initRFGainControl() {
         rfGainKnob.setAttribute('aria-valuenow', this.rfGainLevel);
         
         // NEW: Add hover keyboard control
-        rfGainKnob.addEventListener('mouseenter', () => this.enableKnobHoverKeys('rfgain'));
-        rfGainKnob.addEventListener('mouseleave', () => this.disableKnobHoverKeys());
+       // Add hover keyboard control for CW speed
+rfGainKnob.addEventListener('mouseenter', () => {
+    this.enableCWSpeedHoverKeys();
+});
+rfGainKnob.addEventListener('mouseleave', () => {
+    this.disableCWSpeedHoverKeys();
+});
         
         // Initialize the keyer toggle
         this.initKeyerToggle();
@@ -4194,8 +4969,10 @@ updateRFGainLevel() {
         rfGainLevelEl.style.color = '#00ff88';
     }
     document.getElementById('rfGainKnob').setAttribute('aria-valuenow', cwSpeed);
+    
+    // Update clone knob
+    this.updateCWSpeedCloneUI();
 }
-
            sendRFGainDynamically() {
     if (this.rfGainTimeout) {
         clearTimeout(this.rfGainTimeout);
@@ -4406,8 +5183,7 @@ updateRFGainLevel() {
                     this.logCAT(`Power command error: ${e.message}`, 'error');
                 }
             }
-
-           initTuningKnob() {
+			 initTuningKnob() {
     try {
         const tuningKnob = document.getElementById('tuningKnob');
         this.createFrequencyMarkings();
@@ -4942,12 +5718,17 @@ setBandFrequency(band) {
             } else if (response.startsWith('LC')) {
                 let lcdData = response.substring(2).padEnd(32, ' ');
                 this.updateLcdDisplay(lcdData.substring(0, 16), lcdData.substring(16, 32));
-            } else if (response.startsWith('AG')) {
-                const gain = parseInt(response.substring(2));
-                if (!isNaN(gain) && !this.isVolumeAdjusting) {
-                    this.volumeLevel = this.catToVolume(gain);
-                    this.updateVolumeUI();
-                }
+          } else if (response.startsWith('AG')) {
+    const gain = parseInt(response.substring(2));
+    if (!isNaN(gain) && !this.isVolumeAdjusting && !this.volumeFeedbackBlock) {
+        const newVolumeLevel = this.catToVolume(gain);
+        // Only update if significantly different (reduces jitter)
+        if (Math.abs(newVolumeLevel - this.volumeLevel) > 2) {
+            this.volumeLevel = newVolumeLevel;
+            this.updateVolumeUI();
+        }
+    }
+
             } else if (response.startsWith('FA')) {
                 const freq = parseInt(response.substring(2));
                 if (!isNaN(freq) && freq > 0 && !this.isTuningAdjusting && this.currentVFO === 'A') {
@@ -4987,7 +5768,7 @@ setBandFrequency(band) {
 	if (!isNaN(powerTenths)) {
         // Update the power meter display
         this.updatePowerMeter(powerTenths);
-		console.log('Powermeter working');
+		//console.log('Powermeter working');
     }
 
             } else if (response.startsWith('MD')) {
@@ -5022,7 +5803,43 @@ setBandFrequency(band) {
                     this.ritOffset = response.startsWith('RD') ? -offsetValue : offsetValue;
                     this.updateRITUI();
                 }
-            }
+           
+			
+			
+			
+			// Add this to your processResponse() method
+} else if (response.startsWith('KY')) {
+    const status = response.trim();
+    this.cwKeyer.bufferStatus = status;
+    
+    if (status === 'KY2') {
+        // Buffer empty - transmission complete
+        if (this.cwKeyer.isSending) {
+            this.cwKeyer.isSending = false;
+            this.cwKeyer.sendingMessage = '';
+            this.updateCWKeyerUI();
+            this.logCAT('CW transmission completed', 'info');
+        }
+    } else if (status === 'KY0') {
+        // Buffer <75% full
+        document.getElementById('cwKeyerStatus').textContent = 'Sending... (buffer <75%)';
+    } else if (status === 'KY1') {
+        // Buffer >75% full
+        document.getElementById('cwKeyerStatus').textContent = 'Sending... (buffer >75%)';
+    } else if (status === '?') {
+        // Buffer overflow
+        this.cwKeyer.isSending = false;
+        this.updateCWKeyerUI();
+        this.logCAT('CW buffer overflow - message cancelled', 'error');
+    }
+			
+	 }		
+		
+			
+			
+			
+			
+			
         } // This is the single, correct closing brace for the function
 
 //----------------------------------------------------------
@@ -6005,6 +6822,11 @@ updateStreamingButtons() {
     }
 }
 
+
+
+
+
+
 toggleInputMute() {
     // Implementation for input mute
     this.logCAT('Input mute toggled', 'info');
@@ -6676,8 +7498,13 @@ createEffectsSettings() {
                     <input type="checkbox" id="animationsToggle" checked>
                     Animations
                 </label>
-            </div>
-        </div>
+            
+			
+			
+			</div>
+        
+		
+		</div>
     `;
     
     // Add to right panel
@@ -6916,7 +7743,7 @@ calculateNoiseFloor(frequencyData, relevantBins) {
         const sortedData = Array.from(frequencyData.slice(0, relevantBins)).sort((a, b) => a - b);
         const percentileIndex = Math.floor(sortedData.length * 0.85);
         const noiseFloor = sortedData[percentileIndex];
-		console.log('Method 2:',this.noiseFloorMethod);
+		//console.log('Method 2:',this.noiseFloorMethod);
         return noiseFloor + this.signalThreshold;
     }
     
@@ -6924,7 +7751,7 @@ calculateNoiseFloor(frequencyData, relevantBins) {
   
   // Method 3: Adaptive threshold
   if (this.noiseFloorMethod === 'adaptive') {
-  console.log('Method 3');
+  //console.log('Method 3');
         // Track noise floor over time
         if (!this.adaptiveNoiseHistory) {
             this.adaptiveNoiseHistory = [];
@@ -7216,31 +8043,1680 @@ updatePowerMeter(powerTenths) {
 
 
 
+// Add this method to initialize the voice keyer
+initVoiceKeyer() {
+    try {
+        console.log('Initializing Voice Keyer...');
+        
+        // Add event listeners for voice keyer controls
+        document.getElementById('voiceKeyerRecord').addEventListener('click', () => {
+            this.toggleVoiceRecording();
+        });
+        
+        document.getElementById('voiceKeyerPlay').addEventListener('click', () => {
+            this.playVoiceMessage();
+        });
+        
+        document.getElementById('voiceKeyerStop').addEventListener('click', () => {
+            this.stopVoiceKeyer();
+        });
+        
+        document.getElementById('voiceKeyerClear').addEventListener('click', () => {
+            this.clearVoiceMessage();
+        });
+        
+        // Message slot buttons
+        document.querySelectorAll('.voice-msg-btn').forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                this.selectVoiceMessage(index + 1);
+            });
+        });
+        
+        // Auto-transmit checkbox
+        document.getElementById('voiceAutoTx').addEventListener('change', (e) => {
+            this.voiceKeyer.autoTransmit = e.target.checked;
+			localStorage.setItem('qmxVoiceAutoTx', e.target.checked.toString());
+        });
+        
+        this.updateVoiceKeyerUI();
+        this.logCAT('Voice Keyer initialized', 'info');
+		
+		// Management buttons
+document.getElementById('voiceExportBtn').addEventListener('click', () => {
+    this.exportVoiceMessages();
+});
+
+document.getElementById('voiceImportBtn').addEventListener('click', () => {
+    document.getElementById('voiceImportFile').click();
+});
+
+document.getElementById('voiceImportFile').addEventListener('change', (e) => {
+    this.importVoiceMessages(e);
+});
+
+document.getElementById('voiceClearAllBtn').addEventListener('click', () => {
+    this.clearAllVoiceMessages();
+});
+        
+    } catch (error) {
+        console.error('Error initializing voice keyer:', error);
+        this.logCAT(`Voice keyer init error: ${error.message}`, 'error');
+    }
+}
+
+async toggleVoiceRecording() {
+    if (this.voiceKeyer.isRecording) {
+        await this.stopVoiceRecording();
+    } else {
+        await this.startVoiceRecording();
+    }
+}
+
+async startVoiceRecording() {
+    try {
+	
+	     
+         this.voiceKeyer.volumeBeforeRecord = this.volumeLevel;
+        this.volumeLevel = 0;
+        this.updateVolumeUI();
+        
+        // Send volume command to radio if connected
+        if (this.connected) {
+            await this.sendVolumeCommand();
+        }
+        
+        this.logCAT('Volume set to 0 for clean recording', 'info');
+
+
+
+
+		 // Auto-pause audio streaming to prevent interference
+        if (this.isAudioStreaming) {
+            this.wasStreamingBeforeRecord = true;
+            await this.stopAudioStream();
+            this.logCAT('Audio streaming paused for clean recording', 'info');
+        } else {
+            this.wasStreamingBeforeRecord = false;
+        }
+        
+        if (!this.selectedInputDevice) {
+            this.logCAT('Select an input device first', 'error');
+            return;
+        }
+        
+        this.logCAT(`Recording message ${this.voiceKeyer.currentSlot}...`, 'info');
+        
+        // Get microphone stream with same settings as audio streaming
+        let audioConstraints = {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false,
+            sampleRate: 48000
+        };
+        
+        if (this.selectedInputDevice !== 'default') {
+            audioConstraints.deviceId = { exact: this.selectedInputDevice };
+        }
+        
+        this.voiceKeyer.recordingStream = await navigator.mediaDevices.getUserMedia({
+            audio: audioConstraints
+        });
+        
+        // Create MediaRecorder
+        const options = {
+            mimeType: 'audio/webm;codecs=opus',
+            audioBitsPerSecond: 64000 // Good quality for voice
+        };
+        
+        this.voiceKeyer.mediaRecorder = new MediaRecorder(this.voiceKeyer.recordingStream, options);
+        this.voiceKeyer.recordedChunks = [];
+        
+        this.voiceKeyer.mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                this.voiceKeyer.recordedChunks.push(event.data);
+            }
+        };
+        
+        this.voiceKeyer.mediaRecorder.onstop = () => {
+            this.finishVoiceRecording();
+        };
+        
+        // Start recording
+        this.voiceKeyer.mediaRecorder.start(100); // Collect data every 100ms
+        this.voiceKeyer.isRecording = true;
+        this.updateVoiceKeyerUI();
+        
+    } catch (error) {
+        console.error('Voice recording start error:', error);
+        this.logCAT(`Recording error: ${error.message}`, 'error');
+    }
+}
+
+async stopVoiceRecording() {
+    if (this.voiceKeyer.mediaRecorder && this.voiceKeyer.isRecording) {
+        this.voiceKeyer.mediaRecorder.stop();
+        this.voiceKeyer.isRecording = false;
+        
+        // Stop recording stream
+        if (this.voiceKeyer.recordingStream) {
+            this.voiceKeyer.recordingStream.getTracks().forEach(track => track.stop());
+            this.voiceKeyer.recordingStream = null;
+        }
+        
+        // Restore original volume
+        if (this.voiceKeyer.volumeBeforeRecord !== null) {
+            this.volumeLevel = this.voiceKeyer.volumeBeforeRecord;
+            this.updateVolumeUI();
+            
+            // Send restored volume to radio if connected
+            if (this.connected) {
+                await this.sendVolumeCommand();
+            }
+            
+            this.logCAT(`Volume restored to ${this.volumeLevel}%`, 'info');
+            this.voiceKeyer.volumeBeforeRecord = null;
+        }
+        
+        // Auto-resume audio streaming if it was running before
+        if (this.wasStreamingBeforeRecord) {
+            setTimeout(async () => {
+                await this.startAudioStream();
+                this.logCAT('Audio streaming resumed after recording', 'info');
+            }, 500);
+        }
+        
+        this.updateVoiceKeyerUI();
+    }
+}
+
+finishVoiceRecording() {
+    try {
+        // Create blob from recorded chunks
+        const blob = new Blob(this.voiceKeyer.recordedChunks, {
+            type: 'audio/webm;codecs=opus'
+        });
+        
+        // Store in current slot
+        this.voiceKeyer.messages[this.voiceKeyer.currentSlot - 1] = {
+            blob: blob,
+            duration: 0, // Will be calculated when playing
+            recorded: new Date().toISOString()
+        };
+        this.saveVoiceMessages();
+        this.logCAT(`Message ${this.voiceKeyer.currentSlot} recorded (${(blob.size/1024).toFixed(1)} KB)`, 'info');
+        this.updateVoiceKeyerUI();
+        
+    } catch (error) {
+        console.error('Error finishing recording:', error);
+        this.logCAT(`Recording finish error: ${error.message}`, 'error');
+    }
+}
+
+async playVoiceMessage() {
+    try {
+        const message = this.voiceKeyer.messages[this.voiceKeyer.currentSlot - 1];
+        if (!message) {
+            this.logCAT(`Message slot ${this.voiceKeyer.currentSlot} is empty`, 'error');
+            return;
+        }
+        
+        if (this.voiceKeyer.isPlaying) {
+            this.logCAT('Already playing a message', 'error');
+            return;
+        }
+        
+        // **NEW: Save current volume and mute before transmission**
+        this.voiceKeyer.volumeBeforePlayback = this.volumeLevel;
+        this.volumeLevel = 0;
+        this.updateVolumeUI();
+        
+        // Send volume command to radio if connected
+        if (this.connected) {
+            await this.sendVolumeCommand();
+        }
+        
+        this.logCAT('Volume muted for transmission', 'info');
+        
+        // Auto-transmit if enabled and connected
+        if (this.voiceKeyer.autoTransmit && this.connected) {
+            await this.sendCommand('TX');
+            this.transmitting = true;
+            this.updateTXStatus();
+            
+            // Small delay to ensure TX is active
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        this.logCAT(`Playing message ${this.voiceKeyer.currentSlot}...`, 'info');
+        
+        // Create audio context if needed
+        if (!this.audioContext) {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        // Convert blob to array buffer
+        const arrayBuffer = await message.blob.arrayBuffer();
+        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+        
+        // Create audio source
+        this.voiceKeyer.playbackNode = this.audioContext.createBufferSource();
+        this.voiceKeyer.playbackNode.buffer = audioBuffer;
+        
+        // Connect to output (speakers)
+        this.voiceKeyer.playbackNode.connect(this.audioContext.destination);
+        
+        // Handle playback end
+        this.voiceKeyer.playbackNode.onended = () => {
+            this.voiceKeyerPlaybackEnded();
+        };
+        
+        // Start playback
+        this.voiceKeyer.playbackNode.start(0);
+        this.voiceKeyer.isPlaying = true;
+        this.updateVoiceKeyerUI();
+        
+    } catch (error) {
+        console.error('Voice playback error:', error);
+        this.logCAT(`Playback error: ${error.message}`, 'error');
+        this.voiceKeyerPlaybackEnded();
+    }
+}
+
+voiceKeyerPlaybackEnded() {
+    this.voiceKeyer.isPlaying = false;
+    this.voiceKeyer.playbackNode = null;
+    
+    // Auto return to RX if auto-transmit was used
+    if (this.voiceKeyer.autoTransmit && this.connected && this.transmitting) {
+        setTimeout(async () => {
+            await this.sendCommand('RX');
+            this.transmitting = false;
+            this.updateTXStatus();
+            
+            // **NEW: Restore volume after returning to RX**
+            this.restoreVolumeAfterPlayback();
+        }, 100);
+    } else {
+        // **NEW: If not using auto-transmit, restore volume immediately**
+        this.restoreVolumeAfterPlayback();
+    }
+    
+    this.updateVoiceKeyerUI();
+    this.logCAT('Playback finished', 'info');
+}
+stopVoiceKeyer() {
+    if (this.voiceKeyer.isRecording) {
+        this.stopVoiceRecording();
+    }
+    
+    if (this.voiceKeyer.isPlaying && this.voiceKeyer.playbackNode) {
+        this.voiceKeyer.playbackNode.stop();
+        this.voiceKeyer.playbackNode = null;
+        this.voiceKeyerPlaybackEnded();
+    }
+    
+    // Emergency volume restoration for recording
+    if (this.voiceKeyer.volumeBeforeRecord !== null) {
+        this.volumeLevel = this.voiceKeyer.volumeBeforeRecord;
+        this.updateVolumeUI();
+        if (this.connected) {
+            this.sendVolumeCommand();
+        }
+        this.voiceKeyer.volumeBeforeRecord = null;
+        this.logCAT('Volume restored after stop', 'info');
+    }
+    
+    // **NEW: Emergency volume restoration for playback**
+    if (this.voiceKeyer.volumeBeforePlayback !== null) {
+        this.restoreVolumeAfterPlayback();
+    }
+}
+clearVoiceMessage() {
+    const slot = this.voiceKeyer.currentSlot;
+    if (this.voiceKeyer.messages[slot - 1]) {
+        if (confirm(`Clear message ${slot}?`)) {
+            this.voiceKeyer.messages[slot - 1] = null;
+			this.saveVoiceMessages(); // Add this line
+            this.logCAT(`Message ${slot} cleared`, 'info');
+            this.updateVoiceKeyerUI();
+        }
+    } else {
+        this.logCAT(`Message slot ${slot} is already empty`, 'info');
+    }
+}
+
+selectVoiceMessage(slot) {
+    this.voiceKeyer.currentSlot = slot;
+    this.updateVoiceKeyerUI();
+    this.logCAT(`Voice message slot ${slot} selected`, 'info');
+}
+
+updateVoiceKeyerUI() {
+    // Update record button
+    const recordBtn = document.getElementById('voiceKeyerRecord');
+    if (recordBtn) {
+        if (this.voiceKeyer.isRecording) {
+            recordBtn.textContent = 'STOP REC';
+            recordBtn.classList.add('btn-danger');
+            recordBtn.classList.remove('btn-secondary');
+        } else {
+            recordBtn.textContent = 'RECORD';
+            recordBtn.classList.remove('btn-danger');
+            recordBtn.classList.add('btn-secondary');
+        }
+    }
+    
+    // Update play button
+    const playBtn = document.getElementById('voiceKeyerPlay');
+    if (playBtn) {
+        const hasMessage = this.voiceKeyer.messages[this.voiceKeyer.currentSlot - 1] !== null;
+        playBtn.disabled = !hasMessage || this.voiceKeyer.isRecording;
+        
+        if (this.voiceKeyer.isPlaying) {
+            playBtn.textContent = 'PLAYING...';
+            playBtn.classList.add('btn-primary');
+        } else {
+            playBtn.textContent = 'PLAY';
+            playBtn.classList.remove('btn-primary');
+        }
+    }
+    
+    // Update message slot buttons
+    document.querySelectorAll('.voice-msg-btn').forEach((btn, index) => {
+        const slot = index + 1;
+        const hasMessage = this.voiceKeyer.messages[index] !== null;
+        
+        btn.classList.remove('voice-msg-active', 'voice-msg-occupied');
+        
+        if (slot === this.voiceKeyer.currentSlot) {
+            btn.classList.add('voice-msg-active');
+        }
+        if (hasMessage) {
+            btn.classList.add('voice-msg-occupied');
+        }
+        
+        btn.title = hasMessage ? 
+            `MSG ${slot}: Recorded ${new Date(this.voiceKeyer.messages[index].recorded).toLocaleString()}` :
+            `MSG ${slot}: Empty`;
+    });
+    
+    // Update current slot indicator
+    const slotIndicator = document.getElementById('voiceCurrentSlot');
+    if (slotIndicator) {
+        const hasMessage = this.voiceKeyer.messages[this.voiceKeyer.currentSlot - 1] !== null;
+        slotIndicator.textContent = `MSG ${this.voiceKeyer.currentSlot} ${hasMessage ? '(READY)' : '(EMPTY)'}`;
+    }
+}
+
+
+
+
+
+
+
+
+// Add this method to your QMXInterface class
+initZoomControls() {
+    try {
+        const container = document.querySelector('.transceiver-container');
+        const zoomLevel = document.getElementById('zoomLevel');
+        
+        document.getElementById('zoomIn').addEventListener('click', () => {
+            this.adjustZoom(this.zoomStep);
+        });
+        
+        document.getElementById('zoomOut').addEventListener('click', () => {
+            this.adjustZoom(-this.zoomStep);
+        });
+        
+        document.getElementById('zoomReset').addEventListener('click', () => {
+            this.setZoom(1.0);
+        });
+        
+        document.getElementById('zoomFit').addEventListener('click', () => {
+            this.fitToWindow();
+        });
+		
+		
+		  
+        // Add fullscreen toggle
+        document.getElementById('fullscreenToggle').addEventListener('click', () => {
+            this.toggleFullscreen();
+        });
+        
+        // Listen for fullscreen changes to update button
+        document.addEventListener('fullscreenchange', () => {
+            this.updateFullscreenButton();
+        });
+		
+		
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                if (e.key === '=' || e.key === '+') {
+                    e.preventDefault();
+                    this.adjustZoom(this.zoomStep);
+                } else if (e.key === '-') {
+                    e.preventDefault();
+                    this.adjustZoom(-this.zoomStep);
+                } else if (e.key === '0') {
+                    e.preventDefault();
+                    this.setZoom(1.0);
+                }
+            }
+        });
+		
+		  // Keyboard shortcut F11
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                // Existing zoom shortcuts...
+            }
+            
+            // F11 for fullscreen (prevent browser default)
+            if (e.key === 'F11') {
+                e.preventDefault();
+                this.toggleFullscreen();
+            }
+        });
+        
+        this.updateFullscreenButton();
+        console.log('Zoom and fullscreen controls initialized');
+   
+        
+        console.log('Zoom controls initialized');
+    } catch (error) {
+        console.error('Error initializing zoom controls:', error);
+    }
+}
+
+adjustZoom(delta) {
+    const newZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.currentZoom + delta));
+    this.setZoom(newZoom);
+}
+
+setZoom(zoom) {
+    this.currentZoom = zoom;
+    const container = document.querySelector('.transceiver-container');
+    const zoomLevel = document.getElementById('zoomLevel');
+    
+    if (container) {
+        container.style.transform = `scale(${zoom})`;
+        container.style.width = `${1400 / zoom}px`;
+        container.style.height = `${750 / zoom}px`;
+    }
+    
+    if (zoomLevel) {
+        zoomLevel.textContent = `${Math.round(zoom * 100)}%`;
+    }
+    
+    // Adjust body scroll to accommodate scaled content
+    document.body.style.overflow = zoom > 1.0 ? 'auto' : 'hidden';
+}
+
+fitToWindow() {
+    const container = document.querySelector('.transceiver-container');
+    if (!container) return;
+    
+    const windowWidth = window.innerWidth - 40; // 20px margin each side
+    const windowHeight = window.innerHeight - 40;
+    const containerWidth = 1400;
+    const containerHeight = 750;
+    
+    const scaleX = windowWidth / containerWidth;
+    const scaleY = windowHeight / containerHeight;
+    const optimalZoom = Math.min(scaleX, scaleY, this.maxZoom);
+    
+    this.setZoom(Math.max(this.minZoom, optimalZoom));
+}
+
+// Add fullscreen capability
+toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+
+
+// Add these new methods
+toggleFullscreen() {
+    try {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+            this.logCAT('Entering fullscreen mode', 'info');
+        } else {
+            document.exitFullscreen();
+            this.logCAT('Exiting fullscreen mode', 'info');
+        }
+    } catch (error) {
+        console.error('Fullscreen error:', error);
+        this.logCAT(`Fullscreen error: ${error.message}`, 'error');
+    }
+}
+
+updateFullscreenButton() {
+    const button = document.getElementById('fullscreenToggle');
+    if (button) {
+        if (document.fullscreenElement) {
+            button.textContent = '⛷'; // Exit fullscreen icon
+            button.title = 'Exit Fullscreen (F11)';
+        } else {
+            button.textContent = '⛶'; // Enter fullscreen icon
+            button.title = 'Enter Fullscreen (F11)';
+        }
+    }
+}
+
+
+
+// Load voice messages from persistent storage
+async loadVoiceMessages() {
+    try {
+        const savedMessages = localStorage.getItem('qmxVoiceMessages');
+        if (savedMessages) {
+            const messageData = JSON.parse(savedMessages);
+            
+            // Convert Base64 back to Blobs
+            for (let i = 0; i < messageData.length; i++) {
+                if (messageData[i] && messageData[i].blobData) {
+                    try {
+                        // Convert Base64 back to Blob
+                        const binaryString = atob(messageData[i].blobData);
+                        const bytes = new Uint8Array(binaryString.length);
+                        for (let j = 0; j < binaryString.length; j++) {
+                            bytes[j] = binaryString.charCodeAt(j);
+                        }
+                        
+                        const blob = new Blob([bytes], { type: 'audio/webm;codecs=opus' });
+                        
+                        this.voiceKeyer.messages[i] = {
+                            blob: blob,
+                            duration: messageData[i].duration || 0,
+                            recorded: messageData[i].recorded
+                        };
+                        
+                    } catch (conversionError) {
+                        console.warn(`Failed to load voice message ${i + 1}:`, conversionError);
+                        this.voiceKeyer.messages[i] = null;
+                    }
+                }
+            }
+            
+            this.logCAT(`Loaded ${this.voiceKeyer.messages.filter(m => m !== null).length} voice messages`, 'info');
+        }
+        
+        // Update UI to reflect loaded messages
+        setTimeout(() => this.updateVoiceKeyerUI(), 100);
+		
+		const savedAutoTx = localStorage.getItem('qmxVoiceAutoTx');
+if (savedAutoTx !== null) {
+    this.voiceKeyer.autoTransmit = savedAutoTx === 'true';
+    const autoTxCheckbox = document.getElementById('voiceAutoTx');
+    if (autoTxCheckbox) {
+        autoTxCheckbox.checked = this.voiceKeyer.autoTransmit;
+    }
+}
+        
+    } catch (error) {
+        console.error('Error loading voice messages:', error);
+        this.logCAT(`Voice message load error: ${error.message}`, 'error');
+    }
+}
+
+
+
+// Save voice messages to persistent storage
+async saveVoiceMessages() {
+    try {
+        const messageData = [];
+        
+        // Convert Blobs to Base64 for storage
+        for (let i = 0; i < this.voiceKeyer.messages.length; i++) {
+            if (this.voiceKeyer.messages[i]) {
+                try {
+                    // Convert Blob to Base64
+                    const blob = this.voiceKeyer.messages[i].blob;
+                    const arrayBuffer = await blob.arrayBuffer();
+                    const bytes = new Uint8Array(arrayBuffer);
+                    let binaryString = '';
+                    for (let j = 0; j < bytes.length; j++) {
+                        binaryString += String.fromCharCode(bytes[j]);
+                    }
+                    const blobData = btoa(binaryString);
+                    
+                    messageData[i] = {
+                        blobData: blobData,
+                        duration: this.voiceKeyer.messages[i].duration,
+                        recorded: this.voiceKeyer.messages[i].recorded
+                    };
+                    
+                } catch (conversionError) {
+                    console.warn(`Failed to save voice message ${i + 1}:`, conversionError);
+                    messageData[i] = null;
+                }
+            } else {
+                messageData[i] = null;
+            }
+        }
+        
+        localStorage.setItem('qmxVoiceMessages', JSON.stringify(messageData));
+        console.log('Voice messages saved to localStorage');
+        
+    } catch (error) {
+        console.error('Error saving voice messages:', error);
+        this.logCAT(`Voice message save error: ${error.message}`, 'error');
+        
+        // If storage is full, offer to clear old messages
+        if (error.name === 'QuotaExceededError') {
+            if (confirm('Storage full. Clear old voice messages to save new ones?')) {
+                this.clearAllVoiceMessages();
+            }
+        }
+    }
+}
+
+
+
+
+// Clear all voice messages (with confirmation)
+clearAllVoiceMessages() {
+    if (confirm('Clear ALL voice messages? This cannot be undone.')) {
+        this.voiceKeyer.messages = new Array(8).fill(null);
+        localStorage.removeItem('qmxVoiceMessages');
+        this.updateVoiceKeyerUI();
+        this.logCAT('All voice messages cleared', 'info');
+    }
+}
+
+// Export voice messages metadata
+exportVoiceMessages() {
+    try {
+        const exportData = {
+            version: '1.0',
+            exportDate: new Date().toISOString(),
+            messages: []
+        };
+        
+        // Only export non-null messages
+        this.voiceKeyer.messages.forEach((msg, index) => {
+            if (msg) {
+                exportData.messages.push({
+                    slot: index + 1,
+                    recorded: msg.recorded,
+                    duration: msg.duration,
+                    hasData: true
+                });
+            }
+        });
+        
+        const jsonStr = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `qmx_voice_messages_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.logCAT('Voice message index exported', 'info');
+        
+    } catch (error) {
+        this.logCAT(`Export error: ${error.message}`, 'error');
+    }
+}
+
+// Import voice messages metadata
+importVoiceMessages(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const importData = JSON.parse(e.target.result);
+            
+            if (importData.messages && Array.isArray(importData.messages)) {
+                const messageCount = importData.messages.length;
+                
+                alert(`Voice message import loaded metadata for ${messageCount} messages.\n\nNote: Audio data cannot be imported from JSON files.\nThis import only restores message slot information.`);
+                
+                this.logCAT(`Voice message metadata imported for ${messageCount} messages`, 'info');
+            } else {
+                throw new Error('Invalid file format');
+            }
+            
+        } catch (error) {
+            this.logCAT(`Import failed: ${error.message}`, 'error');
+            alert('Failed to import voice message file.');
+        }
+    };
+    
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+
+
+// Load step size from localStorage
+loadStepSize() {
+    try {
+        const savedStepSize = localStorage.getItem('qmxStepSize');
+        if (savedStepSize) {
+            const stepValue = parseInt(savedStepSize);
+            if (stepValue && stepValue > 0) {
+                this.stepSize = stepValue;
+                this.originalStepSize = stepValue;
+                
+                // Update the dropdown to show the saved value
+                const stepSelect = document.getElementById('stepSize');
+                if (stepSelect) {
+                    stepSelect.value = stepValue.toString();
+                }
+                
+                this.logCAT(`Loaded step size: ${stepValue} Hz`, 'info');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading step size:', error);
+        // Use default if loading fails
+        this.stepSize = 1;
+        this.originalStepSize = 1;
+    }
+}
+
+// Save step size to localStorage
+saveStepSize() {
+    try {
+        localStorage.setItem('qmxStepSize', this.originalStepSize.toString());
+        console.log(`Step size saved: ${this.originalStepSize} Hz`);
+    } catch (error) {
+        console.error('Error saving step size:', error);
+    }
+}
+
+// Initialize CW Keyer system
+initCWKeyer() {
+    try {
+        console.log('Initializing CW Keyer...');
+        
+        const messageInput = document.getElementById('cwMessageInput');
+        const charCount = document.getElementById('cwCharCount');
+        
+        messageInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+            charCount.textContent = e.target.value.length;
+        });
+        
+        // --- UPDATED: Control button logic ---
+        document.getElementById('cwStore').addEventListener('click', () => this.storeCWMessage());
+        document.getElementById('cwSend').addEventListener('click', () => this.sendCWMessage());
+        document.getElementById('cwClear').addEventListener('click', () => this.clearCWMessage());
+
+        document.getElementById('cwEdit').addEventListener('click', () => {
+            this.cwKeyer.isEditing = !this.cwKeyer.isEditing;
+            this.updateCWKeyerUI();
+            if (this.cwKeyer.isEditing) {
+                this.logCAT('CW Edit Mode: ON. Select a message slot to edit.', 'info');
+            } else {
+                this.logCAT('CW Edit Mode: OFF.', 'info');
+            }
+        });
+        
+        // --- UPDATED: Memory slot button logic ---
+        document.querySelectorAll('.cw-msg-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const slotNumber = parseInt(btn.dataset.slot);
+                this.selectCWSlot(slotNumber);
+
+                if (this.cwKeyer.isEditing) {
+                    this.openCwEditModal(slotNumber); // Open the new modal for editing
+                } else {
+                    if (this.connected) this.sendCWMessage();
+                    else this.logCAT('Cannot send: Radio not connected.', 'error');
+                }
+            });
+        });
+
+        // --- NEW: Add listeners for the new modal ---
+        const cwModalInput = document.getElementById('cwMessageModalInput');
+        const cwModalCharCount = document.getElementById('cwModalCharCount');
+        cwModalInput.addEventListener('input', () => {
+            cwModalCharCount.textContent = cwModalInput.value.length;
+        });
+
+        document.getElementById('saveCwEdit').addEventListener('click', () => this.saveCwEdit());
+        document.getElementById('cancelCwEdit').addEventListener('click', () => this.closeCwEditModal());
+        
+        // --- (Existing management and keyboard shortcut code remains the same) ---
+        document.getElementById('cwExportBtn').addEventListener('click', () => this.exportCWMessages());
+        document.getElementById('cwImportBtn').addEventListener('click', () => document.getElementById('cwImportFile').click());
+        document.getElementById('cwImportFile').addEventListener('change', (e) => this.importCWMessages(e));
+        document.getElementById('cwClearAllBtn').addEventListener('click', () => this.clearAllCWMessages());
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); this.storeCWMessage(); }
+            else if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); this.sendCWMessage(); }
+        });
+		
+		// Initialize cloned CW speed knob
+this.initCWSpeedKnobClone();
+
+// Add second keyer toggle listener
+const keyerToggle2 = document.getElementById('keyerModeToggle2');
+if (keyerToggle2) {
+    keyerToggle2.addEventListener('click', () => {
+        this.toggleKeyerMode();
+    });
+}
+        
+        this.updateCWKeyerUI();
+        this.logCAT('CW Keyer Memory initialized', 'info');
+        
+    } catch (error) {
+        console.error('Error initializing CW keyer:', error);
+    }
+}
+
+
+
+
+// --- NEW Methods for CW Edit Modal ---
+
+openCwEditModal(slotNumber) {
+    this.cwKeyer.editingSlot = slotNumber; // Remember which slot we're editing
+    const messageData = this.cwKeyer.messages[slotNumber - 1];
+
+    // Populate modal fields
+    document.getElementById('editCwChannelNumber').textContent = slotNumber;
+    const messageInput = document.getElementById('cwMessageModalInput');
+    const labelInput = document.getElementById('cwLabelModalInput');
+    
+    if (messageData) {
+        messageInput.value = messageData.text || '';
+        labelInput.value = messageData.label || '';
+    } else {
+        messageInput.value = '';
+        labelInput.value = '';
+    }
+    document.getElementById('cwModalCharCount').textContent = messageInput.value.length;
+
+    // Show the modal and overlay
+    document.getElementById('modalOverlay').classList.add('active');
+    document.getElementById('cwEditModal').classList.add('active');
+    labelInput.focus();
+}
+
+closeCwEditModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.getElementById('cwEditModal').classList.remove('active');
+    this.cwKeyer.isEditing = false; // Always exit edit mode on close
+    this.updateCWKeyerUI();
+}
+
+saveCwEdit() {
+    const slot = this.cwKeyer.editingSlot;
+    if (!slot) return;
+
+    const messageText = document.getElementById('cwMessageModalInput').value.trim().toUpperCase();
+    const labelText = document.getElementById('cwLabelModalInput').value.trim();
+
+    if (!messageText) {
+        alert('Message text cannot be empty.');
+        return;
+    }
+
+    this.cwKeyer.messages[slot - 1] = {
+        text: messageText,
+        label: labelText,
+        stored: new Date().toISOString()
+    };
+
+    this.saveCWMessages();
+    this.logCAT(`CW${slot} updated. Label: "${labelText}"`, 'info');
+    this.closeCwEditModal();
+}
+
+// Replace the old editCWMessage function with this empty one, as its logic has moved
+editCWMessage() {
+    // This function's logic is now handled by openCwEditModal()
+    // It is kept to prevent errors if called from old code paths.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Store CW message in current slot
+storeCWMessage() {
+    const messageInput = document.getElementById('cwMessageInput');
+    const message = messageInput.value.trim().toUpperCase();
+    
+    if (!message) {
+        this.logCAT('Enter a message to store', 'error');
+        messageInput.focus();
+        return;
+    }
+    
+    if (message.length > 80) {
+        this.logCAT('Message too long (max 80 characters)', 'error');
+        return;
+    }
+    
+    const slot = this.cwKeyer.currentSlot;
+    const existingMessage = this.cwKeyer.messages[slot - 1];
+    
+    if (existingMessage && existingMessage.text) {
+        if (!confirm(`Overwrite CW${slot}?\n\nCurrent: "${existingMessage.text}"\nReplace with: "${message}"`)) {
+            return;
+        }
+    }
+    
+    this.cwKeyer.messages[slot - 1] = {
+        text: message,
+        stored: new Date().toISOString()
+    };
+    
+    this.saveCWMessages();
+    this.updateCWKeyerUI();
+    
+    this.logCAT(`CW${slot} stored: "${message}" (${message.length} chars)`, 'info');
+    
+    // Clear input after storing
+    messageInput.value = '';
+    document.getElementById('cwCharCount').textContent = '0';
+	 // --- ADD THESE LINES ---
+    // Exit editing mode after storing a message
+    this.cwKeyer.isEditing = false;
+    this.updateCWKeyerUI(); 
+
+}
+
+// Send CW message from current slot
+async sendCWMessage() {
+  
+  // --- ADD THESE LINES ---
+    // Exit editing mode if user decides to send instead
+    this.cwKeyer.isEditing = false;
+    this.updateCWKeyerUI();
+
+  if (!this.connected) {
+        this.logCAT('Connect radio first', 'error');
+        return;
+    }
+    
+    if (this.cwKeyer.isSending) {
+        this.logCAT('CW transmission in progress', 'error');
+        return;
+    }
+    
+    const slot = this.cwKeyer.currentSlot;
+    const messageData = this.cwKeyer.messages[slot - 1];
+    
+    if (!messageData || !messageData.text) {
+        this.logCAT(`CW${slot} is empty`, 'error');
+        return;
+    }
+    
+    const message = messageData.text;
+    
+    try {
+        this.cwKeyer.isSending = true;
+        this.cwKeyer.sendingMessage = message;
+        this.updateCWKeyerUI();
+        
+        // Send KY command
+        await this.sendCommand(`KY ${message}`);
+        this.logCAT(`Sending CW${slot}: "${message}"`, 'info');
+        
+        // Monitor sending status
+        this.monitorCWSending();
+        
+    } catch (error) {
+        this.cwKeyer.isSending = false;
+        this.updateCWKeyerUI();
+        this.logCAT(`CW send error: ${error.message}`, 'error');
+    }
+}
+
+// Monitor CW sending status
+monitorCWSending() {
+    if (!this.cwKeyer.isSending) return;
+    
+    // Request buffer status
+    this.sendCommand('KY').then(() => {
+        // Status will be processed in processResponse()
+        setTimeout(() => {
+            if (this.cwKeyer.isSending) {
+                this.monitorCWSending();
+            }
+        }, 250);
+    }).catch(() => {
+        this.cwKeyer.isSending = false;
+        this.updateCWKeyerUI();
+    });
+}
+
+// Edit CW message
+editCWMessage() {
+    const slot = this.cwKeyer.currentSlot;
+    const messageData = this.cwKeyer.messages[slot - 1];
+    
+    const messageInput = document.getElementById('cwMessageInput');
+    
+    if (messageData && messageData.text) {
+        messageInput.value = messageData.text;
+        document.getElementById('cwCharCount').textContent = messageData.text.length;
+    } else {
+        messageInput.value = '';
+        document.getElementById('cwCharCount').textContent = '0';
+    }
+    
+    messageInput.focus();
+    messageInput.select();
+    
+    this.logCAT(`Editing CW${slot}`, 'info');
+}
+
+// Clear CW message
+clearCWMessage() {
+   
+ // --- ADD THESE LINES ---
+    // Exit editing mode if user decides to clear instead
+    this.cwKeyer.isEditing = false;
+    this.updateCWKeyerUI();
+
+   const slot = this.cwKeyer.currentSlot;
+    const messageData = this.cwKeyer.messages[slot - 1];
+    
+    if (messageData && messageData.text) {
+        if (confirm(`Clear CW${slot}?\n\nMessage: "${messageData.text}"`)) {
+            this.cwKeyer.messages[slot - 1] = null;
+            this.saveCWMessages();
+            this.updateCWKeyerUI();
+            this.logCAT(`CW${slot} cleared`, 'info');
+        }
+    } else {
+        this.logCAT(`CW${slot} is already empty`, 'info');
+    }
+}
+
+// Select CW message slot
+selectCWSlot(slot) {
+    this.cwKeyer.currentSlot = slot;
+    this.updateCWKeyerUI();
+    this.logCAT(`CW message slot ${slot} selected`, 'info');
+}
+
+// Update CW Keyer UI
+updateCWKeyerUI() {
+    const slotIndicator = document.getElementById('cwCurrentMessage');
+    const currentMessage = this.cwKeyer.messages[this.cwKeyer.currentSlot - 1];
+    
+    if (slotIndicator) {
+        const hasMessage = currentMessage && currentMessage.text;
+        const preview = hasMessage ? (currentMessage.label || currentMessage.text) : 'EMPTY';
+        const previewText = preview.length > 20 ? preview.substring(0, 17) + '...' : preview;
+        slotIndicator.textContent = `CW MSG ${this.cwKeyer.currentSlot} (${previewText})`;
+    }
+    
+    // --- UPDATED: Logic to display labels on buttons ---
+    document.querySelectorAll('.cw-msg-btn').forEach((btn, index) => {
+        const slot = index + 1;
+        const messageData = this.cwKeyer.messages[index];
+        
+        btn.classList.remove('cw-msg-active', 'cw-msg-occupied');
+        
+        if (slot === this.cwKeyer.currentSlot) {
+            btn.classList.add('cw-msg-active');
+        }
+        
+        if (messageData && messageData.text) {
+            btn.classList.add('cw-msg-occupied');
+            // Use the label if it exists, otherwise show character count
+            const labelContent = messageData.label ? messageData.label : `${messageData.text.length}ch`;
+            btn.innerHTML = `CW${slot}<span class="cw-msg-label">${labelContent}</span>`;
+            btn.title = `CW${slot}: "${messageData.text}" (${messageData.text.length} chars)\nLabel: ${messageData.label || 'None'}`;
+        } else {
+            btn.innerHTML = `CW${slot}`;
+            btn.title = `CW${slot}: Empty`;
+        }
+    });
+    
+    const sendBtn = document.getElementById('cwSend');
+    const statusDiv = document.getElementById('cwKeyerStatus');
+    
+    if (sendBtn && statusDiv) {
+        if (this.cwKeyer.isSending) {
+            sendBtn.textContent = 'SENDING...';
+            sendBtn.disabled = true;
+            statusDiv.textContent = `Sending...`;
+            statusDiv.style.color = 'var(--accent-color)';
+            document.body.classList.add('cw-sending');
+        } else {
+            sendBtn.textContent = 'SEND';
+            sendBtn.disabled = false;
+            statusDiv.textContent = this.connected ? 'Ready' : 'Not connected';
+            statusDiv.style.color = '#888';
+            document.body.classList.remove('cw-sending');
+        }
+    }
+
+    // Add visual feedback for editing mode
+    const editBtn = document.getElementById('cwEdit');
+    const keyerPanel = document.getElementById('cwKeyerPanel');
+
+    if (this.cwKeyer.isEditing) {
+        editBtn.classList.remove('btn-secondary');
+        editBtn.classList.add('btn-primary');
+        keyerPanel.style.boxShadow = '0 0 15px var(--accent-color)';
+    } else {
+        editBtn.classList.remove('btn-primary');
+        editBtn.classList.add('btn-secondary');
+        keyerPanel.style.boxShadow = '';
+    }
+}
+// Load CW messages from localStorage
+loadCWMessages() {
+    try {
+        const savedMessages = localStorage.getItem('qmxCWMessages');
+        if (savedMessages) {
+            this.cwKeyer.messages = JSON.parse(savedMessages);
+            const messageCount = this.cwKeyer.messages.filter(m => m !== null).length;
+            this.logCAT(`Loaded ${messageCount} CW messages`, 'info');
+        }
+        
+        // Update UI after loading
+        setTimeout(() => this.updateCWKeyerUI(), 100);
+        
+    } catch (error) {
+        console.error('Error loading CW messages:', error);
+        this.logCAT(`CW message load error: ${error.message}`, 'error');
+    }
+}
+
+// Save CW messages to localStorage
+saveCWMessages() {
+    try {
+        localStorage.setItem('qmxCWMessages', JSON.stringify(this.cwKeyer.messages));
+    } catch (error) {
+        console.error('Error saving CW messages:', error);
+        this.logCAT(`CW message save error: ${error.message}`, 'error');
+    }
+}
+
+// Clear all CW messages
+clearAllCWMessages() {
+    const usedSlots = this.cwKeyer.messages.filter(m => m !== null).length;
+    
+    if (usedSlots === 0) {
+        this.logCAT('No CW messages to clear', 'info');
+        return;
+    }
+    
+    if (confirm(`Clear ALL CW messages?\n\nThis will delete ${usedSlots} stored messages.\nThis action cannot be undone!`)) {
+        this.cwKeyer.messages = new Array(8).fill(null);
+        this.saveCWMessages();
+        this.updateCWKeyerUI();
+        this.logCAT(`Cleared all ${usedSlots} CW messages`, 'info');
+    }
+}
+
+// Export CW messages
+exportCWMessages() {
+    try {
+        const exportData = {
+            version: '1.0',
+            exportDate: new Date().toISOString(),
+            messages: this.cwKeyer.messages
+        };
+        
+        const jsonStr = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `qmx_cw_messages_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.logCAT('CW messages exported', 'info');
+        
+    } catch (error) {
+        this.logCAT(`Export error: ${error.message}`, 'error');
+    }
+}
+
+// Import CW messages
+importCWMessages(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const importData = JSON.parse(e.target.result);
+            
+            if (importData.messages && Array.isArray(importData.messages)) {
+                if (confirm('This will replace all current CW messages. Continue?')) {
+                    this.cwKeyer.messages = importData.messages;
+                    this.saveCWMessages();
+                    this.updateCWKeyerUI();
+                    
+                    const messageCount = this.cwKeyer.messages.filter(m => m !== null).length;
+                    this.logCAT(`CW messages imported: ${messageCount} messages`, 'info');
+                }
+            } else {
+                throw new Error('Invalid file format');
+            }
+            
+        } catch (error) {
+            this.logCAT(`Import failed: ${error.message}`, 'error');
+            alert('Failed to import CW message file.');
+        }
+    };
+    
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+
+async restoreVolumeAfterPlayback() {
+    if (this.voiceKeyer.volumeBeforePlayback !== undefined && this.voiceKeyer.volumeBeforePlayback !== null) {
+        this.volumeLevel = this.voiceKeyer.volumeBeforePlayback;
+        this.updateVolumeUI();
+        
+        // Send restored volume to radio if connected
+        if (this.connected) {
+            await this.sendVolumeCommand();
+        }
+        
+        this.logCAT(`Volume restored to ${this.volumeLevel}%`, 'info');
+        this.voiceKeyer.volumeBeforePlayback = null;
+    }
+}
+
+
+
+
+initCWSpeedKnobClone() {
+    try {
+        const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+        if (!cwSpeedKnob) {
+            console.error('CW Speed knob clone not found');
+            return;
+        }
+        
+        // Set initial position to match main knob
+        cwSpeedKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        this.updateCWSpeedCloneUI();
+        
+        // Add event listeners
+        cwSpeedKnob.addEventListener('mousedown', this.startCWSpeedCloneAdjust.bind(this));
+        cwSpeedKnob.addEventListener('touchstart', this.startCWSpeedCloneAdjust.bind(this), { passive: false });
+        cwSpeedKnob.addEventListener('wheel', this.handleCWSpeedCloneWheel.bind(this));
+        cwSpeedKnob.addEventListener('keydown', this.handleCWSpeedCloneKeyboard.bind(this));
+        cwSpeedKnob.setAttribute('aria-valuenow', this.rfGainLevel);
+		  cwSpeedKnob.addEventListener('mouseenter', () => {
+            this.enableCWSpeedHoverKeys();
+        });
+        cwSpeedKnob.addEventListener('mouseleave', () => {
+            this.disableCWSpeedHoverKeys();
+        });
+        
+        
+        console.log('CW Speed knob clone initialized');
+    } catch (error) {
+        console.error('Error initializing CW speed knob clone:', error);
+    }
+}
+
+startCWSpeedCloneAdjust(e) {
+    if (this.keyerMode === 'straight') return;
+    
+    e.preventDefault();
+    this.isRFGainAdjusting = true;
+    const rect = e.target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    this.boundContinueCWSpeedCloneAdjust = this.continueCWSpeedCloneAdjust.bind(this);
+    this.boundStopCWSpeedCloneAdjust = this.stopCWSpeedCloneAdjust.bind(this);
+    
+    if (e.type === 'mousedown') {
+        this.rfGainLastAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+        document.addEventListener('mousemove', this.boundContinueCWSpeedCloneAdjust);
+        document.addEventListener('mouseup', this.boundStopCWSpeedCloneAdjust);
+    } else if (e.type === 'touchstart') {
+        const t = e.touches[0];
+        this.rfGainLastAngle = Math.atan2(t.clientY - centerY, t.clientX - centerX);
+        document.addEventListener('touchmove', this.boundContinueCWSpeedCloneAdjust, { passive: false });
+        document.addEventListener('touchend', this.boundStopCWSpeedCloneAdjust);
+    }
+}
+
+continueCWSpeedCloneAdjust(e) {
+    if (!this.isRFGainAdjusting) return;
+    if (this.rfGainAnimationFrame) {
+        cancelAnimationFrame(this.rfGainAnimationFrame);
+    }
+    
+    this.rfGainAnimationFrame = requestAnimationFrame(() => {
+        const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+        const rect = cwSpeedKnob.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        let currentX, currentY;
+        if (e.type === 'mousemove') {
+            currentX = e.clientX;
+            currentY = e.clientY;
+        } else if (e.type === 'touchmove') {
+            e.preventDefault();
+            const t = e.touches[0];
+            currentX = t.clientX;
+            currentY = t.clientY;
+        }
+        
+        const currentAngle = Math.atan2(currentY - centerY, currentX - centerX);
+        let deltaAngle = currentAngle - this.rfGainLastAngle;
+        if (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
+        if (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
+        
+        const sensitivity = 0.7;
+        deltaAngle *= sensitivity;
+        
+        const newRotation = this.rfGainKnobRotation + (deltaAngle * 180 / Math.PI);
+        this.rfGainKnobRotation = Math.max(this.minRotation, Math.min(this.maxRotation, newRotation));
+        
+        // Update both knobs
+        cwSpeedKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        document.getElementById('rfGainKnob').style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        
+        const newRFGainLevel = Math.round(((this.rfGainKnobRotation - this.minRotation) / this.totalRotationRange) * 100);
+        if (newRFGainLevel !== this.rfGainLevel) {
+            this.rfGainLevel = newRFGainLevel;
+            this.updateRFGainLevel();
+            this.updateCWSpeedCloneUI();
+            this.sendRFGainDynamically();
+        }
+        
+        this.rfGainLastAngle = currentAngle;
+        this.rfGainAnimationFrame = null;
+    });
+}
+
+stopCWSpeedCloneAdjust() {
+    this.isRFGainAdjusting = false;
+    if (this.rfGainAnimationFrame) {
+        cancelAnimationFrame(this.rfGainAnimationFrame);
+        this.rfGainAnimationFrame = null;
+    }
+    if (this.boundContinueCWSpeedCloneAdjust && this.boundStopCWSpeedCloneAdjust) {
+        document.removeEventListener('mousemove', this.boundContinueCWSpeedCloneAdjust);
+        document.removeEventListener('mouseup', this.boundStopCWSpeedCloneAdjust);
+        document.removeEventListener('touchmove', this.boundContinueCWSpeedCloneAdjust);
+        document.removeEventListener('touchend', this.boundStopCWSpeedCloneAdjust);
+        this.boundContinueCWSpeedCloneAdjust = null;
+        this.boundStopCWSpeedCloneAdjust = null;
+    }
+    this.sendRFGainCommand();
+}
+
+handleCWSpeedCloneWheel(e) {
+    if (this.keyerMode === 'straight') return;
+    
+    e.preventDefault();
+    let steps = e.deltaY > 0 ? -1 : 1;
+    const cwSpeedDelta = steps * 1;
+    const currentCWSpeed = Math.round((this.rfGainLevel / 100) * 50);
+    const newCWSpeed = Math.max(0, Math.min(50, currentCWSpeed + cwSpeedDelta));
+    this.rfGainLevel = (newCWSpeed / 50) * 100;
+    this.rfGainKnobRotation = this.minRotation + (this.rfGainLevel / 100) * this.totalRotationRange;
+    
+    if (this.rfGainAnimationFrame) {
+        cancelAnimationFrame(this.rfGainAnimationFrame);
+    }
+    this.rfGainAnimationFrame = requestAnimationFrame(() => {
+        document.getElementById('cwSpeedKnob').style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        document.getElementById('rfGainKnob').style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        this.updateRFGainLevel();
+        this.updateCWSpeedCloneUI();
+        this.sendRFGainCommand();
+        this.rfGainAnimationFrame = null;
+    });
+}
+
+handleCWSpeedCloneKeyboard(e) {
+    if (this.keyerMode === 'straight') return;
+    
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.adjustRFGain(-5);
+        this.updateCWSpeedCloneUI();
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.adjustRFGain(5);
+        this.updateCWSpeedCloneUI();
+    }
+}
+
+updateCWSpeedCloneUI() {
+    const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+    const cwSpeedLevel = document.getElementById('cwSpeedLevel');
+    const keyerToggle2 = document.getElementById('keyerModeToggle2');
+    const cwSpeedContainer = cwSpeedKnob?.parentElement;
+    
+    if (!cwSpeedKnob || !cwSpeedLevel) return;
+    
+    const cwSpeed = Math.round((this.rfGainLevel / 100) * 50);
+    
+    // Update knob rotation
+    cwSpeedKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+    
+    // Update toggle switch
+    if (keyerToggle2) {
+        if (this.keyerMode === 'bug') {
+            keyerToggle2.classList.add('bug');
+        } else {
+            keyerToggle2.classList.remove('bug');
+        }
+    }
+    
+    // Update label
+    if (cwSpeed === 0) {
+        cwSpeedLevel.textContent = 'STRAIGHT';
+        cwSpeedLevel.style.color = '#ff4757';
+    } else {
+        cwSpeedLevel.textContent = `${cwSpeed} WPM`;
+        cwSpeedLevel.style.color = '#00ff88';
+    }
+    
+    // Disable/enable knob based on mode
+    if (cwSpeedContainer) {
+        if (this.keyerMode === 'straight') {
+            cwSpeedContainer.classList.add('keyer-straight');
+            cwSpeedKnob.style.opacity = '0.5';
+            cwSpeedKnob.style.pointerEvents = 'none';
+        } else {
+            cwSpeedContainer.classList.remove('keyer-straight');
+            cwSpeedKnob.style.opacity = '1';
+            cwSpeedKnob.style.pointerEvents = 'auto';
+        }
+    }
+}
+
+
+enableCWSpeedHoverKeys() {
+    if (this.keyerMode === 'straight') return;
+    
+    this.isCWSpeedHoverActive = true;
+    
+    if (!this.boundHandleCWSpeedHoverKeys) {
+        this.boundHandleCWSpeedHoverKeys = this.handleCWSpeedHoverKeys.bind(this);
+    }
+    
+    document.addEventListener('keydown', this.boundHandleCWSpeedHoverKeys);
+    
+    // Visual feedback
+    const rfGainKnob = document.getElementById('rfGainKnob');
+    const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+    
+    if (rfGainKnob) {
+        rfGainKnob.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 136, 0.6)';
+    }
+    if (cwSpeedKnob) {
+        cwSpeedKnob.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 136, 0.6)';
+    }
+}
+
+disableCWSpeedHoverKeys() {
+    this.isCWSpeedHoverActive = false;
+    
+    if (this.boundHandleCWSpeedHoverKeys) {
+        document.removeEventListener('keydown', this.boundHandleCWSpeedHoverKeys);
+    }
+    
+    // Remove visual feedback
+    const rfGainKnob = document.getElementById('rfGainKnob');
+    const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+    
+    if (rfGainKnob) {
+        rfGainKnob.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3)';
+    }
+    if (cwSpeedKnob) {
+        cwSpeedKnob.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3)';
+    }
+}
+
+handleCWSpeedHoverKeys(e) {
+    if (!this.isCWSpeedHoverActive || this.keyerMode === 'straight') return;
+    
+    // Only handle arrow keys
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+    
+    e.preventDefault();
+    
+    let delta = 0;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+        delta = -1; // -1 WPM
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+        delta = 1; // +1 WPM
+    }
+    
+    if (delta !== 0) {
+        const currentCWSpeed = Math.round((this.rfGainLevel / 100) * 50);
+        const newCWSpeed = Math.max(0, Math.min(50, currentCWSpeed + delta));
+        this.rfGainLevel = (newCWSpeed / 50) * 100;
+        this.rfGainKnobRotation = this.minRotation + (this.rfGainLevel / 100) * this.totalRotationRange;
+        
+        // Update both knobs
+        const rfGainKnob = document.getElementById('rfGainKnob');
+        const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+        
+        if (rfGainKnob) {
+            rfGainKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        }
+        if (cwSpeedKnob) {
+            cwSpeedKnob.style.transform = `rotate(${this.rfGainKnobRotation}deg)`;
+        }
+        
+        this.updateRFGainLevel();
+        this.sendRFGainCommand();
+        
+        // Brief visual feedback
+        this.provideCWSpeedKeyFeedback();
+    }
+}
+
+provideCWSpeedKeyFeedback() {
+    const rfGainKnob = document.getElementById('rfGainKnob');
+    const cwSpeedKnob = document.getElementById('cwSpeedKnob');
+    
+    // Brief bright glow
+    const brightGlow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 0 25px rgba(0, 255, 136, 1)';
+    const hoverGlow = '0 6px 12px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 136, 0.6)';
+    
+    if (rfGainKnob) rfGainKnob.style.boxShadow = brightGlow;
+    if (cwSpeedKnob) cwSpeedKnob.style.boxShadow = brightGlow;
+    
+    setTimeout(() => {
+        if (this.isCWSpeedHoverActive) {
+            if (rfGainKnob) rfGainKnob.style.boxShadow = hoverGlow;
+            if (cwSpeedKnob) cwSpeedKnob.style.boxShadow = hoverGlow;
+        }
+    }, 150);
+}
+
+
+
+
+
+
+
+
+
 
 	//------------------------------------------------		
 			
-            cleanup() {
-                if (this.timeSyncInterval) clearInterval(this.timeSyncInterval);
-                if (this.clockUpdateInterval) clearInterval(this.clockUpdateInterval);
-                if (this.timeCommandTimeout) clearTimeout(this.timeCommandTimeout);
-                
-                if (this.boundHandleTuningHoverKeys) {
-                    document.removeEventListener('keydown', this.boundHandleTuningHoverKeys);
-                }
-            }
-        }
-		
-		
+           cleanup() {
+		     this.saveStepSize();
+    if (this.timeSyncInterval) clearInterval(this.timeSyncInterval);
+    if (this.clockUpdateInterval) clearInterval(this.clockUpdateInterval);
+    if (this.timeCommandTimeout) clearTimeout(this.timeCommandTimeout);
+    
+    if (this.boundHandleTuningHoverKeys) {
+        document.removeEventListener('keydown', this.boundHandleTuningHoverKeys);
+    }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                new QMXInterface();
-            } catch (error) {
-                console.error('Failed to initialize QMX Interface:', error);
-            }
-        });
+    // Voice keyer cleanup (remove the duplicate)
+    if (this.voiceKeyer.isRecording) {
+        this.stopVoiceRecording();
+    }
+    if (this.voiceKeyer.isPlaying) {
+        this.stopVoiceKeyer();
+    }
+    
+    // Save voice messages before cleanup
+    if (this.voiceKeyer.messages.some(msg => msg !== null)) {
+        this.saveVoiceMessages();
+    }
+	if (this.cwKeyer.messages.some(msg => msg !== null)) {
+    this.saveCWMessages();
+    }
+	
+	  if (this.boundHandleCWSpeedHoverKeys) {
+        document.removeEventListener('keydown', this.boundHandleCWSpeedHoverKeys);
+    }
+	
+} // Add this closing brace for cleanup()
 
+} // This closes the QMXInterface class
 
+// Move this OUTSIDE the class:
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        new QMXInterface();
+    } catch (error) {
+        console.error('Failed to initialize QMX Interface:', error);
+    }
+});
 
 
 
